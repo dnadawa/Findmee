@@ -1,25 +1,27 @@
+import 'package:findmee/screens/be-a-recruit/approvalRecruit.dart';
+import 'package:findmee/screens/be-a-recruit/photosRecruit.dart';
+import 'package:findmee/screens/be-a-recruit/registerRecruit.dart';
+import 'package:findmee/screens/book-a-recruit/categories.dart';
+import 'package:findmee/screens/book-a-recruit/cities.dart';
+import 'package:findmee/screens/book-a-recruit/dates.dart';
 import 'package:flutter/material.dart';
 import 'package:im_stepper/stepper.dart';
 
-import 'categories.dart';
-import 'cities.dart';
-import 'dates.dart';
-import 'log-in.dart';
-
 // ignore: must_be_immutable
-class StepperPage extends StatefulWidget {
+class RecruitStepperPage extends StatefulWidget {
   @override
-  _StepperPageState createState() => _StepperPageState();
+  _RecruitStepperPageState createState() => _RecruitStepperPageState();
 }
 
-class _StepperPageState extends State<StepperPage> {
-  int currentPage = 0;
+class _RecruitStepperPageState extends State<RecruitStepperPage> {
   PageController _controller = PageController();
+  int currentPage = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   _controller.addListener(() {
+    _controller.addListener(() {
       if(mounted){
         setState(() {
           currentPage = _controller.page.toInt();
@@ -27,7 +29,6 @@ class _StepperPageState extends State<StepperPage> {
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,6 +49,8 @@ class _StepperPageState extends State<StepperPage> {
               Icon(Icons.app_registration,size: 20,),
               Icon(Icons.app_registration,size: 20,),
               Icon(Icons.app_registration,size: 20,),
+              Icon(Icons.app_registration,size: 20,),
+              Icon(Icons.app_registration,size: 20,),
             ],
           ),
         ),
@@ -55,10 +58,12 @@ class _StepperPageState extends State<StepperPage> {
           controller: _controller,
           physics: NeverScrollableScrollPhysics(),
           children: [
-            LogIn(controller: _controller,),
-            Categories(from: 'company',controller: _controller,),
-            Cities(from: 'company',controller: _controller,),
-            Dates(from: 'company',),
+            RecruitSignUp(controller: _controller,),
+            Photos(controller: _controller,),
+            Approval(controller: _controller,),
+            Categories(from: 'recruiter',controller: _controller,),
+            Cities(from: 'recruiter',controller: _controller,),
+            Dates(from: 'recruiter',),
           ],
         ),
       ),

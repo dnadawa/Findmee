@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'be-a-recruit/stepperRecruit.dart';
 import 'book-a-recruit/stepper.dart';
 
 class Welcome extends StatelessWidget {
@@ -52,7 +53,12 @@ class Welcome extends StatelessWidget {
               child: SizedBox(
                 height: 70,
                 child: Button(
-                  onclick: (){},
+                  onclick: (){
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(builder: (context) => RecruitStepperPage()),
+                    );
+                  },
                   text: 'Be a recruit',
                   borderRadius: 20,
                   color: Colors.white,

@@ -9,6 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Dates extends StatefulWidget {
+  final String from;
+
+  const Dates({Key key, this.from}) : super(key: key);
   @override
   _DatesState createState() => _DatesState();
 }
@@ -112,10 +115,57 @@ class _DatesState extends State<Dates> {
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                       child: Button(text: 'Next',onclick: () async {
                         print(_selectedDays);
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(builder: (context) => Profiles()),
-                        );
+
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context){
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
+                                scrollable: true,
+                                backgroundColor: Colors.white,
+                                content: Container(
+                                  width: double.infinity,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+
+                                      ///check mark
+                                      Container(
+                                        width: ScreenUtil().setHeight(500),
+                                        height: ScreenUtil().setHeight(500),
+                                        color: Colors.red,
+                                      ),
+                                      SizedBox(height: ScreenUtil().setWidth(100),),
+
+                                      ///text
+                                      CustomText(
+                                        text: 'Congratulatioes',
+                                        font: 'ComicSans',
+                                        size: ScreenUtil().setSp(70),
+                                      ),
+                                      SizedBox(height: ScreenUtil().setWidth(100),),
+
+                                      ///text
+                                      CustomText(
+                                        text: 'Your account was successfully created. We will contact you when someone hired you.',
+                                        font: 'ComicSans',
+                                        isBold: false,
+                                        size: ScreenUtil().setSp(55),
+                                      ),
+                                      SizedBox(height: ScreenUtil().setWidth(100),),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+
+
+
+                        // Navigator.push(
+                        //   context,
+                        //   CupertinoPageRoute(builder: (context) => Profiles()),
+                        // );
                       }),
                     )
 

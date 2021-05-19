@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Cities extends StatefulWidget {
+  final String from;
+  final PageController controller;
+
+  const Cities({Key key, this.from, this.controller}) : super(key: key);
   @override
   _CitiesState createState() => _CitiesState();
 }
@@ -78,7 +82,7 @@ class _CitiesState extends State<Cities> {
                     padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                     child: Button(text: 'Next',onclick: () async {
                       print(cities);
-                      StepperPage.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
                     }),
                   )
 

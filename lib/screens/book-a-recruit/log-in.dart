@@ -1,5 +1,4 @@
 import 'package:findmee/screens/book-a-recruit/sign-up.dart';
-import 'package:findmee/screens/book-a-recruit/stepper.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
@@ -8,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LogIn extends StatefulWidget {
+  final PageController controller;
+
+  const LogIn({Key key, this.controller}) : super(key: key);
   @override
   _LogInState createState() => _LogInState();
 }
@@ -58,7 +60,7 @@ class _LogInState extends State<LogIn> {
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                             child: Button(text: 'Log in',onclick: () async {
-                              StepperPage.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                                widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
                             }),
                           )
 
