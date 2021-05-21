@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "945762826447",
+    "project_id": "findmee-34106",
+    "storage_bucket": "findmee-34106.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945762826447:android:5bbd88b55b6243617c1fba",
+        "android_client_info": {
+          "package_name": "com.digiwrecks.findmee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945762826447-dm07212u3bjn4l3248jp3eju5rqfdb7r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc4_HR-j4PUMI3dTWBvGLSISEUytw3PMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945762826447-dm07212u3bjn4l3248jp3eju5rqfdb7r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

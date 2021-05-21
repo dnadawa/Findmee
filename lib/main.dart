@@ -1,4 +1,5 @@
 import 'file:///C:/Users/dulaj/OneDrive/Desktop/AndroidStudioProjects/findmee/lib/screens/welcome.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +8,24 @@ void main(){
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  initApp() async {
+    await Firebase.initializeApp();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initApp();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

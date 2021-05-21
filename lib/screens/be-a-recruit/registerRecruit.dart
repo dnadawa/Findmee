@@ -1,9 +1,12 @@
-import 'package:findmee/screens/be-a-recruit/stepperRecruit.dart';
+import 'dart:convert';
+
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
+import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RecruitSignUp extends StatefulWidget {
   final PageController controller;
@@ -60,7 +63,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                       controller: experience,
                       style: TextStyle(fontFamily: 'GoogleSans'),
                       decoration: InputDecoration(
-                          labelText: 'Experience',
+                          labelText: 'Experience (200 words min.)',
                           counterText: wordCount.toString(),
                           counterStyle: TextStyle(fontFamily: 'GoogleSans',fontWeight: FontWeight.bold),
                           labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
@@ -90,7 +93,23 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                       child: Button(text: 'Next',onclick: () async {
-                        widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                        if(wordCount<200){
+                          ToastBar(text: 'Experience must be at least 200 words.',color: Colors.red).show();
+                        }
+                        else if(name.text.isNotEmpty && surname.text.isNotEmpty && cpr.text.isNotEmpty && experience.text.isNotEmpty){
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          Map reg = {
+                            'name': name.text,
+                            'surname': surname.text,
+                            'cpr': cpr.text,
+                            'experience': experience.text
+                          };
+                          prefs.setString('data', jsonEncode(reg));
+                          widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                        }
+                        else{
+                          ToastBar(text: 'Please fill all fields',color: Colors.red).show();
+                        }
                       }),
                     )
 

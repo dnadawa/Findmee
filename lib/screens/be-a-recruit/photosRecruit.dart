@@ -1,8 +1,16 @@
-import 'package:findmee/screens/be-a-recruit/stepperRecruit.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
+import 'package:findmee/widgets/toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Photos extends StatefulWidget {
   final PageController controller;
@@ -13,6 +21,24 @@ class Photos extends StatefulWidget {
 }
 
 class _PhotosState extends State<Photos> {
+
+  File profileImage , selfie;
+  Future getImage(String type) async {
+    final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery,imageQuality: 50);
+    setState(() {
+      if (pickedFile != null) {
+        if(type=='profile'){
+          profileImage = File(pickedFile.path);
+        }
+        else{
+          selfie = File(pickedFile.path);
+        }
+      } else {
+        ToastBar(text: 'No image selected',color: Colors.red).show();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,99 +66,107 @@ class _PhotosState extends State<Photos> {
                     SizedBox(height: ScreenUtil().setHeight(70),),
 
                     ///pro pic
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Color(0xfff5f5f5),
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ///header
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)
-                                )
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
-                                child: CustomText(text: 'Profile Picture',color: Colors.white,size: ScreenUtil().setSp(45),),
+                    GestureDetector(
+                      onTap: ()=>getImage('profile'),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Color(0xfff5f5f5),
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ///header
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10)
+                                  )
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
+                                  child: CustomText(text: 'Profile Picture',color: Colors.white,size: ScreenUtil().setSp(45),),
+                                ),
                               ),
                             ),
-                          ),
 
-                          ///image
-                          Padding(
-                            padding: EdgeInsets.all(ScreenUtil().setWidth(80)),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.red,
-                              radius: 60,
+                            ///image
+                            Padding(
+                              padding: EdgeInsets.all(ScreenUtil().setWidth(80)),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 60,
+                                backgroundImage: profileImage!=null?FileImage(profileImage):AssetImage('assets/images/logo.png'),
+                              ),
                             ),
-                          ),
 
-                          ///text
-                          CustomText(
-                            text: 'Click here to upload your profile picture',
-                            font: 'GoogleSans',
-                            size: ScreenUtil().setSp(40),
-                          ),
-                          SizedBox(height: ScreenUtil().setHeight(60),)
-                        ],
+                            ///text
+                            CustomText(
+                              text: 'Click here to upload your profile picture',
+                              font: 'GoogleSans',
+                              size: ScreenUtil().setSp(40),
+                            ),
+                            SizedBox(height: ScreenUtil().setHeight(60),)
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(60),),
 
                     ///selfie
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Color(0xfff5f5f5),
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ///header
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10)
-                                  )
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
-                                child: CustomText(text: 'Selfie',color: Colors.white,size: ScreenUtil().setSp(45),),
+                    GestureDetector(
+                      onTap: ()=>getImage('selfie'),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Color(0xfff5f5f5),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ///header
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10)
+                                    )
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
+                                  child: CustomText(text: 'Selfie',color: Colors.white,size: ScreenUtil().setSp(45),),
+                                ),
                               ),
                             ),
-                          ),
 
-                          ///image
-                          Padding(
-                            padding: EdgeInsets.all(ScreenUtil().setWidth(80)),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.red,
-                              radius: 60,
+                            ///image
+                            Padding(
+                              padding: EdgeInsets.all(ScreenUtil().setWidth(80)),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 60,
+                                backgroundImage: selfie!=null?FileImage(selfie):AssetImage('assets/images/logo.png'),
+                              ),
                             ),
-                          ),
 
-                          ///text
-                          CustomText(
-                            text: 'Click here to upload a selfie of yours',
-                            font: 'GoogleSans',
-                            size: ScreenUtil().setSp(40),
-                          ),
-                          SizedBox(height: ScreenUtil().setHeight(60),)
-                        ],
+                            ///text
+                            CustomText(
+                              text: 'Click here to upload a selfie of yours',
+                              font: 'GoogleSans',
+                              size: ScreenUtil().setSp(40),
+                            ),
+                            SizedBox(height: ScreenUtil().setHeight(60),)
+                          ],
+                        ),
                       ),
                     ),
 
@@ -142,7 +176,37 @@ class _PhotosState extends State<Photos> {
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                       child: Button(text: 'Next',onclick: () async {
-                        widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                        ToastBar(text: 'Please wait...',color: Colors.orange).show();
+                        try{
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          Map data = jsonDecode(prefs.getString('data'));
+
+                          ///auth
+                          UserCredential credentials = await FirebaseAuth.instance.signInAnonymously();
+                          String uid = credentials.user.uid;
+
+                          ///upload images
+                          FirebaseStorage storage = FirebaseStorage.instance;
+                          TaskSnapshot snap = await storage.ref('$uid/profile.png').putFile(profileImage);
+                          String proPicUrl = await snap.ref.getDownloadURL();
+
+                          TaskSnapshot snap2 = await storage.ref('$uid/selfie.png').putFile(selfie);
+                          String selfieUrl = await snap2.ref.getDownloadURL();
+
+                          data['proPic'] = proPicUrl;
+                          data['selfie'] = selfieUrl;
+                          data['uid'] = uid;
+
+                          print(data);
+
+                          ///add to db
+                          await FirebaseFirestore.instance.collection('recruit').doc(uid).set(data);
+
+                          widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                        }
+                        catch(e){
+                          ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                        }
                       }),
                     )
 

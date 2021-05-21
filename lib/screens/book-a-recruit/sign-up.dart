@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
+import 'package:findmee/widgets/toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,6 +20,43 @@ class _SignUpState extends State<SignUp> {
   TextEditingController cvr = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController username = TextEditingController();
+
+  signUp() async {
+    if(businessName.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&password.text.isNotEmpty && cvr.text.isNotEmpty && username.text.isNotEmpty){
+      ToastBar(text: 'Please wait',color: Colors.orange).show();
+      ///auth
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: email.text,
+            password: password.text
+        );
+
+        ///save details
+        await FirebaseFirestore.instance.collection('companies').doc(email.text).set({
+          'name': businessName.text,
+          'email': email.text,
+          'phone': phone.text,
+          'cvr': cvr.text,
+          'username': username.text,
+        });
+
+        ToastBar(text: 'User registered!',color: Colors.green).show();
+        Navigator.pop(context);
+
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          ToastBar(text: 'The password provided is too weak',color: Colors.red).show();
+        } else if (e.code == 'email-already-in-use') {
+          ToastBar(text: 'The account already exists for that email',color: Colors.red).show();
+        }
+      } catch (e) {
+        ToastBar(text: 'Something went wrong',color: Colors.red).show();
+      }
+    }
+    else{
+      ToastBar(text: 'Please fill all fields',color: Colors.red).show();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +105,7 @@ class _SignUpState extends State<SignUp> {
 
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                            child: Button(text: 'Register',onclick: () async {}),
+                            child: Button(text: 'Register',onclick: ()=>signUp()),
                           )
 
                         ],
