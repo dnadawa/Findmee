@@ -1,9 +1,9 @@
-import 'package:findmee/screens/book-a-recruit/stepper.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Categories extends StatefulWidget {
   final String from;
@@ -26,6 +26,13 @@ class _CategoriesState extends State<Categories> {
     {'category': 'Oprydning' , 'selected': false},
     {'category': 'Rengøring' , 'selected': false},
     {'category': 'Vinduespudsning' , 'selected': false},
+    {'category': 'Atuomekaniker' , 'selected': false},
+    {'category': 'Brolægning' , 'selected': false},
+    {'category': 'Atu. Kloakarbejde' , 'selected': false},
+    {'category': 'Elektriker' , 'selected': false},
+    {'category': 'Tømrer' , 'selected': false},
+    {'category': 'arbejdsmand' , 'selected': false},
+    {'category': 'Maler' , 'selected': false},
   ];
 
   @override
@@ -81,8 +88,17 @@ class _CategoriesState extends State<Categories> {
                   Padding(
                     padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                     child: Button(text: 'Next',onclick: () async {
-                      print(categories);
-                      widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      if(widget.from=='company'){
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        List<String> selectedCategories = [];
+                        for(int i=0;i<categories.length;i++){
+                          if(categories[i]['selected']){
+                            selectedCategories.add(categories[i]['category']);
+                          }
+                        }
+                        prefs.setStringList('companyCategories', selectedCategories);
+                        widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      }
                     }),
                   )
 

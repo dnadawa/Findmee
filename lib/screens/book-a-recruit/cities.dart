@@ -4,6 +4,7 @@ import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Cities extends StatefulWidget {
   final String from;
@@ -17,15 +18,16 @@ class Cities extends StatefulWidget {
 class _CitiesState extends State<Cities> {
 
   List cities = [
-    {'city': 'Anlæg' , 'selected': false},
-    {'city': 'Nedriver' , 'selected': false},
-    {'city': 'Pakke/plukke' , 'selected': false},
-    {'city': 'Truckkørsel' , 'selected': false},
-    {'city': 'Maskinoperatør' , 'selected': false},
-    {'city': 'Montage' , 'selected': false},
-    {'city': 'Oprydning' , 'selected': false},
-    {'city': 'Rengøring' , 'selected': false},
-    {'city': 'Vinduespudsning' , 'selected': false},
+    {'city': 'Sjælland' , 'selected': false},
+    {'city': 'Aarhus.' , 'selected': false},
+    {'city': 'Odense.' , 'selected': false},
+    {'city': 'Fyn.' , 'selected': false},
+    {'city': 'Bornholm.' , 'selected': false},
+    {'city': 'Aalborg.' , 'selected': false},
+    {'city': 'Esbjerg.' , 'selected': false},
+    {'city': 'Randers.' , 'selected': false},
+    {'city': 'Kolding.' , 'selected': false},
+    {'city': 'Horsens.' , 'selected': false},
   ];
 
   @override
@@ -81,8 +83,17 @@ class _CitiesState extends State<Cities> {
                   Padding(
                     padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                     child: Button(text: 'Next',onclick: () async {
-                      print(cities);
-                      widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      if(widget.from=='company'){
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        List<String> selectedCities = [];
+                        for(int i=0;i<cities.length;i++){
+                          if(cities[i]['selected']){
+                            selectedCities.add(cities[i]['city']);
+                          }
+                        }
+                        prefs.setStringList('companyCities', selectedCities);
+                        widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      }
                     }),
                   )
 

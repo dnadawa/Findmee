@@ -6,12 +6,10 @@ import 'package:findmee/widgets/toggle-button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Dates extends StatefulWidget {
-  final String from;
-
-  const Dates({Key key, this.from}) : super(key: key);
   @override
   _DatesState createState() => _DatesState();
 }
@@ -114,58 +112,21 @@ class _DatesState extends State<Dates> {
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                       child: Button(text: 'Next',onclick: () async {
-                        print(_selectedDays);
-
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context){
-                              return AlertDialog(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
-                                scrollable: true,
-                                backgroundColor: Colors.white,
-                                content: Container(
-                                  width: double.infinity,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-
-                                      ///check mark
-                                      Container(
-                                        width: ScreenUtil().setHeight(500),
-                                        height: ScreenUtil().setHeight(500),
-                                        color: Colors.red,
-                                      ),
-                                      SizedBox(height: ScreenUtil().setWidth(100),),
-
-                                      ///text
-                                      CustomText(
-                                        text: 'Congratulatioes',
-                                        font: 'ComicSans',
-                                        size: ScreenUtil().setSp(70),
-                                      ),
-                                      SizedBox(height: ScreenUtil().setWidth(100),),
-
-                                      ///text
-                                      CustomText(
-                                        text: 'Your account was successfully created. We will contact you when someone hired you.',
-                                        font: 'ComicSans',
-                                        isBold: false,
-                                        size: ScreenUtil().setSp(55),
-                                      ),
-                                      SizedBox(height: ScreenUtil().setWidth(100),),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            });
-
-
-
-                        // Navigator.push(
-                        //   context,
-                        //   CupertinoPageRoute(builder: (context) => Profiles()),
-                        // );
+                        List<String> dates = [];
+                        _selectedDays.forEach((element) {
+                          dates.add(element.toString());
+                        });
+                        List<String> shifts = [];
+                        if(morning) shifts.add('Morning');
+                        if(evening) shifts.add('Evening');
+                        if(night) shifts.add('Night');
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.setStringList('companyDates', dates);
+                        prefs.setStringList('companyShifts', shifts);
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(builder: (context) => Profiles()),
+                        );
                       }),
                     )
 

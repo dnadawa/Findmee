@@ -27,13 +27,104 @@ class _LogInState extends State<LogIn> {
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       ToastBar(text: 'Please wait', color: Colors.orange).show();
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text);
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: email.text, password: password.text);
 
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('companyEmail', email.text);
+        var sub = await FirebaseFirestore.instance
+            .collection('companies')
+            .where('email', isEqualTo: email.text)
+            .get();
+        var user = sub.docs;
 
-        widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+        if(user[0]['status'] == 'ban'){
+          showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
+                  scrollable: true,
+                  backgroundColor: Colors.white,
+                  content: Container(
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
 
+                        ///check mark
+                        Container(
+                          width: ScreenUtil().setHeight(500),
+                          height: ScreenUtil().setHeight(500),
+                          color: Colors.red,
+                        ),
+                        SizedBox(height: ScreenUtil().setWidth(100),),
+
+                        ///text
+                        CustomText(
+                          text: 'Your Account is Banned',
+                          font: 'ComicSans',
+                          size: ScreenUtil().setSp(55),
+                        ),
+                        SizedBox(height: ScreenUtil().setWidth(100),),
+
+                        ///buttons
+                        Button(
+                          text: 'Create a new account',
+                          onclick: (){
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(builder: (context) => SignUp()),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                );
+          });
+        }
+        else if(user[0]['status'] == 'pending'){
+          showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
+                  scrollable: true,
+                  backgroundColor: Colors.white,
+                  content: Container(
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+
+                        ///check mark
+                        Container(
+                          width: ScreenUtil().setHeight(500),
+                          height: ScreenUtil().setHeight(500),
+                          color: Colors.red,
+                        ),
+                        SizedBox(height: ScreenUtil().setWidth(100),),
+
+                        ///text
+                        CustomText(
+                          text: 'Waiting for Approval',
+                          font: 'ComicSans',
+                          size: ScreenUtil().setSp(55),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              });
+        }
+        else{
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('companyEmail', email.text);
+
+          widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           ToastBar(text: 'No user found for that email', color: Colors.red)

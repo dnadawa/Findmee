@@ -63,7 +63,7 @@ class _RecruitStepperPageState extends State<RecruitStepperPage> {
             Approval(controller: _controller,),
             Categories(from: 'recruiter',controller: _controller,),
             Cities(from: 'recruiter',controller: _controller,),
-            Dates(from: 'recruiter',),
+            Dates(),
           ],
         ),
       ),

@@ -38,6 +38,7 @@ class _SignUpState extends State<SignUp> {
           'phone': phone.text,
           'cvr': cvr.text,
           'username': username.text,
+          'status': 'pending'
         });
 
         ToastBar(text: 'User registered!',color: Colors.green).show();
