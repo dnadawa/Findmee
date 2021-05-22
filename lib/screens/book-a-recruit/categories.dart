@@ -1,3 +1,4 @@
+import 'package:findmee/data.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,24 +17,7 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
 
-  List categories = [
-    {'category': 'Anlæg' , 'selected': false},
-    {'category': 'Nedriver' , 'selected': false},
-    {'category': 'Pakke/plukke' , 'selected': false},
-    {'category': 'Truckkørsel' , 'selected': false},
-    {'category': 'Maskinoperatør' , 'selected': false},
-    {'category': 'Montage' , 'selected': false},
-    {'category': 'Oprydning' , 'selected': false},
-    {'category': 'Rengøring' , 'selected': false},
-    {'category': 'Vinduespudsning' , 'selected': false},
-    {'category': 'Atuomekaniker' , 'selected': false},
-    {'category': 'Brolægning' , 'selected': false},
-    {'category': 'Atu. Kloakarbejde' , 'selected': false},
-    {'category': 'Elektriker' , 'selected': false},
-    {'category': 'Tømrer' , 'selected': false},
-    {'category': 'arbejdsmand' , 'selected': false},
-    {'category': 'Maler' , 'selected': false},
-  ];
+  List categories = Data().categories;
 
   @override
   Widget build(BuildContext context) {

@@ -117,9 +117,9 @@ class _DatesState extends State<Dates> {
                           dates.add(element.toString());
                         });
                         List<String> shifts = [];
-                        if(morning) shifts.add('Morning');
-                        if(evening) shifts.add('Evening');
-                        if(night) shifts.add('Night');
+                        if(morning) shifts.add('mon');
+                        if(evening) shifts.add('eve');
+                        if(night) shifts.add('nig');
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         prefs.setStringList('companyDates', dates);
                         prefs.setStringList('companyShifts', shifts);

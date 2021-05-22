@@ -1,3 +1,4 @@
+import 'package:findmee/data.dart';
 import 'package:findmee/screens/book-a-recruit/stepper.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
@@ -17,18 +18,7 @@ class Cities extends StatefulWidget {
 
 class _CitiesState extends State<Cities> {
 
-  List cities = [
-    {'city': 'Sjælland' , 'selected': false},
-    {'city': 'Aarhus.' , 'selected': false},
-    {'city': 'Odense.' , 'selected': false},
-    {'city': 'Fyn.' , 'selected': false},
-    {'city': 'Bornholm.' , 'selected': false},
-    {'city': 'Aalborg.' , 'selected': false},
-    {'city': 'Esbjerg.' , 'selected': false},
-    {'city': 'Randers.' , 'selected': false},
-    {'city': 'Kolding.' , 'selected': false},
-    {'city': 'Horsens.' , 'selected': false},
-  ];
+  List cities = Data().cities;
 
   @override
   Widget build(BuildContext context) {
