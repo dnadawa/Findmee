@@ -51,11 +51,11 @@ class _LogInState extends State<LogIn> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
 
-                        ///check mark
+                        ///banned image
                         Container(
                           width: ScreenUtil().setHeight(500),
                           height: ScreenUtil().setHeight(500),
-                          color: Colors.red,
+                          child: Image.asset('assets/images/banned.png'),
                         ),
                         SizedBox(height: ScreenUtil().setWidth(100),),
 
@@ -99,11 +99,11 @@ class _LogInState extends State<LogIn> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
 
-                        ///check mark
+                        ///pending logo
                         Container(
                           width: ScreenUtil().setHeight(500),
                           height: ScreenUtil().setHeight(500),
-                          color: Colors.red,
+                          child: Image.asset('assets/images/waiting.png'),
                         ),
                         SizedBox(height: ScreenUtil().setWidth(100),),
 

@@ -34,7 +34,7 @@ class _ReceivedPopUpState extends State<ReceivedPopUp> {
             Container(
               width: ScreenUtil().setHeight(500),
               height: ScreenUtil().setHeight(500),
-              color: Colors.red,
+              child: Center(child: Image.asset('assets/images/tick.gif')),
             ),
             SizedBox(height: ScreenUtil().setWidth(100),),
 
