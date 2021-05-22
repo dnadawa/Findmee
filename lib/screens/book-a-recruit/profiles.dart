@@ -5,8 +5,11 @@ import 'package:findmee/pop-ups/profile-pop-up.dart';
 import 'package:findmee/pop-ups/recieved-pop-up.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
+import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profiles extends StatefulWidget {
@@ -106,6 +109,7 @@ class _ProfilesState extends State<Profiles> {
                       String name = profiles[i]['name'];
                       String profileImage = profiles[i]['profileImage'];
                       String experience = profiles[i]['experience'];
+                      String email = profiles[i]['email'];
                       List categories = profiles[i]['categories'];
                       List cities = profiles[i]['cities'];
                       List datesAndShifts = profiles[i]['datesAndShifts'];
@@ -152,6 +156,7 @@ class _ProfilesState extends State<Profiles> {
                                                   userDatesAndShifts: datesAndShifts,
                                                   selectedCategories: selectedCategories,
                                                   selectedCities: selectedCities,
+                                                  email: email,
                                                 );
                                               });
                                         },
@@ -173,13 +178,42 @@ class _ProfilesState extends State<Profiles> {
               padding: EdgeInsets.all(ScreenUtil().setHeight(80)),
               child: Button(
                 text: 'Finish',
-                onclick: (){
-                  getProfiles();
-                  // showDialog(
-                  //     context: context,
-                  //     builder: (BuildContext context){
-                  //       return ReceivedPopUp();
-                  //     });
+                onclick: () async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  List cart = prefs.getStringList('cart');
+                  String businessName = prefs.getString('name');
+                  if(cart==null){
+                    ToastBar(text: 'No one in the list!',color: Colors.red).show();
+                  }
+                  else{
+                    ToastBar(text: 'Sending Email...',color: Colors.orange).show();
+
+                    String username = 'findmee.db@gmail.com';
+                    String password = 'Findmee@123';
+                    String email = "$businessName wants to hire $cart";
+
+                    final smtpServer = gmail(username, password);
+                    final message = Message()
+                      ..from = Address(username, 'Findmee')
+                      ..recipients.add('dulajnadawa@gmail.com')
+                      ..subject = 'Workers'
+                      ..text = email;
+                    try {
+                      final sendReport = await send(message, smtpServer);
+                      print('Message sent: ' + sendReport.toString());
+                      prefs.remove('cart');
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context){
+                            return ReceivedPopUp();
+                     });
+                    } on MailerException catch (e) {
+                      for (var p in e.problems) {
+                        print('Problem: ${p.code}: ${p.msg}');
+                        ToastBar(text: 'Email not sent! ${p.msg}',color: Colors.red).show();
+                      }
+                    }
+                  }
                 },
               ),
             )

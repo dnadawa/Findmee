@@ -1,6 +1,7 @@
 import 'package:findmee/data.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
+import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
@@ -14,8 +15,9 @@ class ProfilePopUp extends StatefulWidget {
   final List userDatesAndShifts;
   final List selectedCategories;
   final List selectedCities;
+  final String email;
 
-  const ProfilePopUp({Key key, this.categories, this.cities, this.experience, this.userDatesAndShifts, this.selectedCategories, this.selectedCities}) : super(key: key);
+  const ProfilePopUp({Key key, this.categories, this.cities, this.experience, this.userDatesAndShifts, this.selectedCategories, this.selectedCities, this.email}) : super(key: key);
   @override
   _ProfilePopUpState createState() => _ProfilePopUpState();
 }
@@ -259,9 +261,16 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
 
               ///button
               Button(
-                onclick: (){},
                 color: Color(0xff00C853),
                 text: 'Hire me',
+                onclick: () async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  List<String> cart = prefs.getStringList('cart') ?? [];
+                  cart.add(widget.email);
+                  prefs.setStringList('cart', cart);
+                  ToastBar(text: 'Added to list!',color: Colors.green).show();
+                  Navigator.pop(context);
+                },
               )
             ],
           ),

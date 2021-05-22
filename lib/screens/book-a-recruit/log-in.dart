@@ -122,6 +122,7 @@ class _LogInState extends State<LogIn> {
         else{
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('companyEmail', email.text);
+          prefs.setString('name', user[0]['name']);
 
           widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
         }
