@@ -26,29 +26,17 @@ class _ProfilesState extends State<Profiles> {
     selectedCategories = prefs.getStringList('companyCategories');
     selectedCities = prefs.getStringList('companyCities');
     List dates = prefs.getStringList('companyDates');
-    List shifts = prefs.getStringList('companyShifts');
-    List datesAndShifts = [];
+    // List shifts = prefs.getStringList('companyShifts');
+    List datesAndShifts = prefs.getStringList('companyDatesAndShifts');
 
-    ///creating datesAndShifts array
-    dates.forEach((element) {
-      DateTime date = DateTime.parse(element);
-      shifts.forEach((shift) {
-        datesAndShifts.add(date.weekday.toString()+shift);
-      });
-    });
-
-    ///get from firestore
-    // subscription = FirebaseFirestore.instance.collection('workers')
-    //     .where('categories', arrayContainsAny: categories)
-    //     .where('cities', arrayContainsAny: cities)
-    //     .where('datesAndShifts', arrayContainsAny: datesAndShifts)
-    //     .where('status', isEqualTo: 'approved')
-    //     .snapshots().listen((datasnapshot){
-    //   setState(() {
-    //     profiles = datasnapshot.docs;
+    // ///creating datesAndShifts array
+    // dates.forEach((element) {
+    //   DateTime date = DateTime.parse(element);
+    //   shifts.forEach((shift) {
+    //     datesAndShifts.add(date.weekday.toString()+shift);
     //   });
     // });
-
+    
     print(selectedCategories);
     print(selectedCities);
     print(datesAndShifts);

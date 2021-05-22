@@ -72,10 +72,7 @@ class _LogInState extends State<LogIn> {
                           text: 'Create a new account',
                           onclick: (){
                             Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(builder: (context) => SignUp()),
-                            );
+                            widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
                           },
                         )
                       ],
@@ -124,7 +121,7 @@ class _LogInState extends State<LogIn> {
           prefs.setString('companyEmail', email.text);
           prefs.setString('name', user[0]['name']);
 
-          widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+          widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -155,50 +152,46 @@ class _LogInState extends State<LogIn> {
                       bottomRight: Radius.circular(30),
                     )
                 ),
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
-                    child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(height: ScreenUtil().setHeight(30),),
-                          CustomText(text: 'Log into your\naccount',size: ScreenUtil().setSp(60),align: TextAlign.start,),
-                          Center(
-                            child: SizedBox(
-                                width: ScreenUtil().setHeight(300),
-                                height: ScreenUtil().setWidth(300),
-                                child: Image.asset('assets/images/login.jpg')),
-                          ),
+                child: Padding(
+                  padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: ScreenUtil().setHeight(30),),
+                        CustomText(text: 'Log into your\naccount',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
+                        Center(
+                          child: SizedBox(
+                              width: ScreenUtil().setHeight(1200),
+                              height: ScreenUtil().setWidth(800),
+                              child: Image.asset('assets/images/login.png')),
+                        ),
 
-                          InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
-                          InputField(hint: 'Password',ispassword: true,controller: password,),
-                          SizedBox(height: ScreenUtil().setHeight(40),),
+                        InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
+                        InputField(hint: 'Password',ispassword: true,controller: password,),
+                        SizedBox(height: ScreenUtil().setHeight(70),),
 
-                          Padding(
-                            padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                            child: Button(text: 'Log in',onclick: ()=>logIn()),
-                          )
+                        Padding(
+                          padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
+                          child: Button(text: 'Log in',onclick: ()=>logIn()),
+                        )
 
-                        ],
-                      ),
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
+            SizedBox(height: ScreenUtil().setHeight(40),),
             Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(50)),
+              padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(0),ScreenUtil().setWidth(50),ScreenUtil().setWidth(50),ScreenUtil().setWidth(60)),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: GestureDetector(
                     onTap: (){
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(builder: (context) => SignUp()),
-                      );
+                      widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
                     },
                     child: CustomText(text: "Don't you have an account? Sign Up",color: Colors.white, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
               ),

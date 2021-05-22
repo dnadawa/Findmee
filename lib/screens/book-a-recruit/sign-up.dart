@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUp extends StatefulWidget {
+  final PageController controller;
+
+  const SignUp({Key key, this.controller}) : super(key: key);
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -42,7 +45,7 @@ class _SignUpState extends State<SignUp> {
         });
 
         ToastBar(text: 'User registered!',color: Colors.green).show();
-        Navigator.pop(context);
+        widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
@@ -62,10 +65,6 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
       body: Padding(
         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),0),
         child: Column(
@@ -81,7 +80,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 child: Center(
                   child: Padding(
-                    padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
+                    padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
                     child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
                       child: Column(
@@ -89,13 +88,14 @@ class _SignUpState extends State<SignUp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(height: ScreenUtil().setHeight(30),),
-                          CustomText(text: 'Register your account',size: ScreenUtil().setSp(60),align: TextAlign.start,),
+                          CustomText(text: 'Register your\naccount',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
                           Center(
                             child: SizedBox(
-                                width: ScreenUtil().setHeight(300),
-                                height: ScreenUtil().setWidth(300),
-                                child: Image.asset('assets/images/register.jpg')),
+                                width: ScreenUtil().setHeight(600),
+                                height: ScreenUtil().setWidth(600),
+                                child: Image.asset('assets/images/register.png')),
                           ),
+                          SizedBox(height: ScreenUtil().setHeight(40),),
                           InputField(hint: 'Business Name',controller: businessName,),
                           InputField(hint: 'Contact email',controller: email,type: TextInputType.emailAddress,),
                           InputField(hint: 'Mobile Phone',type: TextInputType.phone,controller: phone),
@@ -116,13 +116,14 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
             ),
+            SizedBox(height: ScreenUtil().setHeight(40),),
             Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(50)),
+              padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(0),ScreenUtil().setWidth(50),ScreenUtil().setWidth(50),ScreenUtil().setWidth(60)),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: GestureDetector(
                     onTap: (){
-                      Navigator.pop(context);
+                      widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
                     },
                     child: CustomText(text: "Do you have an account? Log in",color: Colors.white, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
               ),

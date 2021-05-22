@@ -76,7 +76,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
         String day = Data().getDay(element[0]);
 
         shifts.forEach((x) {
-          if(x.contains('mon')){
+          if(x.contains('mor')){
             shift += 'Morning, ';
           }
           if(x.contains('eve')){

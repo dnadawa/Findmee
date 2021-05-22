@@ -33,7 +33,7 @@ class _InputFieldState extends State<InputField> {
       fontFamily: 'ComicSans'
     );
     return Padding(
-      padding:  EdgeInsets.only(top: widget.ispassword?0:20),
+      padding:  EdgeInsets.only(top: widget.ispassword?0:10),
       child: TextField(
         style: textStyle,
         maxLength: widget.length,
@@ -48,10 +48,11 @@ class _InputFieldState extends State<InputField> {
               borderSide: BorderSide(color: Colors.black, width: 2),
           ),
           focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 5),
+              borderSide: BorderSide(color: Color(0xffFA1E0E), width: 3),
           ),
           suffix: widget.ispassword?IconButton(
-            icon: Icon(Icons.remove_red_eye),
+            icon: Icon(!_isPassword?Icons.visibility:Icons.visibility_off),
+            alignment: Alignment.bottomCenter,
             onPressed: (){
               setState(() {
                 _isPassword = !_isPassword;

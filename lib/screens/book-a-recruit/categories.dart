@@ -35,14 +35,14 @@ class _CategoriesState extends State<Categories> {
           ),
           child: Center(
             child: Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: ScreenUtil().setHeight(30),),
-                  CustomText(text: 'Categories',size: ScreenUtil().setSp(60),align: TextAlign.start,),
-                  SizedBox(height: ScreenUtil().setHeight(100),),
+                  CustomText(text: 'Categories',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+                  SizedBox(height: ScreenUtil().setHeight(50),),
                   CustomText(text: 'Select category/categories that you need to hire a recruiter',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                   SizedBox(height: ScreenUtil().setHeight(100),),
 
@@ -51,7 +51,7 @@ class _CategoriesState extends State<Categories> {
                       itemCount: categories.length,
                       itemBuilder: (context,i){
                         return CheckboxListTile(
-                          title: CustomText(text: categories[i]['category'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(40),isBold: false,),
+                          title: CustomText(text: categories[i]['category'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),
                           value: categories[i]['selected'],
                           contentPadding: EdgeInsets.zero,
                           dense: true,
@@ -81,7 +81,7 @@ class _CategoriesState extends State<Categories> {
                           }
                         }
                         prefs.setStringList('companyCategories', selectedCategories);
-                        widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                        widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
                       }
                     }),
                   )

@@ -52,7 +52,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                       child: SizedBox(
                           width: ScreenUtil().setHeight(300),
                           height: ScreenUtil().setWidth(300),
-                          child: Image.asset('assets/images/register.jpg')),
+                          child: Image.asset('assets/images/register.png')),
                     ),
                     InputField(hint: 'Name',controller: name,),
                     InputField(hint: 'Surname',controller: surname),
