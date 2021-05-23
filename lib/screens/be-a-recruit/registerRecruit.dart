@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
 import 'package:findmee/widgets/toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,13 +24,15 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
   TextEditingController surname = TextEditingController();
   TextEditingController cpr = TextEditingController();
   TextEditingController experience = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController phone = TextEditingController();
   int wordCount = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
+        padding: EdgeInsets.all(ScreenUtil().setWidth(40)),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white,
@@ -39,7 +43,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
           ),
           child: Center(
             child: Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
@@ -47,15 +51,18 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(height: ScreenUtil().setHeight(30),),
-                    CustomText(text: 'Register your account',size: ScreenUtil().setSp(60),align: TextAlign.start,),
+                    CustomText(text: 'Register your\naccount',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                     Center(
                       child: SizedBox(
-                          width: ScreenUtil().setHeight(300),
-                          height: ScreenUtil().setWidth(300),
+                          width: ScreenUtil().setHeight(600),
+                          height: ScreenUtil().setWidth(600),
                           child: Image.asset('assets/images/register.png')),
                     ),
+                    SizedBox(height: ScreenUtil().setHeight(40),),
                     InputField(hint: 'Name',controller: name,),
                     InputField(hint: 'Surname',controller: surname),
+                    InputField(hint: 'Contact Email',controller: email,type: TextInputType.emailAddress,),
+                    InputField(hint: 'Mobile Phone',controller: phone,type: TextInputType.phone,),
                     InputField(hint: 'CPR Number',controller: cpr),
                     SizedBox(height: ScreenUtil().setHeight(80),),
                     TextField(
@@ -97,15 +104,28 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                           ToastBar(text: 'Experience must be at least 200 words.',color: Colors.red).show();
                         }
                         else if(name.text.isNotEmpty && surname.text.isNotEmpty && cpr.text.isNotEmpty && experience.text.isNotEmpty){
+                          ToastBar(text: 'Please wait...',color: Colors.orange).show();
                           SharedPreferences prefs = await SharedPreferences.getInstance();
-                          Map reg = {
-                            'name': name.text,
-                            'surname': surname.text,
-                            'cpr': cpr.text,
-                            'experience': experience.text
-                          };
-                          prefs.setString('data', jsonEncode(reg));
-                          widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                          await FirebaseAuth.instance.signInAnonymously();
+                          var sub = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email.text).get();
+                          var user = sub.docs;
+
+                          if(user.isEmpty){
+                            Map reg = {
+                              'name': name.text,
+                              'surname': surname.text,
+                              'cpr': cpr.text,
+                              'experience': experience.text,
+                              'phone': phone.text,
+                              'email': email.text
+                            };
+                            prefs.setString('data', jsonEncode(reg));
+                            widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                          }
+                          else{
+                            prefs.setString('data', jsonEncode({'email': email.text}));
+                            widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                          }
                         }
                         else{
                           ToastBar(text: 'Please fill all fields',color: Colors.red).show();

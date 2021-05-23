@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:findmee/data.dart';
-import 'package:findmee/screens/book-a-recruit/stepper.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
+import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -73,16 +75,26 @@ class _CitiesState extends State<Cities> {
                   Padding(
                     padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                     child: Button(text: 'Next',onclick: () async {
-                      if(widget.from=='company'){
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        List<String> selectedCities = [];
-                        for(int i=0;i<cities.length;i++){
-                          if(cities[i]['selected']){
-                            selectedCities.add(cities[i]['city']);
-                          }
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      List<String> selectedCities = [];
+                      for(int i=0;i<cities.length;i++){
+                        if(cities[i]['selected']){
+                          selectedCities.add(cities[i]['city']);
                         }
+                      }
+
+                      if(selectedCities.length==0){
+                        ToastBar(text: 'Please select at least one city!',color: Colors.red).show();
+                      }
+                      else if(widget.from=='company'){
                         prefs.setStringList('companyCities', selectedCities);
                         widget.controller.animateToPage(4,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      }
+                      else{
+                        Map x = jsonDecode(prefs.getString('data'));
+                        x['cities'] = selectedCities;
+                        prefs.setString('data', jsonEncode(x));
+                        widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
                       }
                     }),
                   )

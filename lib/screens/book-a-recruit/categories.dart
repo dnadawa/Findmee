@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:findmee/data.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
+import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -72,16 +75,27 @@ class _CategoriesState extends State<Categories> {
                   Padding(
                     padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                     child: Button(text: 'Next',onclick: () async {
-                      if(widget.from=='company'){
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        List<String> selectedCategories = [];
-                        for(int i=0;i<categories.length;i++){
-                          if(categories[i]['selected']){
-                            selectedCategories.add(categories[i]['category']);
-                          }
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                      List<String> selectedCategories = [];
+                      for(int i=0;i<categories.length;i++){
+                        if(categories[i]['selected']){
+                          selectedCategories.add(categories[i]['category']);
                         }
+                      }
+
+                      if(selectedCategories.length==0){
+                        ToastBar(text: 'Please select at least one category!',color: Colors.red).show();
+                      }
+                      else if(widget.from=='company'){
                         prefs.setStringList('companyCategories', selectedCategories);
                         widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      }
+                      else{
+                        Map x = jsonDecode(prefs.getString('data'));
+                        x['categories'] = selectedCategories;
+                        prefs.setString('data', jsonEncode(x));
+                        widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
                       }
                     }),
                   )

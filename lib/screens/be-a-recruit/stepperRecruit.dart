@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:findmee/screens/be-a-recruit/approvalRecruit.dart';
 import 'package:findmee/screens/be-a-recruit/photosRecruit.dart';
 import 'package:findmee/screens/be-a-recruit/registerRecruit.dart';
@@ -5,7 +7,11 @@ import 'package:findmee/screens/book-a-recruit/categories.dart';
 import 'package:findmee/screens/book-a-recruit/cities.dart';
 import 'package:findmee/screens/book-a-recruit/dates.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:im_stepper/stepper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'datesRecruit.dart';
 
 // ignore: must_be_immutable
 class RecruitStepperPage extends StatefulWidget {
@@ -34,8 +40,8 @@ class _RecruitStepperPageState extends State<RecruitStepperPage> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: AppBar().preferredSize,
-          child: IconStepper(
+          preferredSize: Size(MediaQuery.of(context).size.width,ScreenUtil().setHeight(220)),
+          child: ImageStepper(
             activeStep: currentPage,
             stepColor: Colors.white,
             activeStepColor: Color(0xffC0E218),
@@ -44,13 +50,13 @@ class _RecruitStepperPageState extends State<RecruitStepperPage> {
             enableNextPreviousButtons: false,
             enableStepTapping: false,
             lineColor: Color(0xffC0E218),
-            icons: [
-              Icon(Icons.app_registration,size: 20,),
-              Icon(Icons.app_registration,size: 20,),
-              Icon(Icons.app_registration,size: 20,),
-              Icon(Icons.app_registration,size: 20,),
-              Icon(Icons.app_registration,size: 20,),
-              Icon(Icons.app_registration,size: 20,),
+            images: [
+              currentPage==0?AssetImage('assets/images/step1active.png'):AssetImage('assets/images/step1.png'),
+              currentPage==1?AssetImage('assets/images/step2active.png'):AssetImage('assets/images/step2.png'),
+              currentPage==2?AssetImage('assets/images/step3active.png'):AssetImage('assets/images/step3.png'),
+              currentPage==3?AssetImage('assets/images/step4active.png'):AssetImage('assets/images/step4.png'),
+              currentPage==4?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
+              currentPage==5?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
             ],
           ),
         ),
@@ -59,11 +65,11 @@ class _RecruitStepperPageState extends State<RecruitStepperPage> {
           physics: NeverScrollableScrollPhysics(),
           children: [
             RecruitSignUp(controller: _controller,),
+            Categories(from: 'worker',controller: _controller,),
+            Cities(from: 'worker',controller: _controller,),
+            RecruitDates(controller: _controller,),
             Photos(controller: _controller,),
             Approval(controller: _controller,),
-            Categories(from: 'recruiter',controller: _controller,),
-            Cities(from: 'recruiter',controller: _controller,),
-            Dates(),
           ],
         ),
       ),

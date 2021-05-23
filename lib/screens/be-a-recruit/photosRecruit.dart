@@ -101,7 +101,7 @@ class _PhotosState extends State<Photos> {
                               child: CircleAvatar(
                                 backgroundColor: Colors.red,
                                 radius: 60,
-                                backgroundImage: profileImage!=null?FileImage(profileImage):AssetImage('assets/images/logo.png'),
+                                backgroundImage: profileImage!=null?FileImage(profileImage):AssetImage('assets/images/avatar.png'),
                               ),
                             ),
 
@@ -152,9 +152,9 @@ class _PhotosState extends State<Photos> {
                             Padding(
                               padding: EdgeInsets.all(ScreenUtil().setWidth(80)),
                               child: CircleAvatar(
-                                backgroundColor: Colors.red,
+                                backgroundColor: Colors.transparent,
                                 radius: 60,
-                                backgroundImage: selfie!=null?FileImage(selfie):AssetImage('assets/images/logo.png'),
+                                child: selfie!=null?Image.file(selfie):Image.asset('assets/images/selfie.png'),
                               ),
                             ),
 
@@ -176,36 +176,44 @@ class _PhotosState extends State<Photos> {
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                       child: Button(text: 'Next',onclick: () async {
-                        ToastBar(text: 'Please wait...',color: Colors.orange).show();
-                        try{
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          Map data = jsonDecode(prefs.getString('data'));
+                        if(profileImage!=null&&selfie!=null){
+                          ToastBar(text: 'Please wait...',color: Colors.orange).show();
+                          try{
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            Map data = jsonDecode(prefs.getString('data'));
 
-                          ///auth
-                          UserCredential credentials = await FirebaseAuth.instance.signInAnonymously();
-                          String uid = credentials.user.uid;
+                            ///auth
+                            await FirebaseAuth.instance.signInAnonymously();
+                            String email = data['email'];
 
-                          ///upload images
-                          FirebaseStorage storage = FirebaseStorage.instance;
-                          TaskSnapshot snap = await storage.ref('$uid/profile.png').putFile(profileImage);
-                          String proPicUrl = await snap.ref.getDownloadURL();
+                            ///upload images
+                            ToastBar(text: 'Uploading profile picture...',color: Colors.orange).show();
+                            FirebaseStorage storage = FirebaseStorage.instance;
+                            TaskSnapshot snap = await storage.ref('$email/profile.png').putFile(profileImage);
+                            String proPicUrl = await snap.ref.getDownloadURL();
 
-                          TaskSnapshot snap2 = await storage.ref('$uid/selfie.png').putFile(selfie);
-                          String selfieUrl = await snap2.ref.getDownloadURL();
+                            ToastBar(text: 'Uploading selfie...',color: Colors.orange).show();
+                            TaskSnapshot snap2 = await storage.ref('$email/selfie.png').putFile(selfie);
+                            String selfieUrl = await snap2.ref.getDownloadURL();
 
-                          data['proPic'] = proPicUrl;
-                          data['selfie'] = selfieUrl;
-                          data['uid'] = uid;
+                            data['profileImage'] = proPicUrl;
+                            data['selfie'] = selfieUrl;
+                            data['status'] = 'pending';
 
-                          print(data);
+                            print(data);
 
-                          ///add to db
-                          await FirebaseFirestore.instance.collection('recruit').doc(uid).set(data);
+                            ///add to db
+                            await FirebaseFirestore.instance.collection('workers').doc(email).set(data);
 
-                          widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                            widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                          }
+                          catch(e){
+                            print(e.toString());
+                            ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                          }
                         }
-                        catch(e){
-                          ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                        else{
+                          ToastBar(text: 'Please upload a profile picture and a selfie!',color: Colors.red).show();
                         }
                       }),
                     )

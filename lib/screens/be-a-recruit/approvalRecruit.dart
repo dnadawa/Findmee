@@ -1,9 +1,11 @@
-import 'package:findmee/screens/be-a-recruit/stepperRecruit.dart';
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
-import 'package:findmee/widgets/inputfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Approval extends StatefulWidget {
   final PageController controller;
@@ -14,6 +16,24 @@ class Approval extends StatefulWidget {
 }
 
 class _ApprovalState extends State<Approval> {
+  String status = 'pending';
+  getStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = jsonDecode(prefs.getString('data'))['email'];
+    var sub = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
+    var user = sub.docs;
+    setState(() {
+      status = user[0]['status'];
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +49,7 @@ class _ApprovalState extends State<Approval> {
           ),
           child: Center(
             child: Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
@@ -39,32 +59,35 @@ class _ApprovalState extends State<Approval> {
                     SizedBox(height: ScreenUtil().setHeight(30),),
                     Align(
                         alignment: Alignment.topLeft,
-                        child: CustomText(text: 'Approval',size: ScreenUtil().setSp(60),align: TextAlign.start,)),
-                    SizedBox(height: ScreenUtil().setHeight(70),),
+                        child: CustomText(text: 'Approval',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D))),
+                    SizedBox(height: ScreenUtil().setHeight(100),),
 
                     Container(
                       height: ScreenUtil().setHeight(500),
                       width: ScreenUtil().setHeight(500),
-                      color: Colors.red,
+                      child: Image.asset('assets/images/${status=='pending'?'waiting':status=='ban'?'banned':'approved'}.png'),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(100),),
 
                     CustomText(
-                      text: 'Waiting for Approval',
+                      text: status=='pending'?'Waiting for Approval':status=='ban'?'Your account is banned':'Your account approved',
                       font: 'ComicSans',
                       size: ScreenUtil().setSp(60),
                       isBold: false,
                     ),
 
-
-                    SizedBox(height: ScreenUtil().setHeight(40),),
-
-                    Padding(
-                      padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                      child: Button(text: 'Next',onclick: () async {
-                        widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
-                      }),
-                    )
+                    if(status=='ban')
+                      Padding(
+                        padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
+                        child: Button(
+                          text: 'Create a new account',
+                          onclick: () async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.remove('data');
+                            widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                          },
+                        ),
+                      )
 
                   ],
                 ),
