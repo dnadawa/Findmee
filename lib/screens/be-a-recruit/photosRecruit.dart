@@ -54,7 +54,7 @@ class _PhotosState extends State<Photos> {
           ),
           child: Center(
             child: Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
@@ -62,7 +62,7 @@ class _PhotosState extends State<Photos> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(height: ScreenUtil().setHeight(30),),
-                    CustomText(text: 'Photos',size: ScreenUtil().setSp(60),align: TextAlign.start,),
+                    CustomText(text: 'Photos',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                     SizedBox(height: ScreenUtil().setHeight(70),),
 
                     ///pro pic

@@ -68,12 +68,12 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                     TextField(
                       maxLines: null,
                       controller: experience,
-                      style: TextStyle(fontFamily: 'GoogleSans'),
+                      style: TextStyle(fontFamily: 'ComicSans'),
                       decoration: InputDecoration(
                           labelText: 'Experience (200 words min.)',
                           counterText: wordCount.toString(),
                           counterStyle: TextStyle(fontFamily: 'GoogleSans',fontWeight: FontWeight.bold),
-                          labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                          labelStyle: TextStyle(color: Color(0xff52575D),fontWeight: FontWeight.bold),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide(

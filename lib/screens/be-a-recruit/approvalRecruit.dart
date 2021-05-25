@@ -39,28 +39,28 @@ class _ApprovalState extends State<Approval> {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              )
-          ),
-          child: Center(
+        child: Center(
+          child: Container(
+            height: ScreenUtil().setHeight(1500),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                )
+            ),
             child: Padding(
               padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(height: ScreenUtil().setHeight(30),),
                     Align(
                         alignment: Alignment.topLeft,
                         child: CustomText(text: 'Approval',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D))),
-                    SizedBox(height: ScreenUtil().setHeight(100),),
+                    SizedBox(height: ScreenUtil().setHeight(150),),
 
                     Container(
                       height: ScreenUtil().setHeight(500),

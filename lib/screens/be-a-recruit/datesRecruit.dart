@@ -86,7 +86,7 @@ class _RecruitDatesState extends State<RecruitDates> {
                     SizedBox(height: ScreenUtil().setHeight(40),),
                     Center(
                       child: SizedBox(
-                          width: ScreenUtil().setHeight(600),
+                          width: ScreenUtil().setHeight(800),
                           // height: ScreenUtil().setWidth(400),
                           child: Image.asset('assets/images/calendar.png')),
                     ),
@@ -102,31 +102,33 @@ class _RecruitDatesState extends State<RecruitDates> {
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(40)),
-                          child: DropdownButton(
-                            underline: Divider(color:  Color(0xfff5f5f5),height: 0,thickness: 0,),
-                            dropdownColor: Color(0xfff5f5f5),
-                            iconEnabledColor: Colors.black,
-                            isExpanded: true,
-                            items: [
-                              DropdownMenuItem(child: CustomText(text: 'Monday',font: 'GoogleSans',),value: 1,),
-                              DropdownMenuItem(child: CustomText(text: 'Tuesday',font: 'GoogleSans',),value: 2,),
-                              DropdownMenuItem(child: CustomText(text: 'Wednesday',font: 'GoogleSans',),value: 3,),
-                              DropdownMenuItem(child: CustomText(text: 'Thursday',font: 'GoogleSans',),value: 4,),
-                              DropdownMenuItem(child: CustomText(text: 'Friday',font: 'GoogleSans',),value: 5,),
-                              DropdownMenuItem(child: CustomText(text: 'Saturday',font: 'GoogleSans',),value: 6,),
-                              DropdownMenuItem(child: CustomText(text: 'Sunday',font: 'GoogleSans',),value: 7,),
-                            ],
-                            onChanged:(newValue){
-                              setState(() {
-                                selectedDay = newValue;
-                              });
-                            },
-                            value: selectedDay,
+                          child: Center(
+                            child: DropdownButton(
+                              underline: Divider(color:  Color(0xfff5f5f5),height: 0,thickness: 0,),
+                              dropdownColor: Color(0xfff5f5f5),
+                              iconEnabledColor: Colors.black,
+                              isExpanded: true,
+                              items: [
+                                DropdownMenuItem(child: CustomText(text: 'Monday',font: 'GoogleSans',),value: 1,),
+                                DropdownMenuItem(child: CustomText(text: 'Tuesday',font: 'GoogleSans',),value: 2,),
+                                DropdownMenuItem(child: CustomText(text: 'Wednesday',font: 'GoogleSans',),value: 3,),
+                                DropdownMenuItem(child: CustomText(text: 'Thursday',font: 'GoogleSans',),value: 4,),
+                                DropdownMenuItem(child: CustomText(text: 'Friday',font: 'GoogleSans',),value: 5,),
+                                DropdownMenuItem(child: CustomText(text: 'Saturday',font: 'GoogleSans',),value: 6,),
+                                DropdownMenuItem(child: CustomText(text: 'Sunday',font: 'GoogleSans',),value: 7,),
+                              ],
+                              onChanged:(newValue){
+                                setState(() {
+                                  selectedDay = newValue;
+                                });
+                              },
+                              value: selectedDay,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: ScreenUtil().setHeight(250),),
+                    SizedBox(height: ScreenUtil().setHeight(180),),
 
 
                     ///shifts
@@ -147,7 +149,7 @@ class _RecruitDatesState extends State<RecruitDates> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
-                              child: CustomText(text: 'Shift/Shifts',color: Colors.white,isBold: false,align: TextAlign.start,size: ScreenUtil().setSp(45),),
+                              child: CustomText(text: 'Shift/Shifts',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
                             ),
                           ),
 

@@ -52,12 +52,12 @@ class _RecruitStepperPageState extends State<RecruitStepperPage> {
             lineColor: Color(0xffC0E218),
             images: [
               currentPage==0?AssetImage('assets/images/step1active.png'):AssetImage('assets/images/step1.png'),
-              currentPage==1?AssetImage('assets/images/step2active.png'):AssetImage('assets/images/step2.png'),
-              currentPage==2?AssetImage('assets/images/step3active.png'):AssetImage('assets/images/step3.png'),
-              currentPage==3?AssetImage('assets/images/step4active.png'):AssetImage('assets/images/step4.png'),
-              currentPage==4?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
-              currentPage==5?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
-            ],
+              currentPage==1?AssetImage('assets/images/worker/step2active.png'):AssetImage('assets/images/worker/step2.png'),
+              currentPage==2?AssetImage('assets/images/worker/step3active.png'):AssetImage('assets/images/worker/step3.png'),
+              currentPage==3?AssetImage('assets/images/worker/step4active.png'):AssetImage('assets/images/worker/step4.png'),
+              currentPage==4?AssetImage('assets/images/worker/step5active.png'):AssetImage('assets/images/worker/step5.png'),
+              currentPage==5?AssetImage('assets/images/worker/step6active.png'):AssetImage('assets/images/worker/step6.png'),
+            ]
           ),
         ),
         body: PageView(
