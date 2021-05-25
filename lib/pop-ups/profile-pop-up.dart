@@ -142,7 +142,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                     'City/Cities',
                     style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.bold,
                     ),
                   ),
                   headerColor: Theme.of(context).primaryColor,
@@ -179,7 +179,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                       ),
                       child: Padding(
                         padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
-                        child: CustomText(text: 'Available Working Days & Shifts',color: Colors.white,isBold: false,align: TextAlign.start,size: ScreenUtil().setSp(45),),
+                        child: CustomText(text: 'Available Working Days & Shifts',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
                       ),
                     ),
 
@@ -237,17 +237,19 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                   ],
                 ),
               ),
-              SizedBox(height: ScreenUtil().setHeight(60),),
+              SizedBox(height: ScreenUtil().setHeight(80),),
 
               ///experience
               TextField(
                 controller: experience,
                 maxLines: null,
-                style: TextStyle(fontFamily: 'GoogleSans'),
+                textAlign: TextAlign.justify,
+                style: TextStyle(fontFamily: 'GoogleSans',height: 1.4,fontWeight: FontWeight.w300,color: Color(0xff52575D)),
                 decoration: InputDecoration(
                   labelText: 'Experience',
-                  labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: ScreenUtil().setSp(70)),
                   enabled: false,
+                  contentPadding: EdgeInsets.fromLTRB(14, 30, 14, 16),
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(

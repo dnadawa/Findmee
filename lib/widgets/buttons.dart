@@ -10,8 +10,9 @@ class Button extends StatelessWidget {
   final Color textColor;
   final double borderRadius;
   final double textSize;
+  final double padding;
 
-  const Button({Key key, this.onclick, this.text, this.color: Colors.black, this.borderRadius=40, this.textColor=Colors.white, this.textSize=18,}) : super(key: key);
+  const Button({Key key, this.onclick, this.text, this.color: Colors.black, this.borderRadius=40, this.textColor=Colors.white, this.textSize=18, this.padding=10,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class Button extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius)
             ),
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(padding),
           ),
           child: CustomText(text: text,size: textSize,color: textColor,),
         )

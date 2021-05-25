@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:convert';
 import 'package:findmee/screens/book-a-recruit/profiles.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
@@ -21,39 +22,40 @@ class RecruitDates extends StatefulWidget {
 }
 
 class _RecruitDatesState extends State<RecruitDates> {
-  bool morning = false;
-  bool evening = false;
-  bool night = false;
-
-  List list = [];
-
-  final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
-    equals: isSameDay,
-  );
-
-  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    list.clear();
-    setState(() {
-      if (_selectedDays.contains(selectedDay)) {
-        _selectedDays.remove(selectedDay);
-      } else {
-        _selectedDays.add(selectedDay);
-      }
-    });
-    _selectedDays.forEach((element) {
-      Map x = {
-        'day': DateFormat('yyyy-MM-dd').format(element),
-        'morning': false,
-        'evening': false,
-        'night': false,
-      };
-
-      // if(!list.any((element) => mapEquals(element, x))){
-      //   list.add(x);
-      // }
-      list.add(x);
-    });
-  }
+  //
+  // void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+  //   list.clear();
+  //   setState(() {
+  //     if (_selectedDays.contains(selectedDay)) {
+  //       _selectedDays.remove(selectedDay);
+  //     } else {
+  //       _selectedDays.add(selectedDay);
+  //     }
+  //   });
+  //   _selectedDays.forEach((element) {
+  //     Map x = {
+  //       'day': DateFormat('yyyy-MM-dd').format(element),
+  //       'morning': false,
+  //       'evening': false,
+  //       'night': false,
+  //     };
+  //
+  //     // if(!list.any((element) => mapEquals(element, x))){
+  //     //   list.add(x);
+  //     // }
+  //     list.add(x);
+  //   });
+  // }
+  int selectedDay = 1;
+  List x = [
+    {'mor' : false, 'eve': false, 'nig': false},
+    {'mor' : false, 'eve': false, 'nig': false},
+    {'mor' : false, 'eve': false, 'nig': false},
+    {'mor' : false, 'eve': false, 'nig': false},
+    {'mor' : false, 'eve': false, 'nig': false},
+    {'mor' : false, 'eve': false, 'nig': false},
+    {'mor' : false, 'eve': false, 'nig': false},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -88,67 +90,144 @@ class _RecruitDatesState extends State<RecruitDates> {
                           // height: ScreenUtil().setWidth(400),
                           child: Image.asset('assets/images/calendar.png')),
                     ),
-                    SizedBox(height: ScreenUtil().setHeight(40),),
+                    SizedBox(height: ScreenUtil().setHeight(100),),
 
-                    ///dates
-                    ListView.builder(
-                      itemCount: _selectedDays.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, i){
-                        String date = DateFormat('yyyy-MM-dd').format(_selectedDays.elementAt(i));
+                    ///dropdown
+                    Center(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color:  Color(0xfff5f5f5),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(40)),
+                          child: DropdownButton(
+                            underline: Divider(color:  Color(0xfff5f5f5),height: 0,thickness: 0,),
+                            dropdownColor: Color(0xfff5f5f5),
+                            iconEnabledColor: Colors.black,
+                            isExpanded: true,
+                            items: [
+                              DropdownMenuItem(child: CustomText(text: 'Monday',font: 'GoogleSans',),value: 1,),
+                              DropdownMenuItem(child: CustomText(text: 'Tuesday',font: 'GoogleSans',),value: 2,),
+                              DropdownMenuItem(child: CustomText(text: 'Wednesday',font: 'GoogleSans',),value: 3,),
+                              DropdownMenuItem(child: CustomText(text: 'Thursday',font: 'GoogleSans',),value: 4,),
+                              DropdownMenuItem(child: CustomText(text: 'Friday',font: 'GoogleSans',),value: 5,),
+                              DropdownMenuItem(child: CustomText(text: 'Saturday',font: 'GoogleSans',),value: 6,),
+                              DropdownMenuItem(child: CustomText(text: 'Sunday',font: 'GoogleSans',),value: 7,),
+                            ],
+                            onChanged:(newValue){
+                              setState(() {
+                                selectedDay = newValue;
+                              });
+                            },
+                            value: selectedDay,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: ScreenUtil().setHeight(250),),
 
-                        return Padding(
-                          padding:  EdgeInsets.only(bottom: ScreenUtil().setHeight(30)),
-                          child: ExpansionTile(
-                            title: CustomText(text: date,),
-                            childrenPadding: EdgeInsets.only(bottom: ScreenUtil().setHeight(40)),
-                            children: [
-                              ///toggle buttons
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    ///shifts
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Theme.of(context).primaryColor,width: 2)
+                      ),
+                      child: Column(
+                        children: [
+                          ///header
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(5)),
+                                color: Theme.of(context).primaryColor
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
+                              child: CustomText(text: 'Shift/Shifts',color: Colors.white,isBold: false,align: TextAlign.start,size: ScreenUtil().setSp(45),),
+                            ),
+                          ),
+
+                          ///body
+                          Container(
+                            width: double.infinity,
+                            child: Padding(
+                              padding: EdgeInsets.all(ScreenUtil().setHeight(50)),
+                              child: Column(
                                 children: [
-                                  ToggleButton(
-                                    text: 'Morning',
-                                    onclick: (){
-                                      setState(() {
-                                        list[i]['morning'] = !list[i]['morning'];
-                                      });
-                                    },
-                                    isSelected: list[i]['morning'],
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: ToggleButton(
+                                          text: 'Morning',
+                                          onclick: (){
+                                            setState(() {
+                                              x[selectedDay-1]['mor'] = !x[selectedDay-1]['mor'];
+                                            });
+                                          },
+                                          isSelected: x[selectedDay-1]['mor'],
+                                        ),
+                                      ),
+                                      SizedBox(width: ScreenUtil().setHeight(40),),
+                                      Expanded(
+                                        child: ToggleButton(
+                                          text: 'Evening',
+                                          onclick: (){
+                                            setState(() {
+                                              x[selectedDay-1]['eve'] = !x[selectedDay-1]['eve'];
+                                            });
+                                          },
+                                          isSelected: x[selectedDay-1]['eve'],
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  ToggleButton(
-                                    text: 'Evening',
-                                    onclick: (){
-                                      setState(() {
-                                        list[i]['evening'] = !list[i]['evening'];
-                                      });
-                                    },
-                                    isSelected: list[i]['evening'],
+                                  SizedBox(height: ScreenUtil().setHeight(40),),
+                                  Center(
+                                    child: ToggleButton(
+                                      text: 'Night',
+                                      onclick: (){
+                                        setState(() {
+                                          x[selectedDay-1]['nig'] = !x[selectedDay-1]['nig'];
+                                        });
+                                      },
+                                      isSelected: x[selectedDay-1]['nig'],
+                                    ),
                                   ),
                                 ],
                               ),
-                              SizedBox(height: ScreenUtil().setHeight(70),),
-                              Center(
-                                child: ToggleButton(
-                                  text: 'Night',
-                                  onclick: (){
-                                    setState(() {
-                                      list[i]['night'] = !list[i]['night'];
-                                    });
-                                  },
-                                  isSelected: list[i]['night'],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
+                    SizedBox(height: ScreenUtil().setHeight(250),),
 
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                       child: Button(text: 'Next',onclick: () async {
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        Map data = jsonDecode(prefs.getString('data'));
+
+                        List datesAndShifts = [];
+                        for(int i=0;i<x.length;i++){
+                          if(x[i]['mor']){
+                            datesAndShifts.add('${i+1}mor');
+                          }
+                          if(x[i]['eve']){
+                            datesAndShifts.add('${i+1}eve');
+                          }
+                          if(x[i]['nig']){
+                            datesAndShifts.add('${i+1}nig');
+                          }
+                        }
+
+                        data['datesAndShifts'] = datesAndShifts;
+                        prefs.setString('data', jsonEncode(data));
                         widget.controller.animateToPage(4,curve: Curves.ease,duration: Duration(milliseconds: 200));
                       }),
                     )

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/pop-ups/profile-pop-up.dart';
 import 'package:findmee/pop-ups/recieved-pop-up.dart';
@@ -20,6 +21,7 @@ class Profiles extends StatefulWidget {
 class _ProfilesState extends State<Profiles> {
 
   var profiles = [];
+  var catProfiles;
   List selectedCategories, selectedCities;
   getProfiles() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -44,7 +46,7 @@ class _ProfilesState extends State<Profiles> {
     var sub2 = await FirebaseFirestore.instance.collection('workers').where('cities', arrayContainsAny: selectedCities).where('status', isEqualTo: 'approved').get();
     var sub3 = await FirebaseFirestore.instance.collection('workers').where('datesAndShifts', arrayContainsAny: datesAndShifts).where('status', isEqualTo: 'approved').get();
 
-    var catProfiles = sub1.docs;
+    catProfiles = sub1.docs;
     var citProfiles = sub2.docs;
     var datProfiles = sub3.docs;
     var allProfiles = [];
@@ -91,7 +93,9 @@ class _ProfilesState extends State<Profiles> {
                     borderRadius: BorderRadius.circular(10),
                     color: Theme.of(context).primaryColor
                   ),
-                  child: profiles.isNotEmpty?ListView.builder(
+                  child: catProfiles!=null?
+                      profiles.isEmpty?Center(child: CustomText(text: 'No profiles found!',color: Colors.white,)):
+                  ListView.builder(
                     itemCount: profiles.length,
                     itemBuilder: (context, i){
                       String name = profiles[i]['name'];
@@ -115,39 +119,44 @@ class _ProfilesState extends State<Profiles> {
                               children: [
                                 CircleAvatar(
                                   backgroundColor: Colors.blue,
-                                  radius: 45,
-                                  backgroundImage: NetworkImage(profileImage),
+                                  radius: 50,
+                                  backgroundImage: CachedNetworkImageProvider(profileImage),
                                 ),
-                                SizedBox(width: ScreenUtil().setWidth(40),),
+                                SizedBox(width: ScreenUtil().setWidth(50),),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       CustomText(
-                                        text: name,
+                                        text: name+" "+profiles[i]['surname'][0]+".",
                                         font: 'GoogleSans',
                                         align: TextAlign.start,
-                                        size: ScreenUtil().setSp(50),
+                                        size: ScreenUtil().setSp(60),
                                       ),
-                                      SizedBox(height: ScreenUtil().setWidth(40),),
-                                      Button(
-                                        text: 'View my profile',
-                                        color: Color(0xffFA1E0E),
-                                        onclick: (){
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context){
-                                                return ProfilePopUp(
-                                                  categories: categories,
-                                                  cities: cities,
-                                                  experience: experience,
-                                                  userDatesAndShifts: datesAndShifts,
-                                                  selectedCategories: selectedCategories,
-                                                  selectedCities: selectedCities,
-                                                  email: email,
-                                                );
-                                              });
-                                        },
+                                      SizedBox(height: ScreenUtil().setWidth(120),),
+                                      SizedBox(
+                                        height: ScreenUtil().setHeight(90),
+                                        child: Button(
+                                          text: 'View my profile',
+                                          padding: 2,
+                                          textSize: ScreenUtil().setSp(40),
+                                          color: Color(0xffFA1E0E),
+                                          onclick: (){
+                                            showDialog(
+                                                context: context,
+                                                builder: (BuildContext context){
+                                                  return ProfilePopUp(
+                                                    categories: categories,
+                                                    cities: cities,
+                                                    experience: experience,
+                                                    userDatesAndShifts: datesAndShifts,
+                                                    selectedCategories: selectedCategories,
+                                                    selectedCities: selectedCities,
+                                                    email: email,
+                                                  );
+                                                });
+                                          },
+                                        ),
                                       )
                                     ],
                                   ),
@@ -158,7 +167,7 @@ class _ProfilesState extends State<Profiles> {
                         ),
                       );
                     },
-                  ):Center(child: CircularProgressIndicator(),),
+                  ):Center(child: CircularProgressIndicator()),
                 ),
               ),
             ),

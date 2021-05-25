@@ -21,7 +21,7 @@ class _DatesState extends State<Dates> {
   bool morning = false;
   bool evening = false;
   bool night = false;
-
+  DateTime _focusedDay = DateTime.now();
   List list = [];
 
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
@@ -31,6 +31,7 @@ class _DatesState extends State<Dates> {
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     list.clear();
     setState(() {
+      _focusedDay = focusedDay;
       if (_selectedDays.contains(selectedDay)) {
         _selectedDays.remove(selectedDay);
       } else {
@@ -80,11 +81,25 @@ class _DatesState extends State<Dates> {
                     CustomText(text: 'Select date/dates and relevant shifts that you need to hire a recruiter',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                     SizedBox(height: ScreenUtil().setHeight(100),),
                     TableCalendar(
-                      firstDay: DateTime(2021,1,1),
-                      lastDay: DateTime(2021,12,12),
-                      focusedDay: DateTime.now(),
+                      firstDay: DateTime.now(),
+                      lastDay: DateTime(3000,12,31),
+                      focusedDay: _focusedDay,
                       calendarFormat: CalendarFormat.month,
                       startingDayOfWeek: StartingDayOfWeek.monday,
+                      availableGestures: AvailableGestures.none,
+                      headerStyle: HeaderStyle(
+                        formatButtonVisible: false,
+                        titleCentered: true
+                      ),
+                      calendarStyle: CalendarStyle(
+                        selectedDecoration: BoxDecoration(
+                            color: Color(0xffFA1E0E),
+                            shape: BoxShape.circle
+                        ),
+                      ),
+                      onPageChanged: (focusedDay) {
+                        _focusedDay = focusedDay;
+                      },
                       selectedDayPredicate: (day) {
                         return _selectedDays.contains(day);
                       },
@@ -100,50 +115,48 @@ class _DatesState extends State<Dates> {
                       itemBuilder: (context, i){
                         String date = DateFormat('yyyy-MM-dd').format(_selectedDays.elementAt(i));
 
-                        return Padding(
-                          padding:  EdgeInsets.only(bottom: ScreenUtil().setHeight(30)),
-                          child: ExpansionTile(
-                            title: CustomText(text: date,),
-                            childrenPadding: EdgeInsets.only(bottom: ScreenUtil().setHeight(40)),
-                            children: [
-                              ///toggle buttons
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ToggleButton(
-                                    text: 'Morning',
-                                    onclick: (){
-                                      setState(() {
-                                        list[i]['morning'] = !list[i]['morning'];
-                                      });
-                                    },
-                                    isSelected: list[i]['morning'],
-                                  ),
-                                  ToggleButton(
-                                    text: 'Evening',
-                                    onclick: (){
-                                      setState(() {
-                                        list[i]['evening'] = !list[i]['evening'];
-                                      });
-                                    },
-                                    isSelected: list[i]['evening'],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: ScreenUtil().setHeight(70),),
-                              Center(
-                                child: ToggleButton(
-                                  text: 'Night',
+                        return ExpansionTile(
+                          title: CustomText(text: date,),
+                          initiallyExpanded: true,
+                          childrenPadding: EdgeInsets.only(bottom: ScreenUtil().setHeight(40)),
+                          children: [
+                            ///toggle buttons
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ToggleButton(
+                                  text: 'Morning',
                                   onclick: (){
                                     setState(() {
-                                      list[i]['night'] = !list[i]['night'];
+                                      list[i]['morning'] = !list[i]['morning'];
                                     });
                                   },
-                                  isSelected: list[i]['night'],
+                                  isSelected: list[i]['morning'],
                                 ),
+                                ToggleButton(
+                                  text: 'Evening',
+                                  onclick: (){
+                                    setState(() {
+                                      list[i]['evening'] = !list[i]['evening'];
+                                    });
+                                  },
+                                  isSelected: list[i]['evening'],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: ScreenUtil().setHeight(70),),
+                            Center(
+                              child: ToggleButton(
+                                text: 'Night',
+                                onclick: (){
+                                  setState(() {
+                                    list[i]['night'] = !list[i]['night'];
+                                  });
+                                },
+                                isSelected: list[i]['night'],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         );
                       },
                     ),
