@@ -265,6 +265,9 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
               Button(
                 color: Color(0xff00C853),
                 text: 'Hire me',
+                image: 'hire.png',
+                imageSize: 80,
+                padding: 0,
                 onclick: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   List<String> cart = prefs.getStringList('cart') ?? [];

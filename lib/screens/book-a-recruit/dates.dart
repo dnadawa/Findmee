@@ -29,7 +29,6 @@ class _DatesState extends State<Dates> {
   );
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    list.clear();
     setState(() {
       _focusedDay = focusedDay;
       if (_selectedDays.contains(selectedDay)) {
@@ -39,6 +38,7 @@ class _DatesState extends State<Dates> {
       }
     });
     _selectedDays.forEach((element) {
+      list.removeWhere((element) => element['day']==DateFormat('yyyy-MM-dd').format(selectedDay));
       Map x = {
         'day': DateFormat('yyyy-MM-dd').format(element),
         'morning': false,
@@ -51,6 +51,7 @@ class _DatesState extends State<Dates> {
       // }
       list.add(x);
     });
+    print(list);
   }
 
   @override
@@ -115,6 +116,7 @@ class _DatesState extends State<Dates> {
                       itemBuilder: (context, i){
                         String date = DateFormat('yyyy-MM-dd').format(_selectedDays.elementAt(i));
 
+                        int index = list.indexWhere((element) => element['day']==date);
                         return ExpansionTile(
                           title: CustomText(text: date,),
                           initiallyExpanded: true,
@@ -128,19 +130,19 @@ class _DatesState extends State<Dates> {
                                   text: 'Morning',
                                   onclick: (){
                                     setState(() {
-                                      list[i]['morning'] = !list[i]['morning'];
+                                      list[index]['morning'] = !list[index]['morning'];
                                     });
                                   },
-                                  isSelected: list[i]['morning'],
+                                  isSelected: list[index]['morning'],
                                 ),
                                 ToggleButton(
                                   text: 'Evening',
                                   onclick: (){
                                     setState(() {
-                                      list[i]['evening'] = !list[i]['evening'];
+                                      list[index]['evening'] = !list[index]['evening'];
                                     });
                                   },
-                                  isSelected: list[i]['evening'],
+                                  isSelected: list[index]['evening'],
                                 ),
                               ],
                             ),
@@ -150,10 +152,10 @@ class _DatesState extends State<Dates> {
                                 text: 'Night',
                                 onclick: (){
                                   setState(() {
-                                    list[i]['night'] = !list[i]['night'];
+                                    list[index]['night'] = !list[index]['night'];
                                   });
                                 },
-                                isSelected: list[i]['night'],
+                                isSelected: list[index]['night'],
                               ),
                             ),
                           ],

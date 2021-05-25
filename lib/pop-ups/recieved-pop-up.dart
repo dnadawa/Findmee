@@ -22,6 +22,7 @@ class _ReceivedPopUpState extends State<ReceivedPopUp> {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
+      contentPadding: EdgeInsets.fromLTRB(24, 0, 24, 24),
       scrollable: true,
       backgroundColor: Colors.white,
       content: Container(
@@ -32,11 +33,11 @@ class _ReceivedPopUpState extends State<ReceivedPopUp> {
 
             ///check mark
             Container(
-              width: ScreenUtil().setHeight(500),
-              height: ScreenUtil().setHeight(500),
+              width: ScreenUtil().setHeight(800),
+              height: ScreenUtil().setHeight(800),
               child: Center(child: Image.asset('assets/images/tick.gif')),
             ),
-            SizedBox(height: ScreenUtil().setWidth(100),),
+
 
             ///text
             CustomText(

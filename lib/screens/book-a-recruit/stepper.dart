@@ -35,7 +35,6 @@ class _StepperPageState extends State<StepperPage> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          // preferredSize: AppBar().preferredSize,
           preferredSize: Size(MediaQuery.of(context).size.width,ScreenUtil().setHeight(220)),
           child: ImageStepper(
             activeStep: currentPage,

@@ -107,7 +107,7 @@ class _ProfilesState extends State<Profiles> {
                       List datesAndShifts = profiles[i]['datesAndShifts'];
 
                       return Padding(
-                        padding: EdgeInsets.all(ScreenUtil().setHeight(30)),
+                        padding: EdgeInsets.fromLTRB(ScreenUtil().setHeight(30),ScreenUtil().setHeight(30),ScreenUtil().setHeight(30),ScreenUtil().setHeight(20)),
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -138,6 +138,7 @@ class _ProfilesState extends State<Profiles> {
                                         height: ScreenUtil().setHeight(90),
                                         child: Button(
                                           text: 'View my profile',
+                                          image: 'viewProfile.png',
                                           padding: 2,
                                           textSize: ScreenUtil().setSp(40),
                                           color: Color(0xffFA1E0E),

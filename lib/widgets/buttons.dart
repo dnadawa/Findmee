@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'custom-text.dart';
 
@@ -11,8 +12,10 @@ class Button extends StatelessWidget {
   final double borderRadius;
   final double textSize;
   final double padding;
+  final String image;
+  final double imageSize;
 
-  const Button({Key key, this.onclick, this.text, this.color: Colors.black, this.borderRadius=40, this.textColor=Colors.white, this.textSize=18, this.padding=10,}) : super(key: key);
+  const Button({Key key, this.onclick, this.text, this.color: Colors.black, this.borderRadius=40, this.textColor=Colors.white, this.textSize=18, this.padding=10, this.image, this.imageSize=50,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,24 @@ class Button extends StatelessWidget {
             ),
             padding: EdgeInsets.all(padding),
           ),
-          child: CustomText(text: text,size: textSize,color: textColor,),
+          child: Row(
+            mainAxisAlignment: text=='Next'?MainAxisAlignment.spaceBetween:MainAxisAlignment.center,
+            children: [
+              if(text=='Next')
+                SizedBox.shrink(),
+              if(image!=null)
+              SizedBox(
+                height: ScreenUtil().setHeight(imageSize),
+                width: ScreenUtil().setHeight(imageSize),
+                child: Image.asset('assets/images/$image'),
+              ),
+              if(image!=null)
+                SizedBox(width: ScreenUtil().setWidth(30),),
+              CustomText(text: text,size: textSize,color: textColor,),
+              if(text=='Next')
+                Icon(Icons.play_circle_fill)
+            ],
+          ),
         )
     );
   }

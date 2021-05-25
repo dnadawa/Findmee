@@ -24,6 +24,7 @@ class _LogInState extends State<LogIn> {
   TextEditingController email = TextEditingController();
 
   logIn() async {
+    FocusScope.of(context).requestFocus(FocusNode());
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       ToastBar(text: 'Please wait', color: Colors.orange).show();
       try {
