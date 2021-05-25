@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/pop-ups/profile-pop-up.dart';
@@ -27,7 +25,7 @@ class _ProfilesState extends State<Profiles> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     selectedCategories = prefs.getStringList('companyCategories');
     selectedCities = prefs.getStringList('companyCities');
-    List dates = prefs.getStringList('companyDates');
+    // List dates = prefs.getStringList('companyDates');
     // List shifts = prefs.getStringList('companyShifts');
     List datesAndShifts = prefs.getStringList('companyDatesAndShifts');
 
@@ -99,6 +97,9 @@ class _ProfilesState extends State<Profiles> {
                     itemCount: profiles.length,
                     itemBuilder: (context, i){
                       String name = profiles[i]['name'];
+                      String surname = profiles[i]['surname'];
+                      String phone = profiles[i]['phone'];
+                      String cpr = profiles[i]['cpr'];
                       String profileImage = profiles[i]['profileImage'];
                       String experience = profiles[i]['experience'];
                       String email = profiles[i]['email'];
@@ -154,6 +155,10 @@ class _ProfilesState extends State<Profiles> {
                                                     selectedCategories: selectedCategories,
                                                     selectedCities: selectedCities,
                                                     email: email,
+                                                    phone: phone,
+                                                    cpr: cpr,
+                                                    name: name,
+                                                    surname: surname,
                                                   );
                                                 });
                                           },
@@ -178,22 +183,35 @@ class _ProfilesState extends State<Profiles> {
                 text: 'Finish',
                 onclick: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  List cart = prefs.getStringList('cart');
+                  String recruiterDetails = prefs.getString('cart');
                   String businessName = prefs.getString('name');
-                  if(cart==null){
+                  String businessEmail = prefs.getString('companyEmail');
+                  String cvr = prefs.getString('cvr');
+                  String companyPhone = prefs.getString('companyPhone');
+                  if(recruiterDetails==null){
                     ToastBar(text: 'No one in the list!',color: Colors.red).show();
                   }
                   else{
-                    ToastBar(text: 'Sending Email...',color: Colors.orange).show();
+                    ToastBar(text: 'Please wait...',color: Colors.orange).show();
+
+                    String email = "$businessName wants to hire following recruiters. All the details of the business and recruiters are mentioned below."
+                        "\n\n"
+                        "Business Details:-\n\n"
+                        "• Business Name: $businessName\n"
+                        "• Contact Email: $businessEmail\n"
+                        "• Mobile Phone: $companyPhone\n"
+                        "• CVR Number: $cvr"
+                        "\n\n"
+                        "Recruiter Details:- \n\n"
+                        "$recruiterDetails";
 
                     String username = 'findmee.db@gmail.com';
                     String password = 'Findmee@123';
-                    String email = "$businessName wants to hire $cart";
 
                     final smtpServer = gmail(username, password);
                     final message = Message()
                       ..from = Address(username, 'Findmee')
-                      ..recipients.add('dulajnadawa@gmail.com')
+                      ..recipients.add('nikoldominikova@gmail.com')
                       ..subject = 'Workers'
                       ..text = email;
                     try {
@@ -205,6 +223,7 @@ class _ProfilesState extends State<Profiles> {
                           builder: (BuildContext context){
                             return ReceivedPopUp();
                      });
+                    prefs.remove('cart');
                     } on MailerException catch (e) {
                       for (var p in e.problems) {
                         print('Problem: ${p.code}: ${p.msg}');

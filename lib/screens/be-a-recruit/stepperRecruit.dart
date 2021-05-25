@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:findmee/screens/be-a-recruit/approvalRecruit.dart';
 import 'package:findmee/screens/be-a-recruit/photosRecruit.dart';
 import 'package:findmee/screens/be-a-recruit/registerRecruit.dart';
 import 'package:findmee/screens/book-a-recruit/categories.dart';
 import 'package:findmee/screens/book-a-recruit/cities.dart';
-import 'package:findmee/screens/book-a-recruit/dates.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:im_stepper/stepper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'datesRecruit.dart';
 

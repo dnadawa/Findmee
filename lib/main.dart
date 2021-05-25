@@ -1,5 +1,3 @@
-import 'package:findmee/screens/be-a-recruit/datesRecruit.dart';
-import 'package:findmee/screens/book-a-recruit/dates.dart';
 import 'package:findmee/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

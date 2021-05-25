@@ -16,8 +16,12 @@ class ProfilePopUp extends StatefulWidget {
   final List selectedCategories;
   final List selectedCities;
   final String email;
+  final String name;
+  final String surname;
+  final String cpr;
+  final String phone;
 
-  const ProfilePopUp({Key key, this.categories, this.cities, this.experience, this.userDatesAndShifts, this.selectedCategories, this.selectedCities, this.email}) : super(key: key);
+  const ProfilePopUp({Key key, this.categories, this.cities, this.experience, this.userDatesAndShifts, this.selectedCategories, this.selectedCities, this.email, this.name, this.surname, this.cpr, this.phone}) : super(key: key);
   @override
   _ProfilePopUpState createState() => _ProfilePopUpState();
 }
@@ -270,9 +274,12 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                 padding: 0,
                 onclick: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  List<String> cart = prefs.getStringList('cart') ?? [];
-                  cart.add(widget.email);
-                  prefs.setStringList('cart', cart);
+                  String cart = prefs.getString('cart') ?? "";
+                  cart += "• ${widget.name} ${widget.surname}\n"
+                      "\t\tContact email: ${widget.email}\n"
+                      "\t\tMobile Phone: ${widget.phone}\n"
+                      "\t\tCPR Number: ${widget.cpr}\n\n";
+                  prefs.setString('cart', cart);
                   ToastBar(text: 'Added to list!',color: Colors.green).show();
                   Navigator.pop(context);
                 },

@@ -1,14 +1,11 @@
 import 'dart:io';
 
 import 'package:findmee/screens/book-a-recruit/stepper.dart';
-import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class ReceivedPopUp extends StatefulWidget {
   @override
@@ -52,29 +49,39 @@ class _ReceivedPopUpState extends State<ReceivedPopUp> {
             Row(
               children: [
                 Expanded(
-                  child: Button(
-                    text: 'I need to hire recruiters again',
-                    borderRadius: 10,
-                    color: Color(0xff00C853),
-                    onclick: (){
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(builder: (context) => StepperPage()),
-                      );
+                  child: ElevatedButton(
+                    onPressed: (){
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(builder: (context) => StepperPage()),
+                          );
                     },
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff00C853),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    child: CustomText(text: 'I need to hire recruiters again',size: 18,color: Colors.white,),
                   ),
                 ),
                 if(Platform.isAndroid)
                 SizedBox(width: ScreenUtil().setWidth(50),),
                 if(Platform.isAndroid)
                 Expanded(
-                  child: Button(
-                    text: "I’m done for today",
-                    borderRadius: 10,
-                    color: Color(0xffFA1E0E),
-                    onclick: (){
+                  child: ElevatedButton(
+                    onPressed: (){
                       SystemNavigator.pop(animated: true);
                     },
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xffFA1E0E),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    child: CustomText(text: "I’m done for today",size: 18,color: Colors.white,),
                   ),
                 )
               ],

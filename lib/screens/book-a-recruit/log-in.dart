@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:findmee/screens/book-a-recruit/sign-up.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
@@ -121,6 +120,8 @@ class _LogInState extends State<LogIn> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('companyEmail', email.text);
           prefs.setString('name', user[0]['name']);
+          prefs.setString('companyPhone', user[0]['phone']);
+          prefs.setString('cvr', user[0]['cvr']);
 
           widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
         }
