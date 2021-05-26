@@ -211,7 +211,7 @@ class _ProfilesState extends State<Profiles> {
                     final smtpServer = gmail(username, password);
                     final message = Message()
                       ..from = Address(username, 'Findmee')
-                      ..recipients.add('nikoldominikova@gmail.com')
+                      ..recipients.add('shakib@live.dk')
                       ..subject = 'Workers'
                       ..text = email;
                     try {
