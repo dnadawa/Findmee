@@ -274,12 +274,15 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                 padding: 0,
                 onclick: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  String cart = prefs.getString('cart') ?? "";
-                  cart += "• ${widget.name} ${widget.surname}\n"
-                      "\t\tContact email: ${widget.email}\n"
-                      "\t\tMobile Phone: ${widget.phone}\n"
-                      "\t\tCPR Number: ${widget.cpr}\n\n";
-                  prefs.setString('cart', cart);
+                  // String cart = prefs.getString('cart') ?? "";
+                  List<String> emailList = prefs.getStringList('emailList') ?? [];
+                  // cart += "• ${widget.name} ${widget.surname}\n"
+                  //     "\t\tContact email: ${widget.email}\n"
+                  //     "\t\tMobile Phone: ${widget.phone}\n"
+                  //     "\t\tCPR Number: ${widget.cpr}\n\n";
+                  // prefs.setString('cart', cart);
+                  emailList.add(widget.email);
+                  prefs.setStringList('emailList', emailList);
                   ToastBar(text: 'Added to list!',color: Colors.green).show();
                   Navigator.pop(context);
                 },

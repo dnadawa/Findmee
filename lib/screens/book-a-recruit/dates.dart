@@ -167,18 +167,24 @@ class _DatesState extends State<Dates> {
                       child: Button(text: 'Next',onclick: () async {
 
                         Set datesAndShifts = {};
+                        List<String> longDates = [];
                         list.forEach((element) {
                           int day = DateTime.parse(element['day']).weekday;
                           if(element['morning']){
                             datesAndShifts.add(day.toString()+'mor');
+                            longDates.add(element['day']+":mor");
                           }
                           if(element['evening']){
                             datesAndShifts.add(day.toString()+'eve');
+                            longDates.add(element['day']+":eve");
                           }
                           if(element['night']){
                             datesAndShifts.add(day.toString()+'nig');
+                            longDates.add(element['day']+":nig");
                           }
                         });
+
+
 
                         List<String> finalDatesAndShifts = [];
                         datesAndShifts.forEach((element) {
@@ -194,6 +200,8 @@ class _DatesState extends State<Dates> {
                         });
 
                         prefs.setStringList('companyDates', dates);
+                        prefs.setStringList('longDates', longDates);
+
 
                         if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
                           ToastBar(text: 'Please select at least one date and shift', color: Colors.red).show();
@@ -204,33 +212,6 @@ class _DatesState extends State<Dates> {
                             CupertinoPageRoute(builder: (context) => Profiles()),
                           );
                         }
-
-
-
-
-
-
-
-
-
-
-
-
-                        // List<String> dates = [];
-                        // _selectedDays.forEach((element) {
-                        //   dates.add(element.toString());
-                        // });
-                        // List<String> shifts = [];
-                        // if(morning) shifts.add('mon');
-                        // if(evening) shifts.add('eve');
-                        // if(night) shifts.add('nig');
-                        // SharedPreferences prefs = await SharedPreferences.getInstance();
-                        // prefs.setStringList('companyDates', dates);
-                        // prefs.setStringList('companyShifts', shifts);
-                        // Navigator.push(
-                        //   context,
-                        //   CupertinoPageRoute(builder: (context) => Profiles()),
-                        // );
                       }),
                     )
 

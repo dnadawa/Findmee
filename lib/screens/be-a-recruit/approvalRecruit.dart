@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'offers.dart';
 
 class Approval extends StatefulWidget {
   final PageController controller;
@@ -93,7 +96,12 @@ class _ApprovalState extends State<Approval> {
                         padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
                         child: Button(
                           text: 'Next',
-                          onclick: () async {},
+                          onclick: () async {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(builder: (context) => Offers()),
+                            );
+                          },
                         ),
                       )
 

@@ -183,52 +183,71 @@ class _ProfilesState extends State<Profiles> {
                 text: 'Finish',
                 onclick: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  String recruiterDetails = prefs.getString('cart');
-                  String businessName = prefs.getString('name');
-                  String businessEmail = prefs.getString('companyEmail');
-                  String cvr = prefs.getString('cvr');
-                  String companyPhone = prefs.getString('companyPhone');
-                  if(recruiterDetails==null){
+                  List<String> emailList = prefs.getStringList('emailList');
+                  if(emailList==null){
                     ToastBar(text: 'No one in the list!',color: Colors.red).show();
                   }
                   else{
                     ToastBar(text: 'Please wait...',color: Colors.orange).show();
 
-                    String email = "$businessName wants to hire following recruiters. All the details of the business and recruiters are mentioned below."
-                        "\n\n"
-                        "Business Details:-\n\n"
-                        "• Business Name: $businessName\n"
-                        "• Contact Email: $businessEmail\n"
-                        "• Mobile Phone: $companyPhone\n"
-                        "• CVR Number: $cvr"
-                        "\n\n"
-                        "Recruiter Details:- \n\n"
-                        "$recruiterDetails";
+                    // String email = "$businessName wants to hire following recruiters. All the details of the business and recruiters are mentioned below."
+                    //     "\n\n"
+                    //     "Business Details:-\n\n"
+                    //     "• Business Name: $businessName\n"
+                    //     "• Contact Email: $businessEmail\n"
+                    //     "• Mobile Phone: $companyPhone\n"
+                    //     "• CVR Number: $cvr"
+                    //     "\n\n"
+                    //     "Recruiter Details:- \n\n"
+                    //     "$recruiterDetails";
+                    //
+                    // String username = 'findmee.db@gmail.com';
+                    // String password = 'Findmee@123';
+                    //
+                    // final smtpServer = gmail(username, password);
+                    // final message = Message()
+                    //   ..from = Address(username, 'Findmee')
+                    //   ..recipients.add('shakib@live.dk')
+                    //   ..subject = 'Workers'
+                    //   ..text = email;
+                    // try {
+                    //   final sendReport = await send(message, smtpServer);
+                    //   print('Message sent: ' + sendReport.toString());
+                    //   prefs.remove('cart');
+                    //   showDialog(
+                    //       context: context,
+                    //       builder: (BuildContext context){
+                    //         return ReceivedPopUp();
+                    //  });
+                    // prefs.remove('cart');
+                    // } on MailerException catch (e) {
+                    //   for (var p in e.problems) {
+                    //     print('Problem: ${p.code}: ${p.msg}');
+                    //     ToastBar(text: 'Email not sent! ${p.msg}',color: Colors.red).show();
+                    //   }
+                    // }
 
-                    String username = 'findmee.db@gmail.com';
-                    String password = 'Findmee@123';
+                    try{
+                      await FirebaseFirestore.instance.collection('offers').add({
+                        'categories': selectedCategories,
+                        'cities': selectedCities,
+                        'accepted': [],
+                        'closed': false,
+                        'company': prefs.getString('companyEmail'),
+                        'daysAndShifts': prefs.getStringList('longDates'),
+                        'sent': emailList
+                      });
 
-                    final smtpServer = gmail(username, password);
-                    final message = Message()
-                      ..from = Address(username, 'Findmee')
-                      ..recipients.add('shakib@live.dk')
-                      ..subject = 'Workers'
-                      ..text = email;
-                    try {
-                      final sendReport = await send(message, smtpServer);
-                      print('Message sent: ' + sendReport.toString());
-                      prefs.remove('cart');
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context){
-                            return ReceivedPopUp();
-                     });
-                    prefs.remove('cart');
-                    } on MailerException catch (e) {
-                      for (var p in e.problems) {
-                        print('Problem: ${p.code}: ${p.msg}');
-                        ToastBar(text: 'Email not sent! ${p.msg}',color: Colors.red).show();
-                      }
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context){
+                              return ReceivedPopUp();
+                       });
+                        prefs.remove('cart');
+                        prefs.remove('emailList');
+                    }
+                    catch(e){
+                      ToastBar(text: 'Something went wrong',color: Colors.red).show();
                     }
                   }
                 },

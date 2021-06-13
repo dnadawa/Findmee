@@ -38,7 +38,7 @@ class _ReceivedPopUpState extends State<ReceivedPopUp> {
 
             ///text
             CustomText(
-              text: 'We have received your request. One of our team member will contact you soon',
+              text: 'Offer successfully sent to selected recruiters. You will receive an email and a notification when they are respond to the offer.',
               font: 'ComicSans',
               isBold: false,
               size: ScreenUtil().setSp(55),
@@ -51,10 +51,9 @@ class _ReceivedPopUpState extends State<ReceivedPopUp> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: (){
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(builder: (context) => StepperPage()),
-                          );
+                      Navigator.of(context).pushAndRemoveUntil(
+                          CupertinoPageRoute(builder: (context) =>
+                              StepperPage()), (Route<dynamic> route) => false);
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xff00C853),
