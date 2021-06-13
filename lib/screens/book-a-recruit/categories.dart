@@ -95,7 +95,7 @@ class _CategoriesState extends State<Categories> {
                         Map x = jsonDecode(prefs.getString('data'));
                         x['categories'] = selectedCategories;
                         prefs.setString('data', jsonEncode(x));
-                        widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                        widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
                       }
                     }),
                   )

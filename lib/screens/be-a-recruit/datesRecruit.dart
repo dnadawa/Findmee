@@ -225,7 +225,7 @@ class _RecruitDatesState extends State<RecruitDates> {
 
                         data['datesAndShifts'] = datesAndShifts;
                         prefs.setString('data', jsonEncode(data));
-                        widget.controller.animateToPage(4,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                        widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
                       }),
                     )
 

@@ -94,7 +94,7 @@ class _CitiesState extends State<Cities> {
                         Map x = jsonDecode(prefs.getString('data'));
                         x['cities'] = selectedCities;
                         prefs.setString('data', jsonEncode(x));
-                        widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                        widget.controller.animateToPage(4,curve: Curves.ease,duration: Duration(milliseconds: 200));
                       }
                     }),
                   )

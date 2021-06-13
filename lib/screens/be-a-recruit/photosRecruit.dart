@@ -205,7 +205,7 @@ class _PhotosState extends State<Photos> {
                             ///add to db
                             await FirebaseFirestore.instance.collection('workers').doc(email).set(data);
 
-                            widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                            widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
                           }
                           catch(e){
                             print(e.toString());

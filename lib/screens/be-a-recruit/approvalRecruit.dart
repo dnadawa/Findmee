@@ -87,6 +87,14 @@ class _ApprovalState extends State<Approval> {
                             widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
                           },
                         ),
+                      ),
+                    if(status=='approved')
+                      Padding(
+                        padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
+                        child: Button(
+                          text: 'Next',
+                          onclick: () async {},
+                        ),
                       )
 
                   ],
