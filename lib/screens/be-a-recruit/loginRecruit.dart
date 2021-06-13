@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RecruitLogIn extends StatefulWidget {
@@ -41,6 +42,14 @@ class _RecruitLogInState extends State<RecruitLogIn> {
         if(user.isNotEmpty){
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('data', jsonEncode({'email': email.text}));
+
+          ///onesignal
+          OSDeviceState status = await OneSignal.shared.getDeviceState();
+          String playerID = status.userId;
+          await FirebaseFirestore.instance.collection('workers').doc(user[0].id).update({
+            'playerID': playerID
+          });
+
           widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
         }
         else{

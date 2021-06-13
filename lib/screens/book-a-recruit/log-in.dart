@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LogIn extends StatefulWidget {
@@ -21,6 +22,11 @@ class _LogInState extends State<LogIn> {
 
   TextEditingController password = TextEditingController();
   TextEditingController email = TextEditingController();
+
+  static setPlayerID() async {
+
+
+  }
 
   logIn() async {
     FocusScope.of(context).requestFocus(FocusNode());
@@ -119,6 +125,14 @@ class _LogInState extends State<LogIn> {
         else{
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('companyEmail', email.text);
+
+          ///onesignal
+          OSDeviceState status = await OneSignal.shared.getDeviceState();
+          String playerID = status.userId;
+          await FirebaseFirestore.instance.collection('companies').doc(user[0].id).update({
+            'playerID': playerID
+          });
+
           widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
         }
       } on FirebaseAuthException catch (e) {

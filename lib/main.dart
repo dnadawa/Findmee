@@ -1,8 +1,10 @@
+import 'package:dotenv/dotenv.dart';
 import 'package:findmee/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main(){
   runApp(MyApp());
@@ -17,6 +19,10 @@ class _MyAppState extends State<MyApp> {
 
   initApp() async {
     await Firebase.initializeApp();
+    OneSignal.shared.setAppId(env['ONESIGNAL']);
+    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+      print("Accepted permission: $accepted");
+    });
   }
 
   @override

@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Photos extends StatefulWidget {
@@ -199,6 +200,11 @@ class _PhotosState extends State<Photos> {
                             data['profileImage'] = proPicUrl;
                             data['selfie'] = selfieUrl;
                             data['status'] = 'pending';
+
+                            ///onesignal
+                            OSDeviceState status = await OneSignal.shared.getDeviceState();
+                            String playerID = status.userId;
+                            data['playerID'] = playerID;
 
                             print(data);
 
