@@ -75,9 +75,9 @@ class _RecruitDatesState extends State<RecruitDates> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(height: ScreenUtil().setHeight(30),),
-                    CustomText(text: 'Dates and Shifts',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+                    CustomText(text: 'Datoer.',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                     SizedBox(height: ScreenUtil().setHeight(50),),
-                    CustomText(text: 'Select date/dates and relevant shifts that you need to hire a recruiter',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+                    CustomText(text: 'Vælg gerne dato/datoer og tider når du vil arbejde',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                     SizedBox(height: ScreenUtil().setHeight(40),),
                     Center(
                       child: SizedBox(
@@ -104,13 +104,13 @@ class _RecruitDatesState extends State<RecruitDates> {
                               iconEnabledColor: Colors.black,
                               isExpanded: true,
                               items: [
-                                DropdownMenuItem(child: CustomText(text: 'Monday',font: 'GoogleSans',),value: 1,),
-                                DropdownMenuItem(child: CustomText(text: 'Tuesday',font: 'GoogleSans',),value: 2,),
-                                DropdownMenuItem(child: CustomText(text: 'Wednesday',font: 'GoogleSans',),value: 3,),
-                                DropdownMenuItem(child: CustomText(text: 'Thursday',font: 'GoogleSans',),value: 4,),
-                                DropdownMenuItem(child: CustomText(text: 'Friday',font: 'GoogleSans',),value: 5,),
-                                DropdownMenuItem(child: CustomText(text: 'Saturday',font: 'GoogleSans',),value: 6,),
-                                DropdownMenuItem(child: CustomText(text: 'Sunday',font: 'GoogleSans',),value: 7,),
+                                DropdownMenuItem(child: CustomText(text: 'Mandag',font: 'GoogleSans',),value: 1,),
+                                DropdownMenuItem(child: CustomText(text: 'Tirsdag',font: 'GoogleSans',),value: 2,),
+                                DropdownMenuItem(child: CustomText(text: 'Onsdag',font: 'GoogleSans',),value: 3,),
+                                DropdownMenuItem(child: CustomText(text: 'Torsdag',font: 'GoogleSans',),value: 4,),
+                                DropdownMenuItem(child: CustomText(text: 'Fredag',font: 'GoogleSans',),value: 5,),
+                                DropdownMenuItem(child: CustomText(text: 'Lørdag',font: 'GoogleSans',),value: 6,),
+                                DropdownMenuItem(child: CustomText(text: 'Søndag',font: 'GoogleSans',),value: 7,),
                               ],
                               onChanged:(newValue){
                                 setState(() {
@@ -144,7 +144,7 @@ class _RecruitDatesState extends State<RecruitDates> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
-                              child: CustomText(text: 'Shift/Shifts',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
+                              child: CustomText(text: 'Muligheder',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
                             ),
                           ),
 
@@ -160,7 +160,7 @@ class _RecruitDatesState extends State<RecruitDates> {
                                     children: [
                                       Expanded(
                                         child: ToggleButton(
-                                          text: 'Morning',
+                                          text: 'Morgen',
                                           onclick: (){
                                             setState(() {
                                               x[selectedDay-1]['mor'] = !x[selectedDay-1]['mor'];
@@ -172,7 +172,7 @@ class _RecruitDatesState extends State<RecruitDates> {
                                       SizedBox(width: ScreenUtil().setHeight(40),),
                                       Expanded(
                                         child: ToggleButton(
-                                          text: 'Evening',
+                                          text: 'Eftermiddag',
                                           onclick: (){
                                             setState(() {
                                               x[selectedDay-1]['eve'] = !x[selectedDay-1]['eve'];
@@ -186,7 +186,7 @@ class _RecruitDatesState extends State<RecruitDates> {
                                   SizedBox(height: ScreenUtil().setHeight(40),),
                                   Center(
                                     child: ToggleButton(
-                                      text: 'Night',
+                                      text: 'Nat',
                                       onclick: (){
                                         setState(() {
                                           x[selectedDay-1]['nig'] = !x[selectedDay-1]['nig'];
@@ -206,7 +206,7 @@ class _RecruitDatesState extends State<RecruitDates> {
 
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                      child: Button(text: 'Next',onclick: () async {
+                      child: Button(text: 'Næste',onclick: () async {
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         Map data = jsonDecode(prefs.getString('data'));
 

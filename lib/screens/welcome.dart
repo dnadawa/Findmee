@@ -40,7 +40,7 @@ class Welcome extends StatelessWidget {
                         CupertinoPageRoute(builder: (context) => StepperPage()),
                       );
                     },
-                    text: 'Book a recruit',
+                    text: 'Book vikar',
                     borderRadius: 20,
                     textSize: ScreenUtil().setSp(60),
                     color: Colors.white,
@@ -60,7 +60,7 @@ class Welcome extends StatelessWidget {
                       CupertinoPageRoute(builder: (context) => RecruitStepperPage()),
                     );
                   },
-                  text: 'Be a recruit',
+                  text: 'Bliv vikar',
                   borderRadius: 20,
                   textSize: ScreenUtil().setSp(60),
                   color: Colors.white,

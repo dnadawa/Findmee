@@ -159,7 +159,7 @@ class _OffersState extends State<Offers> {
                                   absorbing: true,
                                   child: MultiSelectChipField(
                                     title: Text(
-                                      'Category/Categories',
+                                      'Kategori / Kategorier',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold
@@ -185,7 +185,7 @@ class _OffersState extends State<Offers> {
                                   absorbing: true,
                                   child: MultiSelectChipField(
                                     title: Text(
-                                      'City/Cities',
+                                      'By / Byer',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -224,7 +224,7 @@ class _OffersState extends State<Offers> {
                                         ),
                                         child: Padding(
                                           padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
-                                          child: CustomText(text: 'Available Working Days & Shifts',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
+                                          child: CustomText(text: 'Ledige arbejdsdage og tider',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
                                         ),
                                       ),
 
@@ -267,7 +267,7 @@ class _OffersState extends State<Offers> {
                                                         ),
                                                         child: Padding(
                                                           padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
-                                                          child: CustomText(text: shift=='mor'?'Morning':shift=='eve'?'Evening':'Night',font: 'GoogleSans',isBold: false,size: ScreenUtil().setSp(40),align: TextAlign.start,),
+                                                          child: CustomText(text: shift=='mor'?'Morgen':shift=='eve'?'Eftermiddag':'Nat',font: 'GoogleSans',isBold: false,size: ScreenUtil().setSp(40),align: TextAlign.start,),
                                                         ),
                                                       ),
                                                     ),

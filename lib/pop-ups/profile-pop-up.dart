@@ -82,13 +82,13 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
 
         shifts.forEach((x) {
           if(x.contains('mor')){
-            shift += 'Morning, ';
+            shift += 'Morgen, ';
           }
           if(x.contains('eve')){
-            shift += 'Evening, ';
+            shift += 'Eftermiddag, ';
           }
           if(x.contains('nig')){
-            shift += 'Night, ';
+            shift += 'Nat, ';
           }
         });
 
@@ -117,7 +117,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                 absorbing: true,
                 child: MultiSelectChipField(
                   title: Text(
-                    'Category/Categories',
+                    'Kategori/ Kategorier',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold
@@ -144,7 +144,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                 absorbing: true,
                 child: MultiSelectChipField(
                   title: Text(
-                    'City/Cities',
+                    'By /Byer',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -184,7 +184,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                       ),
                       child: Padding(
                         padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
-                        child: CustomText(text: 'Available Working Days & Shifts',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
+                        child: CustomText(text: 'Ledige arbejdsdage og tider',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
                       ),
                     ),
 
@@ -251,7 +251,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                 textAlign: TextAlign.justify,
                 style: TextStyle(fontFamily: 'GoogleSans',height: 1.4,fontWeight: FontWeight.w300,color: Color(0xff52575D)),
                 decoration: InputDecoration(
-                  labelText: 'Experience',
+                  labelText: 'Erfaring',
                   labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: ScreenUtil().setSp(70)),
                   enabled: false,
                   contentPadding: EdgeInsets.fromLTRB(14, 30, 14, 16),
@@ -269,7 +269,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
               ///button
               Button(
                 color: Color(0xff00C853),
-                text: 'Hire me',
+                text: 'Ansæet mig',
                 image: 'hire.png',
                 imageSize: 80,
                 padding: 0,

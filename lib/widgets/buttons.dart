@@ -31,9 +31,9 @@ class Button extends StatelessWidget {
             padding: EdgeInsets.all(padding),
           ),
           child: Row(
-            mainAxisAlignment: text=='Next'?MainAxisAlignment.spaceBetween:MainAxisAlignment.center,
+            mainAxisAlignment: text=='Næste'?MainAxisAlignment.spaceBetween:MainAxisAlignment.center,
             children: [
-              if(text=='Next')
+              if(text=='Næste')
                 SizedBox.shrink(),
               if(image!=null)
               SizedBox(
@@ -44,7 +44,7 @@ class Button extends StatelessWidget {
               if(image!=null)
                 SizedBox(width: ScreenUtil().setWidth(30),),
               CustomText(text: text,size: textSize,color: textColor,),
-              if(text=='Next')
+              if(text=='Næste')
                 Icon(Icons.play_circle_fill)
             ],
           ),

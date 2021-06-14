@@ -49,38 +49,44 @@ class _ReceivedPopUpState extends State<ReceivedPopUp> {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.of(context).pushAndRemoveUntil(
-                          CupertinoPageRoute(builder: (context) =>
-                              StepperPage()), (Route<dynamic> route) => false);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xff00C853),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
+                  child: SizedBox(
+                    height: ScreenUtil().setHeight(230),
+                    child: ElevatedButton(
+                      onPressed: (){
+                        Navigator.of(context).pushAndRemoveUntil(
+                            CupertinoPageRoute(builder: (context) =>
+                                StepperPage()), (Route<dynamic> route) => false);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xff00C853),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        padding: EdgeInsets.all(10),
                       ),
-                      padding: EdgeInsets.all(10),
+                      child: CustomText(text: 'Jeg skal ansætte flere vikarer',size: 18,color: Colors.white,),
                     ),
-                    child: CustomText(text: 'I need to hire recruiters again',size: 18,color: Colors.white,),
                   ),
                 ),
                 if(Platform.isAndroid)
                 SizedBox(width: ScreenUtil().setWidth(50),),
                 if(Platform.isAndroid)
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: (){
-                      SystemNavigator.pop(animated: true);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xffFA1E0E),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
+                  child: SizedBox(
+                    height: ScreenUtil().setHeight(230),
+                    child: ElevatedButton(
+                      onPressed: (){
+                        SystemNavigator.pop(animated: true);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xffFA1E0E),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        padding: EdgeInsets.all(10),
                       ),
-                      padding: EdgeInsets.all(10),
+                      child: CustomText(text: "Jeg er færdig",size: 18,color: Colors.white,),
                     ),
-                    child: CustomText(text: "I’m done for today",size: 18,color: Colors.white,),
                   ),
                 )
               ],

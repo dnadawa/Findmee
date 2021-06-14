@@ -55,7 +55,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(height: ScreenUtil().setHeight(30),),
-                          CustomText(text: 'Register your\naccount',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+                          CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                           Center(
                             child: SizedBox(
                                 width: ScreenUtil().setHeight(600),
@@ -65,17 +65,17 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                           SizedBox(height: ScreenUtil().setHeight(40),),
                           InputField(hint: 'Name',controller: name,),
                           InputField(hint: 'Surname',controller: surname),
-                          InputField(hint: 'Contact Email',controller: email,type: TextInputType.emailAddress,),
-                          InputField(hint: 'Mobile Phone',controller: phone,type: TextInputType.phone,),
-                          InputField(hint: 'CPR Number',controller: cpr),
-                          InputField(hint: 'Password',controller: password,ispassword: true,),
+                          InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
+                          InputField(hint: 'Mobiltelefon',controller: phone,type: TextInputType.phone,),
+                          InputField(hint: 'CPR',controller: cpr),
+                          InputField(hint: 'Adgangskode',controller: password,ispassword: true,),
                           SizedBox(height: ScreenUtil().setHeight(80),),
                           TextField(
                             maxLines: null,
                             controller: experience,
                             style: TextStyle(fontFamily: 'ComicSans'),
                             decoration: InputDecoration(
-                                labelText: 'Experience',
+                                labelText: 'Erfaring',
                                 counterText: wordCount.toString(),
                                 counterStyle: TextStyle(fontFamily: 'GoogleSans',fontWeight: FontWeight.bold),
                                 labelStyle: TextStyle(color: Color(0xff52575D),fontWeight: FontWeight.bold),
@@ -104,7 +104,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
 
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                            child: Button(text: 'Next',onclick: () async {
+                            child: Button(text: 'Næste',onclick: () async {
                               if(name.text.isNotEmpty && surname.text.isNotEmpty && cpr.text.isNotEmpty && experience.text.isNotEmpty && password.text.isNotEmpty){
                                 SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                 pd.show(
@@ -161,7 +161,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                     onTap: (){
                       widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
                     },
-                    child: CustomText(text: "Do you have an account? Log in",color: Colors.white, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
+                    child: CustomText(text: "Er du allerede tilmeldt? Log ind her",color: Colors.white, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
               ),
             ),
           ],

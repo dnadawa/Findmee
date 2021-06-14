@@ -44,9 +44,9 @@ class _CategoriesState extends State<Categories> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: ScreenUtil().setHeight(30),),
-                  CustomText(text: 'Categories',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+                  CustomText(text: 'Kategorier',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                   SizedBox(height: ScreenUtil().setHeight(50),),
-                  CustomText(text: 'Select category/categories that you need to hire a recruiter',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+                  CustomText(text: 'Vælg kategorier, du har brug for for at ansætte en vikar:',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                   SizedBox(height: ScreenUtil().setHeight(100),),
 
                   Expanded(
@@ -74,7 +74,7 @@ class _CategoriesState extends State<Categories> {
 
                   Padding(
                     padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                    child: Button(text: 'Next',onclick: () async {
+                    child: Button(text: 'Næste',onclick: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
 
                       List<String> selectedCategories = [];

@@ -76,9 +76,9 @@ class _DatesState extends State<Dates> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(height: ScreenUtil().setHeight(30),),
-                    CustomText(text: 'Dates and Shifts',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+                    CustomText(text: 'Datoer',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                     SizedBox(height: ScreenUtil().setHeight(50),),
-                    CustomText(text: 'Select date/dates and relevant shifts that you need to hire a recruiter',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+                    CustomText(text: 'Vælg gerne dato/datoer og tid når du har brug for at ansætte en vikar',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                     SizedBox(height: ScreenUtil().setHeight(100),),
                     TableCalendar(
                       firstDay: DateTime.now(),
@@ -126,7 +126,7 @@ class _DatesState extends State<Dates> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 ToggleButton(
-                                  text: 'Morning',
+                                  text: 'Morgen',
                                   onclick: (){
                                     setState(() {
                                       list[index]['morning'] = !list[index]['morning'];
@@ -135,7 +135,7 @@ class _DatesState extends State<Dates> {
                                   isSelected: list[index]['morning'],
                                 ),
                                 ToggleButton(
-                                  text: 'Evening',
+                                  text: 'Eftermiddag',
                                   onclick: (){
                                     setState(() {
                                       list[index]['evening'] = !list[index]['evening'];
@@ -148,7 +148,7 @@ class _DatesState extends State<Dates> {
                             SizedBox(height: ScreenUtil().setHeight(70),),
                             Center(
                               child: ToggleButton(
-                                text: 'Night',
+                                text: 'Nat',
                                 onclick: (){
                                   setState(() {
                                     list[index]['night'] = !list[index]['night'];
@@ -164,7 +164,7 @@ class _DatesState extends State<Dates> {
 
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                      child: Button(text: 'Next',onclick: () async {
+                      child: Button(text: 'Næste',onclick: () async {
 
                         Set datesAndShifts = {};
                         List<String> longDates = [];

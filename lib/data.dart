@@ -16,22 +16,23 @@ class Data{
     {'category': 'Atu. Kloakarbejde' , 'selected': false},
     {'category': 'Elektriker' , 'selected': false},
     {'category': 'Tømrer' , 'selected': false},
-    {'category': 'arbejdsmand' , 'selected': false},
+    {'category': 'Arbejdsmand' , 'selected': false},
     {'category': 'Maler' , 'selected': false},
   ];
 
 
   final List cities = [
+    {'city': 'København' , 'selected': false},
     {'city': 'Sjælland' , 'selected': false},
-    {'city': 'Aarhus.' , 'selected': false},
-    {'city': 'Odense.' , 'selected': false},
-    {'city': 'Fyn.' , 'selected': false},
-    {'city': 'Bornholm.' , 'selected': false},
-    {'city': 'Aalborg.' , 'selected': false},
-    {'city': 'Esbjerg.' , 'selected': false},
-    {'city': 'Randers.' , 'selected': false},
-    {'city': 'Kolding.' , 'selected': false},
-    {'city': 'Horsens.' , 'selected': false},
+    {'city': 'Aarhus' , 'selected': false},
+    {'city': 'Odense' , 'selected': false},
+    {'city': 'Fyn' , 'selected': false},
+    {'city': 'Bornholm' , 'selected': false},
+    {'city': 'Aalborg' , 'selected': false},
+    {'city': 'Esbjerg' , 'selected': false},
+    {'city': 'Randers' , 'selected': false},
+    {'city': 'Kolding' , 'selected': false},
+    {'city': 'Horsens' , 'selected': false},
   ];
 
   String getDay(String weekday){

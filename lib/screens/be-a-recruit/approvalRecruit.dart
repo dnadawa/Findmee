@@ -62,7 +62,7 @@ class _ApprovalState extends State<Approval> {
                     SizedBox(height: ScreenUtil().setHeight(30),),
                     Align(
                         alignment: Alignment.topLeft,
-                        child: CustomText(text: 'Approval',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D))),
+                        child: CustomText(text: 'Godkendelse',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D))),
                     SizedBox(height: ScreenUtil().setHeight(150),),
 
                     Container(
@@ -73,7 +73,7 @@ class _ApprovalState extends State<Approval> {
                     SizedBox(height: ScreenUtil().setHeight(100),),
 
                     CustomText(
-                      text: status=='pending'?'Waiting for Approval':status=='ban'?'Your account is banned':'Your account approved',
+                      text: status=='pending'?'Venter på godkendelse':status=='ban'?'Din profil er ikke godkendt.':'Din profil er godkendt.',
                       font: 'ComicSans',
                       size: ScreenUtil().setSp(60),
                       isBold: false,
@@ -83,7 +83,7 @@ class _ApprovalState extends State<Approval> {
                       Padding(
                         padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
                         child: Button(
-                          text: 'Create a new account',
+                          text: 'Opret en ny konto',
                           onclick: () async {
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.remove('data');
@@ -95,7 +95,7 @@ class _ApprovalState extends State<Approval> {
                       Padding(
                         padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
                         child: Button(
-                          text: 'Next',
+                          text: 'Næste',
                           onclick: () async {
                             Navigator.push(
                               context,

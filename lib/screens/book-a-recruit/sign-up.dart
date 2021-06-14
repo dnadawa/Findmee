@@ -112,7 +112,7 @@ class _SignUpState extends State<SignUp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(height: ScreenUtil().setHeight(30),),
-                          CustomText(text: 'Register your\naccount',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
+                          CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
                           Center(
                             child: SizedBox(
                                 width: ScreenUtil().setHeight(600),
@@ -120,17 +120,17 @@ class _SignUpState extends State<SignUp> {
                                 child: Image.asset('assets/images/register.png')),
                           ),
                           SizedBox(height: ScreenUtil().setHeight(40),),
-                          InputField(hint: 'Business Name',controller: businessName,),
-                          InputField(hint: 'Contact email',controller: email,type: TextInputType.emailAddress,),
-                          InputField(hint: 'Mobile Phone',type: TextInputType.phone,controller: phone),
-                          InputField(hint: 'CVR Number',controller: cvr,),
-                          InputField(hint: 'Username',controller: username,),
-                          InputField(hint: 'Password',ispassword: true,controller: password,),
+                          InputField(hint: 'Fimanavn',controller: businessName,),
+                          InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
+                          InputField(hint: 'Mobiltelefon',type: TextInputType.phone,controller: phone),
+                          InputField(hint: 'CVR',controller: cvr,),
+                          InputField(hint: 'Brugernavn',controller: username,),
+                          InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
                           SizedBox(height: ScreenUtil().setHeight(40),),
 
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                            child: Button(text: 'Register',onclick: ()=>signUp()),
+                            child: Button(text: 'Tilmeld',onclick: ()=>signUp()),
                           )
 
                         ],
@@ -149,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                     onTap: (){
                       widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
                     },
-                    child: CustomText(text: "Do you have an account? Log in",color: Colors.white, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
+                    child: CustomText(text: "Er du allerede tilmeldt? Log ind her",color: Colors.white, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
               ),
             ),
           ],

@@ -175,7 +175,7 @@ class _LogInState extends State<LogIn> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         SizedBox(height: ScreenUtil().setHeight(30),),
-                        CustomText(text: 'Log into your\naccount',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
+                        CustomText(text: 'Log ind på\nFindme',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
                         Center(
                           child: SizedBox(
                               width: ScreenUtil().setHeight(1200),
@@ -184,12 +184,12 @@ class _LogInState extends State<LogIn> {
                         ),
 
                         InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
-                        InputField(hint: 'Password',ispassword: true,controller: password,),
+                        InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
                         SizedBox(height: ScreenUtil().setHeight(70),),
 
                         Padding(
                           padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                          child: Button(text: 'Log in',onclick: ()=>logIn()),
+                          child: Button(text: 'Log ind',onclick: ()=>logIn()),
                         )
 
                       ],
@@ -207,7 +207,7 @@ class _LogInState extends State<LogIn> {
                     onTap: (){
                       widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
                     },
-                    child: CustomText(text: "Don't you have an account? Sign Up",color: Colors.white, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
+                    child: CustomText(text: "Har du ikke allerede en konto? Tilmeld dig nu.",color: Colors.white, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
               ),
             ),
           ],

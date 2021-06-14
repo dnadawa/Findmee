@@ -65,7 +65,7 @@ class _PhotosState extends State<Photos> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(height: ScreenUtil().setHeight(30),),
-                    CustomText(text: 'Photos',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+                    CustomText(text: 'Billeder',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                     SizedBox(height: ScreenUtil().setHeight(70),),
 
                     ///pro pic
@@ -93,7 +93,7 @@ class _PhotosState extends State<Photos> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
-                                  child: CustomText(text: 'Profile Picture',color: Colors.white,size: ScreenUtil().setSp(45),),
+                                  child: CustomText(text: 'Profilbillede',color: Colors.white,size: ScreenUtil().setSp(45),),
                                 ),
                               ),
                             ),
@@ -110,7 +110,7 @@ class _PhotosState extends State<Photos> {
 
                             ///text
                             CustomText(
-                              text: 'Click here to upload your profile picture',
+                              text: 'Klik gerne her for at uploade din profilbillede',
                               font: 'GoogleSans',
                               size: ScreenUtil().setSp(40),
                             ),
@@ -146,7 +146,7 @@ class _PhotosState extends State<Photos> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
-                                  child: CustomText(text: 'Selfie',color: Colors.white,size: ScreenUtil().setSp(45),),
+                                  child: CustomText(text: 'Selfe',color: Colors.white,size: ScreenUtil().setSp(45),),
                                 ),
                               ),
                             ),
@@ -163,7 +163,7 @@ class _PhotosState extends State<Photos> {
 
                             ///text
                             CustomText(
-                              text: 'Click here to upload a selfie of yours',
+                              text: 'Klik gerne ger for at uploade selfie af dig',
                               font: 'GoogleSans',
                               size: ScreenUtil().setSp(40),
                             ),
@@ -178,7 +178,7 @@ class _PhotosState extends State<Photos> {
 
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                      child: Button(text: 'Next',onclick: () async {
+                      child: Button(text: 'Næste',onclick: () async {
                         if(profileImage!=null&&selfie!=null){
                           SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                           pd.show(

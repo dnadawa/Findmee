@@ -142,7 +142,7 @@ class _ProfilesState extends State<Profiles> {
                                       SizedBox(
                                         height: ScreenUtil().setHeight(90),
                                         child: Button(
-                                          text: 'View my profile',
+                                          text: 'Se min profil',
                                           image: 'viewProfile.png',
                                           padding: 2,
                                           textSize: ScreenUtil().setSp(40),

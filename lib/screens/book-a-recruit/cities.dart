@@ -44,7 +44,7 @@ class _CitiesState extends State<Cities> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: ScreenUtil().setHeight(30),),
-                  CustomText(text: 'Cities',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+                  CustomText(text: 'Byer',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                   SizedBox(height: ScreenUtil().setHeight(50),),
                   CustomText(text: 'Select city/cities that you need to hire a recruiter',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                   SizedBox(height: ScreenUtil().setHeight(100),),
@@ -74,7 +74,7 @@ class _CitiesState extends State<Cities> {
 
                   Padding(
                     padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                    child: Button(text: 'Next',onclick: () async {
+                    child: Button(text: 'Næste',onclick: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       List<String> selectedCities = [];
                       for(int i=0;i<cities.length;i++){
