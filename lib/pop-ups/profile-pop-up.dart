@@ -20,8 +20,9 @@ class ProfilePopUp extends StatefulWidget {
   final String surname;
   final String cpr;
   final String phone;
+  final String playerID;
 
-  const ProfilePopUp({Key key, this.categories, this.cities, this.experience, this.userDatesAndShifts, this.selectedCategories, this.selectedCities, this.email, this.name, this.surname, this.cpr, this.phone}) : super(key: key);
+  const ProfilePopUp({Key key, this.categories, this.cities, this.experience, this.userDatesAndShifts, this.selectedCategories, this.selectedCities, this.email, this.name, this.surname, this.cpr, this.phone, this.playerID}) : super(key: key);
   @override
   _ProfilePopUpState createState() => _ProfilePopUpState();
 }
@@ -276,13 +277,16 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   // String cart = prefs.getString('cart') ?? "";
                   List<String> emailList = prefs.getStringList('emailList') ?? [];
+                  List<String> notList = prefs.getStringList('notificationList') ?? [];
                   // cart += "• ${widget.name} ${widget.surname}\n"
                   //     "\t\tContact email: ${widget.email}\n"
                   //     "\t\tMobile Phone: ${widget.phone}\n"
                   //     "\t\tCPR Number: ${widget.cpr}\n\n";
                   // prefs.setString('cart', cart);
                   emailList.add(widget.email);
+                  notList.add(widget.playerID);
                   prefs.setStringList('emailList', emailList);
+                  prefs.setStringList('notificationList', notList);
                   ToastBar(text: 'Added to list!',color: Colors.green).show();
                   Navigator.pop(context);
                 },

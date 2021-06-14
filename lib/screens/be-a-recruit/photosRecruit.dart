@@ -13,6 +13,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../email.dart';
+
 class Photos extends StatefulWidget {
   final PageController controller;
 
@@ -183,8 +185,6 @@ class _PhotosState extends State<Photos> {
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             Map data = jsonDecode(prefs.getString('data'));
 
-                            ///auth
-                            await FirebaseAuth.instance.signInAnonymously();
                             String email = data['email'];
 
                             ///upload images
@@ -206,10 +206,22 @@ class _PhotosState extends State<Photos> {
                             String playerID = status.userId;
                             data['playerID'] = playerID;
 
+
                             print(data);
 
                             ///add to db
                             await FirebaseFirestore.instance.collection('workers').doc(email).set(data);
+
+                            ToastBar(text: 'Sending notifications...',color: Colors.orange).show();
+                            ///send notification
+                            OneSignal.shared.postNotification(
+                                OSCreateNotification(
+                                    playerIds: [playerID],
+                                    content: 'Findmee has received your details, please wait to be approved from team'
+                                )
+                            );
+
+                            await Email.sendEmail('Findmee has received your details, please wait to be approved from team','Welcome to Findmee', to: email);
 
                             widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
                           }

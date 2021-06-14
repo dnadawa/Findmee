@@ -6,9 +6,11 @@ import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profiles extends StatefulWidget {
@@ -103,6 +105,7 @@ class _ProfilesState extends State<Profiles> {
                       String profileImage = profiles[i]['profileImage'];
                       String experience = profiles[i]['experience'];
                       String email = profiles[i]['email'];
+                      String playerID = profiles[i]['playerID'];
                       List categories = profiles[i]['categories'];
                       List cities = profiles[i]['cities'];
                       List datesAndShifts = profiles[i]['datesAndShifts'];
@@ -159,6 +162,7 @@ class _ProfilesState extends State<Profiles> {
                                                     cpr: cpr,
                                                     name: name,
                                                     surname: surname,
+                                                    playerID: playerID,
                                                   );
                                                 });
                                           },
@@ -184,48 +188,12 @@ class _ProfilesState extends State<Profiles> {
                 onclick: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   List<String> emailList = prefs.getStringList('emailList');
+                  List<String> notificationList = prefs.getStringList('notificationList');
                   if(emailList==null){
                     ToastBar(text: 'No one in the list!',color: Colors.red).show();
                   }
                   else{
                     ToastBar(text: 'Please wait...',color: Colors.orange).show();
-
-                    // String email = "$businessName wants to hire following recruiters. All the details of the business and recruiters are mentioned below."
-                    //     "\n\n"
-                    //     "Business Details:-\n\n"
-                    //     "• Business Name: $businessName\n"
-                    //     "• Contact Email: $businessEmail\n"
-                    //     "• Mobile Phone: $companyPhone\n"
-                    //     "• CVR Number: $cvr"
-                    //     "\n\n"
-                    //     "Recruiter Details:- \n\n"
-                    //     "$recruiterDetails";
-                    //
-                    // String username = 'findmee.db@gmail.com';
-                    // String password = 'Findmee@123';
-                    //
-                    // final smtpServer = gmail(username, password);
-                    // final message = Message()
-                    //   ..from = Address(username, 'Findmee')
-                    //   ..recipients.add('shakib@live.dk')
-                    //   ..subject = 'Workers'
-                    //   ..text = email;
-                    // try {
-                    //   final sendReport = await send(message, smtpServer);
-                    //   print('Message sent: ' + sendReport.toString());
-                    //   prefs.remove('cart');
-                    //   showDialog(
-                    //       context: context,
-                    //       builder: (BuildContext context){
-                    //         return ReceivedPopUp();
-                    //  });
-                    // prefs.remove('cart');
-                    // } on MailerException catch (e) {
-                    //   for (var p in e.problems) {
-                    //     print('Problem: ${p.code}: ${p.msg}');
-                    //     ToastBar(text: 'Email not sent! ${p.msg}',color: Colors.red).show();
-                    //   }
-                    // }
 
                     try{
                       await FirebaseFirestore.instance.collection('offers').add({
@@ -238,13 +206,41 @@ class _ProfilesState extends State<Profiles> {
                         'sent': emailList
                       });
 
+
+                      ///send notification
+                      OneSignal.shared.postNotification(
+                          OSCreateNotification(
+                              playerIds: notificationList,
+                              content: 'You received a new job offer'
+                          )
+                      );
+
+                      String username = dotenv.env['EMAIL'];
+                      String password = dotenv.env['PASSWORD'];
+
+                      final smtpServer = gmail(username, password);
+                      final message = Message()
+                        ..from = Address(username, 'Findmee')
+                        ..recipients.addAll(emailList)
+                        ..subject = "Offer Received"
+                        ..text = "You received a new job offer";
+                      try {
+                        final sendReport = await send(message, smtpServer);
+                        print('Message sent: ' + sendReport.toString());
+                      } on MailerException catch (e) {
+                        for (var p in e.problems) {
+                          print('Problem: ${p.code}: ${p.msg}');
+                        }
+                      }
+
                         showDialog(
                             context: context,
                             builder: (BuildContext context){
                               return ReceivedPopUp();
                        });
-                        prefs.remove('cart');
-                        prefs.remove('emailList');
+                      prefs.remove('cart');
+                      prefs.remove('emailList');
+                      prefs.remove('notificationList');
                     }
                     catch(e){
                       ToastBar(text: 'Something went wrong',color: Colors.red).show();

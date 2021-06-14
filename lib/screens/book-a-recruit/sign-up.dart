@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:findmee/email.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
@@ -6,6 +7,7 @@ import 'package:findmee/widgets/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class SignUp extends StatefulWidget {
   final PageController controller;
@@ -34,6 +36,10 @@ class _SignUpState extends State<SignUp> {
             password: password.text
         );
 
+        ///onesignal
+        OSDeviceState status = await OneSignal.shared.getDeviceState();
+        String playerID = status.userId;
+
         ///save details
         await FirebaseFirestore.instance.collection('companies').doc(email.text).set({
           'name': businessName.text,
@@ -41,8 +47,20 @@ class _SignUpState extends State<SignUp> {
           'phone': phone.text,
           'cvr': cvr.text,
           'username': username.text,
-          'status': 'pending'
+          'status': 'pending',
+          'playerID': playerID
         });
+
+        ToastBar(text: 'Sending notifications...',color: Colors.orange).show();
+        ///send notification
+        OneSignal.shared.postNotification(
+            OSCreateNotification(
+              playerIds: [playerID],
+              content: 'Findmee has received your details, please wait to be approved from team'
+            )
+        );
+
+        await Email.sendEmail('Findmee has received your details, please wait to be approved from team', 'Welcome to Findmee', to: email.text);
 
         ToastBar(text: 'User registered!',color: Colors.green).show();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));

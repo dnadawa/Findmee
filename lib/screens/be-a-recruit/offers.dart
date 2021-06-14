@@ -5,13 +5,17 @@ import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../email.dart';
 
 class Offers extends StatefulWidget {
   @override
@@ -310,8 +314,8 @@ class _OffersState extends State<Offers> {
                                               "\t\tMobile Phone: ${worker[0]['phone']}\n"
                                               "\t\tCPR Number: ${worker[0]['cpr']}";
 
-                                          String username = 'findmee.db@gmail.com';
-                                          String password = 'Findmee@123';
+                                          String username = dotenv.env['EMAIL'];
+                                          String password = dotenv.env['PASSWORD'];
 
                                           final smtpServer = gmail(username, password);
                                           final message = Message()
@@ -332,6 +336,17 @@ class _OffersState extends State<Offers> {
 
                                             getOffers();
 
+                                            ///send notification
+                                            OneSignal.shared.postNotification(
+                                                OSCreateNotification(
+                                                    playerIds: [company[0]['playerID']],
+                                                    content: 'Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}'
+                                                )
+                                            );
+
+                                            await Email.sendEmail('Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Accepted', to: company[0]['email']);
+
+                                            ToastBar(text: 'Accepted',color: Colors.green).show();
                                           } on MailerException catch (e) {
                                             for (var p in e.problems) {
                                               print('Problem: ${p.code}: ${p
@@ -353,14 +368,37 @@ class _OffersState extends State<Offers> {
                                         color: Colors.red,
                                         borderRadius: 10,
                                         onclick: () async {
-                                          ToastBar(text: 'Please wait', color: Colors.orange).show();
-                                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                                          String email = jsonDecode(prefs.getString('data'))['email'];
-                                          await FirebaseFirestore.instance.collection('offers').doc(id).update({
-                                            'sent': FieldValue.arrayRemove([email])
-                                          });
-                                          getOffers();
-                                          ToastBar(text: 'Offer rejected', color: Colors.green).show();
+                                          try{
+                                            ToastBar(text: 'Please wait', color: Colors.orange).show();
+                                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                                            String email = jsonDecode(prefs.getString('data'))['email'];
+
+                                            var subCompany = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: offers[i]['company']).get();
+                                            var company = subCompany.docs;
+
+                                            var subWorker = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
+                                            var worker = subWorker.docs;
+
+                                            ///send notification
+                                            OneSignal.shared.postNotification(
+                                                OSCreateNotification(
+                                                    playerIds: [company[0]['playerID']],
+                                                    content: 'Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}'
+                                                )
+                                            );
+
+                                            await Email.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
+
+                                            await FirebaseFirestore.instance.collection('offers').doc(id).update({
+                                              'sent': FieldValue.arrayRemove([email])
+                                            });
+                                            getOffers();
+
+                                            ToastBar(text: 'Offer rejected', color: Colors.green).show();
+                                          }
+                                          catch(e){
+                                            ToastBar(text: 'Something went wrong', color: Colors.red).show();
+                                          }
                                         },
                                       ),
                                     ),
