@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 class RecruitSignUp extends StatefulWidget {
   final PageController controller;
@@ -106,7 +107,12 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                             child: Button(text: 'Next',onclick: () async {
                               if(name.text.isNotEmpty && surname.text.isNotEmpty && cpr.text.isNotEmpty && experience.text.isNotEmpty && password.text.isNotEmpty){
-                                ToastBar(text: 'Please wait...',color: Colors.orange).show();
+                                SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                                pd.show(
+                                    message: 'Please wait',
+                                    type: SimpleFontelicoProgressDialogType.custom,
+                                    loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                                );
                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                 try {
                                   await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -133,25 +139,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                                 } catch (e) {
                                   ToastBar(text: 'Something went wrong',color: Colors.red).show();
                                 }
-                                // var sub = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email.text).get();
-                                // var user = sub.docs;
-                                //
-                                // if(user.isEmpty){
-                                //   Map reg = {
-                                //     'name': name.text,
-                                //     'surname': surname.text,
-                                //     'cpr': cpr.text,
-                                //     'experience': experience.text,
-                                //     'phone': phone.text,
-                                //     'email': email.text
-                                //   };
-                                //   prefs.setString('data', jsonEncode(reg));
-                                //   widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
-                                // }
-                                // else{
-                                //   prefs.setString('data', jsonEncode({'email': email.text}));
-                                //   widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
-                                // }
+                               pd.hide();
                               }
                               else{
                                 ToastBar(text: 'Please fill all fields',color: Colors.red).show();

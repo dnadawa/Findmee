@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 class SignUp extends StatefulWidget {
   final PageController controller;
@@ -28,7 +29,12 @@ class _SignUpState extends State<SignUp> {
 
   signUp() async {
     if(businessName.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&password.text.isNotEmpty && cvr.text.isNotEmpty && username.text.isNotEmpty){
-      ToastBar(text: 'Please wait',color: Colors.orange).show();
+      SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+      pd.show(
+          message: 'Please wait',
+          type: SimpleFontelicoProgressDialogType.custom,
+          loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+      );
       ///auth
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -51,7 +57,6 @@ class _SignUpState extends State<SignUp> {
           'playerID': playerID
         });
 
-        ToastBar(text: 'Sending notifications...',color: Colors.orange).show();
         ///send notification
         OneSignal.shared.postNotification(
             OSCreateNotification(
@@ -74,6 +79,7 @@ class _SignUpState extends State<SignUp> {
       } catch (e) {
         ToastBar(text: 'Something went wrong',color: Colors.red).show();
       }
+      pd.hide();
     }
     else{
       ToastBar(text: 'Please fill all fields',color: Colors.red).show();

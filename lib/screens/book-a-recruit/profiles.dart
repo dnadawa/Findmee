@@ -12,6 +12,7 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 class Profiles extends StatefulWidget {
   @override
@@ -177,7 +178,7 @@ class _ProfilesState extends State<Profiles> {
                         ),
                       );
                     },
-                  ):Center(child: CircularProgressIndicator()),
+                  ):Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),)),
                 ),
               ),
             ),
@@ -193,8 +194,12 @@ class _ProfilesState extends State<Profiles> {
                     ToastBar(text: 'No one in the list!',color: Colors.red).show();
                   }
                   else{
-                    ToastBar(text: 'Please wait...',color: Colors.orange).show();
-
+                    SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                    pd.show(
+                        message: 'Please wait',
+                        type: SimpleFontelicoProgressDialogType.custom,
+                        loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                    );
                     try{
                       await FirebaseFirestore.instance.collection('offers').add({
                         'categories': selectedCategories,
@@ -232,6 +237,7 @@ class _ProfilesState extends State<Profiles> {
                           print('Problem: ${p.code}: ${p.msg}');
                         }
                       }
+                      pd.hide();
 
                         showDialog(
                             context: context,
@@ -243,6 +249,7 @@ class _ProfilesState extends State<Profiles> {
                       prefs.remove('notificationList');
                     }
                     catch(e){
+                      pd.hide();
                       ToastBar(text: 'Something went wrong',color: Colors.red).show();
                     }
                   }

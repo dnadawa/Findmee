@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 class LogIn extends StatefulWidget {
   final PageController controller;
@@ -23,15 +24,15 @@ class _LogInState extends State<LogIn> {
   TextEditingController password = TextEditingController();
   TextEditingController email = TextEditingController();
 
-  static setPlayerID() async {
-
-
-  }
-
   logIn() async {
     FocusScope.of(context).requestFocus(FocusNode());
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
-      ToastBar(text: 'Please wait', color: Colors.orange).show();
+      SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+      pd.show(
+        message: 'Please wait',
+        type: SimpleFontelicoProgressDialogType.custom,
+        loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+      );
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email.text, password: password.text);
@@ -143,6 +144,7 @@ class _LogInState extends State<LogIn> {
           ToastBar(text: 'Password incorrect', color: Colors.red).show();
         }
       }
+      pd.hide();
     } else {
       ToastBar(text: 'Please fill all fields', color: Colors.red).show();
     }

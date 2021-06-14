@@ -14,6 +14,7 @@ import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../../email.dart';
 
@@ -291,7 +292,12 @@ class _OffersState extends State<Offers> {
                                         color: Colors.green,
                                         borderRadius: 10,
                                         onclick: () async {
-                                          ToastBar(text: 'Please wait', color: Colors.orange).show();
+                                          SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                                          pd.show(
+                                              message: 'Please wait',
+                                              type: SimpleFontelicoProgressDialogType.custom,
+                                              loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                                          );
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                           String email = jsonDecode(prefs.getString('data'))['email'];
 
@@ -357,6 +363,7 @@ class _OffersState extends State<Offers> {
                                                   .show();
                                             }
                                           }
+                                          pd.hide();
                                         },
                                       ),
                                     ),
@@ -368,8 +375,13 @@ class _OffersState extends State<Offers> {
                                         color: Colors.red,
                                         borderRadius: 10,
                                         onclick: () async {
+                                          SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                                          pd.show(
+                                              message: 'Please wait',
+                                              type: SimpleFontelicoProgressDialogType.custom,
+                                              loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                                          );
                                           try{
-                                            ToastBar(text: 'Please wait', color: Colors.orange).show();
                                             SharedPreferences prefs = await SharedPreferences.getInstance();
                                             String email = jsonDecode(prefs.getString('data'))['email'];
 
@@ -399,6 +411,7 @@ class _OffersState extends State<Offers> {
                                           catch(e){
                                             ToastBar(text: 'Something went wrong', color: Colors.red).show();
                                           }
+                                          pd.hide();
                                         },
                                       ),
                                     ),
@@ -413,7 +426,7 @@ class _OffersState extends State<Offers> {
                     ),
                   );
                 },
-              ):Center(child: CircularProgressIndicator(),),
+              ):Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),),
             ),
           )
         ],

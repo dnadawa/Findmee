@@ -2,6 +2,7 @@
     package="com.digiwrecks.findmee">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE" />
    <application
         android:label="Findmee"
         android:icon="@mipmap/ic_launcher">

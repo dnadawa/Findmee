@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../../email.dart';
 
@@ -180,7 +181,12 @@ class _PhotosState extends State<Photos> {
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                       child: Button(text: 'Next',onclick: () async {
                         if(profileImage!=null&&selfie!=null){
-                          ToastBar(text: 'Please wait...',color: Colors.orange).show();
+                          SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                          pd.show(
+                              message: 'Please wait',
+                              type: SimpleFontelicoProgressDialogType.custom,
+                              loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                          );
                           try{
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             Map data = jsonDecode(prefs.getString('data'));
@@ -212,7 +218,6 @@ class _PhotosState extends State<Photos> {
                             ///add to db
                             await FirebaseFirestore.instance.collection('workers').doc(email).set(data);
 
-                            ToastBar(text: 'Sending notifications...',color: Colors.orange).show();
                             ///send notification
                             OneSignal.shared.postNotification(
                                 OSCreateNotification(
@@ -229,6 +234,7 @@ class _PhotosState extends State<Photos> {
                             print(e.toString());
                             ToastBar(text: 'Something went wrong!',color: Colors.red).show();
                           }
+                          pd.hide();
                         }
                         else{
                           ToastBar(text: 'Please upload a profile picture and a selfie!',color: Colors.red).show();
