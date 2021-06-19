@@ -53,9 +53,10 @@ class _SignUpState extends State<SignUp> {
           'phone': phone.text,
           'cvr': cvr.text,
           'username': username.text,
-          'status': 'pending',
+          'status': 'approved',
           'playerID': playerID
         });
+        //todo:change approved to pending
 
         ///send notification
         OneSignal.shared.postNotification(

@@ -204,7 +204,8 @@ class _PhotosState extends State<Photos> {
 
                             data['profileImage'] = proPicUrl;
                             data['selfie'] = selfieUrl;
-                            data['status'] = 'pending';
+                            data['status'] = 'approved';
+                            //todo: change approved to pending
 
                             ///onesignal
                             OSDeviceState status = await OneSignal.shared.getDeviceState();

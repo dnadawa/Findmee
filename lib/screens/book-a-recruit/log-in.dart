@@ -68,7 +68,7 @@ class _LogInState extends State<LogIn> {
 
                         ///text
                         CustomText(
-                          text: 'Your Account is Banned',
+                          text: 'Din profil er ikke godkendt',
                           font: 'ComicSans',
                           size: ScreenUtil().setSp(55),
                         ),
@@ -76,7 +76,7 @@ class _LogInState extends State<LogIn> {
 
                         ///buttons
                         Button(
-                          text: 'Create a new account',
+                          text: 'Opret en ny konto',
                           onclick: (){
                             Navigator.pop(context);
                             widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
@@ -113,7 +113,7 @@ class _LogInState extends State<LogIn> {
 
                         ///text
                         CustomText(
-                          text: 'Waiting for Approval',
+                          text: 'Venter på godkendelse',
                           font: 'ComicSans',
                           size: ScreenUtil().setSp(55),
                         ),
