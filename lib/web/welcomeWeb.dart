@@ -1,4 +1,6 @@
 import 'package:findmee/responsive.dart';
+import 'package:findmee/web/book-a-recruit/stepper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/welcome.dart';
@@ -23,7 +25,8 @@ class _WelcomeWebState extends State<WelcomeWeb> {
                       image: 'book-a-recruit.png',
                       buttonText: 'Book vikar',
                       description: 'Her kan du nemlig booke en vikar til din arbejdsopgave, så kan du bruge din tid på at fokusere hvad du er bedst til.\n\n'
-                          'Uanset om du har brug for en ekstra hånd i en dag eller for en længere periode , sender vi en vikar med de rette kvalifikationer.'
+                          'Uanset om du har brug for en ekstra hånd i en dag eller for en længere periode , sender vi en vikar med de rette kvalifikationer.',
+                      destination: StepperWebCompany()
                   )
               ),
               Expanded(
@@ -35,7 +38,7 @@ class _WelcomeWebState extends State<WelcomeWeb> {
                           'Søger du nye udfordringer, og har du hænderne skruet rigtigt på?\n\n'
                           'Uanset dit mulige ønske om karrierevej, kan vi åbne dørene for dig til nye spændende muligheder på arbejdsmarkedet.\n\n'
                           'Hos os kan du afprøve mange forskellige brancher og nivenaver. Du kan få små eller større opgaver.\n\n'
-                          'Tøv endelig ikke med at kontakte os for et uforpligtende tilbud.'
+                          'Tøv endelig ikke med at kontakte os for et uforpligtende tilbud.',
                   )
               ),
 
@@ -47,7 +50,7 @@ class _WelcomeWebState extends State<WelcomeWeb> {
     );
   }
 
-  Widget welcomeWidget({Color backgroundColor,String image, String buttonText, String description}){
+  Widget welcomeWidget({Color backgroundColor,String image, String buttonText, String description, Widget destination}){
     double width = MediaQuery.of(context).size.width;
     return Container(
       color: backgroundColor,
@@ -71,7 +74,12 @@ class _WelcomeWebState extends State<WelcomeWeb> {
                 borderRadius: 10,
                 padding: width*0.01,
                 textSize: width*0.01,
-                onclick: (){},
+                onclick: (){
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) => destination),
+                  );
+                },
               ),
             ),
             Padding(

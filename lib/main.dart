@@ -1,5 +1,8 @@
 import 'package:findmee/responsive.dart';
+import 'package:findmee/screens/book-a-recruit/stepper.dart';
 import 'package:findmee/screens/welcome.dart';
+import 'package:findmee/web/book-a-recruit/stepper.dart';
+import 'package:findmee/web/homeWeb.dart';
 import 'package:findmee/web/welcomeWeb.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +56,8 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Color(0xff8C0000),
           scaffoldBackgroundColor: Color(0xff8C0000)
         ),
+        // home: kIsWeb?HomeWeb():WelcomeWeb(),
+        // home: Responsive(mobile: StepperPage(), tablet: StepperPage(), desktop: StepperWebCompany()),
         home: WelcomeWeb(),
       ),
     );
