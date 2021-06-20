@@ -1,3 +1,5 @@
+import 'package:findmee/web/book-a-recruit/categories.dart';
+import 'package:findmee/web/book-a-recruit/cities.dart';
 import 'package:findmee/web/book-a-recruit/login.dart';
 import 'package:findmee/web/book-a-recruit/register.dart';
 import 'package:flutter/material.dart';
@@ -70,8 +72,14 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
                   left: LoginWebCompany(controller: _controller,),
                   image: 'assets/images/login.png'
                 ),
-                Container(color: Colors.brown,),
-                Container(color: Colors.yellow,),
+                page(
+                    left: CategoriesWeb(from: 'company', controller: _controller,),
+                    image: 'assets/images/login.png'
+                ),
+                page(
+                    left: CitiesWeb(from: 'company', controller: _controller,),
+                    image: 'assets/images/login.png'
+                ),
                 Container(color: Colors.green,),
               ],
             ),
