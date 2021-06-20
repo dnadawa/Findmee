@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
+import 'package:findmee/widgets/message-dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data.dart';
 
@@ -61,10 +65,29 @@ class _CategoriesWebState extends State<CategoriesWeb> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
               child: Button(text: 'Næste',padding: width*0.01,onclick: () async {
-                if(widget.from=='company'){
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                List<String> selectedCategories = [];
+                for(int i=0;i<categories.length;i++){
+                  if(categories[i]['selected']){
+                    selectedCategories.add(categories[i]['category']);
+                  }
+                }
+
+                if(selectedCategories.length==0){
+                  MessageDialog.show(
+                    context: context,
+                    text: 'Please select at least one category!',
+                  );
+                }
+                else if(widget.from=='company'){
+                  prefs.setStringList('companyCategories', selectedCategories);
                   widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
                 }
                 else{
+                  Map x = jsonDecode(prefs.getString('data'));
+                  x['categories'] = selectedCategories;
+                  prefs.setString('data', jsonEncode(x));
                   widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
                 }
               }
