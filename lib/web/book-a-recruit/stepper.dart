@@ -1,3 +1,4 @@
+import 'package:findmee/web/book-a-recruit/login.dart';
 import 'package:findmee/web/book-a-recruit/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -65,7 +66,10 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
                   left: RegisterWebCompany(controller: _controller,),
                   image: 'assets/images/register.png'
                 ),
-                Container(color: Colors.blue,),
+                page(
+                  left: LoginWebCompany(controller: _controller,),
+                  image: 'assets/images/login.png'
+                ),
                 Container(color: Colors.brown,),
                 Container(color: Colors.yellow,),
                 Container(color: Colors.green,),
