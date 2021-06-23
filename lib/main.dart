@@ -1,6 +1,7 @@
 import 'package:findmee/responsive.dart';
 import 'package:findmee/screens/book-a-recruit/stepper.dart';
 import 'package:findmee/screens/welcome.dart';
+import 'package:findmee/web/book-a-recruit/profiles.dart';
 import 'package:findmee/web/book-a-recruit/stepper.dart';
 import 'package:findmee/web/homeWeb.dart';
 import 'package:findmee/web/welcomeWeb.dart';
@@ -58,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         ),
         // home: kIsWeb?HomeWeb():WelcomeWeb(),
         // home: Responsive(mobile: StepperPage(), tablet: StepperPage(), desktop: StepperWebCompany()),
-        home: WelcomeWeb(),
+        home: ProfilesWeb(),
       ),
     );
   }

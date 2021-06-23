@@ -14,8 +14,9 @@ class Button extends StatelessWidget {
   final double padding;
   final String image;
   final double imageSize;
+  final double contentPadding;
 
-  const Button({Key key, this.onclick, this.text, this.color: Colors.black, this.borderRadius=40, this.textColor=Colors.white, this.textSize=18, this.padding=10, this.image, this.imageSize=50,}) : super(key: key);
+  const Button({Key key, this.onclick, this.text, this.color: Colors.black, this.borderRadius=40, this.textColor=Colors.white, this.textSize=18, this.padding=10, this.image, this.imageSize=50, this.contentPadding=30,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class Button extends StatelessWidget {
                 child: Image.asset('assets/images/$image'),
               ),
               if(image!=null)
-                SizedBox(width: ScreenUtil().setWidth(30),),
+                SizedBox(width: ScreenUtil().setWidth(contentPadding),),
               CustomText(text: text,size: textSize,color: textColor,),
               if(text=='Næste')
                 Icon(Icons.play_circle_fill)
