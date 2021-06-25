@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:findmee/screens/book-a-recruit/profiles.dart';
 import 'package:findmee/web/book-a-recruit/profiles.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
@@ -7,10 +8,13 @@ import 'package:findmee/widgets/toast.dart';
 import 'package:findmee/widgets/toggle-button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../responsive.dart';
 
 class DatesWebCompany extends StatefulWidget {
   @override
@@ -73,30 +77,33 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
             CustomText(text: 'Vælg gerne dato/datoer og tid når du har brug for at ansætte en vikar',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
             SizedBox(height: width*0.03,),
 
-            TableCalendar(
-              firstDay: DateTime.now(),
-              lastDay: DateTime(3000,12,31),
-              focusedDay: _focusedDay,
-              calendarFormat: CalendarFormat.month,
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              availableGestures: AvailableGestures.none,
-              headerStyle: HeaderStyle(
-                  formatButtonVisible: false,
-                  titleCentered: true
-              ),
-              calendarStyle: CalendarStyle(
-                selectedDecoration: BoxDecoration(
-                    color: Color(0xffFA1E0E),
-                    shape: BoxShape.circle
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: TableCalendar(
+                firstDay: DateTime.now(),
+                lastDay: DateTime(3000,12,31),
+                focusedDay: _focusedDay,
+                calendarFormat: CalendarFormat.month,
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                availableGestures: AvailableGestures.none,
+                headerStyle: HeaderStyle(
+                    formatButtonVisible: false,
+                    titleCentered: true
                 ),
+                calendarStyle: CalendarStyle(
+                  selectedDecoration: BoxDecoration(
+                      color: Color(0xffFA1E0E),
+                      shape: BoxShape.circle
+                  ),
+                ),
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                },
+                selectedDayPredicate: (day) {
+                  return _selectedDays.contains(day);
+                },
+                onDaySelected: _onDaySelected,
               ),
-              onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
-              },
-              selectedDayPredicate: (day) {
-                return _selectedDays.contains(day);
-              },
-              onDaySelected: _onDaySelected,
             ),
             SizedBox(height: ScreenUtil().setHeight(40),),
 
@@ -196,7 +203,7 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
                 else{
                   Navigator.push(
                     context,
-                    CupertinoPageRoute(builder: (context) => ProfilesWeb()),
+                    CupertinoPageRoute(builder: (context) => Responsive(mobile: Profiles(), tablet: Profiles(), desktop: ProfilesWeb())),
                   );
                 }
               }),

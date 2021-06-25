@@ -5,7 +5,7 @@ import 'custom-text.dart';
 
 class MessageDialog {
 
-  static void show({BuildContext context,CoolAlertType type = CoolAlertType.error, String text}){
+  static void show({@required BuildContext context,CoolAlertType type = CoolAlertType.error, @required String text}){
 
     CoolAlert.show(
       context: context,

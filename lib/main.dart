@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         ),
         // home: kIsWeb?HomeWeb():WelcomeWeb(),
         // home: Responsive(mobile: StepperPage(), tablet: StepperPage(), desktop: StepperWebCompany()),
-        home: ProfilesWeb(),
+        home: WelcomeWeb(),
       ),
     );
   }
