@@ -9,8 +9,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
-import '../../email.dart';
-
 class RegisterWebCompany extends StatefulWidget {
   final PageController controller;
 
@@ -28,8 +26,8 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
   TextEditingController username = TextEditingController();
 
   signUp() async {
-    SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
     if(businessName.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&password.text.isNotEmpty && cvr.text.isNotEmpty && username.text.isNotEmpty){
+      SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
           message: 'Please wait',
           type: SimpleFontelicoProgressDialogType.custom,
@@ -81,7 +79,6 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
       }
     }
     else{
-      pd.hide();
       MessageDialog.show(
           context: context,
           text: 'Please fill all fields',

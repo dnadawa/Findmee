@@ -1,4 +1,5 @@
 import 'package:findmee/responsive.dart';
+import 'package:findmee/web/be-a-recruit/stepper.dart';
 import 'package:findmee/web/book-a-recruit/stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _WelcomeWebState extends State<WelcomeWeb> {
                           'Uanset dit mulige ønske om karrierevej, kan vi åbne dørene for dig til nye spændende muligheder på arbejdsmarkedet.\n\n'
                           'Hos os kan du afprøve mange forskellige brancher og nivenaver. Du kan få små eller større opgaver.\n\n'
                           'Tøv endelig ikke med at kontakte os for et uforpligtende tilbud.',
+                    destination: StepperWebWorker()
                   )
               ),
 

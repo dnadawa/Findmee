@@ -1,18 +1,21 @@
+import 'package:findmee/web/be-a-recruit/approval.dart';
+import 'package:findmee/web/be-a-recruit/dates.dart';
+import 'package:findmee/web/be-a-recruit/login.dart';
+import 'package:findmee/web/be-a-recruit/photos.dart';
+import 'package:findmee/web/be-a-recruit/register.dart';
 import 'package:findmee/web/book-a-recruit/categories.dart';
 import 'package:findmee/web/book-a-recruit/cities.dart';
 import 'package:findmee/web/book-a-recruit/dates.dart';
-import 'package:findmee/web/book-a-recruit/login.dart';
-import 'package:findmee/web/book-a-recruit/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:im_stepper/stepper.dart';
 
-class StepperWebCompany extends StatefulWidget {
+class StepperWebWorker extends StatefulWidget {
   @override
-  _StepperWebCompanyState createState() => _StepperWebCompanyState();
+  _StepperWebWorkerState createState() => _StepperWebWorkerState();
 }
 
-class _StepperWebCompanyState extends State<StepperWebCompany> {
+class _StepperWebWorkerState extends State<StepperWebWorker> {
   int currentPage = 0;
   PageController _controller = PageController();
   @override
@@ -50,10 +53,12 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
               stepRadius: 30,
               images: [
                 currentPage==0?AssetImage('assets/images/step1active.png'):AssetImage('assets/images/step1.png'),
-                currentPage==1?AssetImage('assets/images/step2active.png'):AssetImage('assets/images/step2.png'),
-                currentPage==2?AssetImage('assets/images/step3active.png'):AssetImage('assets/images/step3.png'),
-                currentPage==3?AssetImage('assets/images/step4active.png'):AssetImage('assets/images/step4.png'),
-                currentPage==4?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
+                currentPage==1?AssetImage('assets/images/worker/step2active.png'):AssetImage('assets/images/worker/step2.png'),
+                currentPage==2?AssetImage('assets/images/worker/step3active.png'):AssetImage('assets/images/worker/step3.png'),
+                currentPage==3?AssetImage('assets/images/worker/step4active.png'):AssetImage('assets/images/worker/step4.png'),
+                currentPage==4?AssetImage('assets/images/worker/step5active.png'):AssetImage('assets/images/worker/step5.png'),
+                currentPage==5?AssetImage('assets/images/worker/step6active.png'):AssetImage('assets/images/worker/step6.png'),
+                currentPage==6?AssetImage('assets/images/worker/step7active.png'):AssetImage('assets/images/worker/step7.png'),
               ],
             ),
           ),
@@ -66,25 +71,30 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
               scrollDirection: Axis.vertical,
               children: [
                 page(
-                  left: RegisterWebCompany(controller: _controller,),
-                  image: 'assets/images/register.png'
+                    left: RegisterWebWorker(controller: _controller,),
+                    image: 'assets/images/register.png'
                 ),
                 page(
-                  left: LoginWebCompany(controller: _controller,),
-                  image: 'assets/images/login.png'
+                    left: LoginWebWorker(controller: _controller,),
+                    image: 'assets/images/login.png'
                 ),
                 page(
-                    left: CategoriesWeb(from: 'company', controller: _controller,),
+                    left: CategoriesWeb(from: 'worker', controller: _controller,),
                     image: 'assets/images/categories.png'
                 ),
                 page(
-                    left: CitiesWeb(from: 'company', controller: _controller,),
+                    left: CitiesWeb(from: 'worker', controller: _controller,),
                     image: 'assets/images/cities.png'
                 ),
                 page(
-                    left: DatesWebCompany(),
+                    left: DatesWebWorker(controller: _controller,),
                     image: 'assets/images/calendar.png'
                 ),
+                page(
+                    left: PhotosWeb(controller: _controller,),
+                    image: 'assets/images/calendar.png'
+                ),
+                ApprovalWeb(controller: _controller,),
               ],
             ),
           ),

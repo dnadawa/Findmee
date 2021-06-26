@@ -45,10 +45,9 @@ class _RecruitLogInState extends State<RecruitLogIn> {
             .get();
         var user = sub.docs;
 
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('data', jsonEncode({'email': email.text}));
         if(user.isNotEmpty){
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('data', jsonEncode({'email': email.text}));
-
           ///onesignal
           OSDeviceState status = await OneSignal.shared.getDeviceState();
           String playerID = status.userId;

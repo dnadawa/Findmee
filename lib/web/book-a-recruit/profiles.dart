@@ -298,7 +298,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 35,
-                  mainAxisExtent: width*0.8,
+                  mainAxisExtent: MediaQuery.of(context).size.height - width*0.08,
                   mainAxisSpacing: 25
                 ),
                 padding: EdgeInsets.all(20),

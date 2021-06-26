@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SignUp extends StatefulWidget {
   final PageController controller;
@@ -43,8 +44,11 @@ class _SignUpState extends State<SignUp> {
         );
 
         ///onesignal
-        OSDeviceState status = await OneSignal.shared.getDeviceState();
-        String playerID = status.userId;
+        String playerID = "";
+        if(!kIsWeb){
+          OSDeviceState status = await OneSignal.shared.getDeviceState();
+          playerID = status.userId;
+        }
 
         ///save details
         await FirebaseFirestore.instance.collection('companies').doc(email.text).set({
@@ -59,15 +63,18 @@ class _SignUpState extends State<SignUp> {
         //todo:change approved to pending
 
         ///send notification
-        OneSignal.shared.postNotification(
-            OSCreateNotification(
-              playerIds: [playerID],
-              content: 'Findmee has received your details, please wait to be approved from team'
-            )
-        );
+        if(!kIsWeb) {
+          OneSignal.shared.postNotification(
+              OSCreateNotification(
+                  playerIds: [playerID],
+                  content: 'Findmee has received your details, please wait to be approved from team'
+              )
+          );
 
-        await Email.sendEmail('Findmee has received your details, please wait to be approved from team', 'Welcome to Findmee', to: email.text);
-
+          await Email.sendEmail(
+              'Findmee has received your details, please wait to be approved from team',
+              'Welcome to Findmee', to: email.text);
+        }
         ToastBar(text: 'User registered!',color: Colors.green).show();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 

@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LogIn extends StatefulWidget {
   final PageController controller;
@@ -128,11 +129,13 @@ class _LogInState extends State<LogIn> {
           prefs.setString('companyEmail', email.text);
 
           ///onesignal
-          OSDeviceState status = await OneSignal.shared.getDeviceState();
-          String playerID = status.userId;
-          await FirebaseFirestore.instance.collection('companies').doc(user[0].id).update({
-            'playerID': playerID
-          });
+          if(!kIsWeb){
+            OSDeviceState status = await OneSignal.shared.getDeviceState();
+            String playerID = status.userId;
+            await FirebaseFirestore.instance.collection('companies').doc(user[0].id).update({
+              'playerID': playerID
+            });
+          }
 
           widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
         }
