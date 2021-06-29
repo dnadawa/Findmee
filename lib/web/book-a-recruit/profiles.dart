@@ -582,7 +582,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
                     ),
                   );
                 },
-              ):Center(child: CircularProgressIndicator(),)
+              ):Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),)
           )
         ],
       ),
