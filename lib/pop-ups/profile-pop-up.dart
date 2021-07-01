@@ -8,6 +8,8 @@ import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../responsive.dart';
+
 class ProfilePopUp extends StatefulWidget {
   final List categories;
   final List cities;
@@ -102,12 +104,14 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
   }
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
       backgroundColor: Colors.white,
       content: Container(
-        width: MediaQuery.of(context).size.width,
+        width: isTablet?width*0.8:width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
@@ -272,7 +276,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                 text: 'Ansæet mig',
                 image: 'hire.png',
                 imageSize: 80,
-                padding: 0,
+                padding: isTablet?width*0.025:0,
                 onclick: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   // String cart = prefs.getString('cart') ?? "";

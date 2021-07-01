@@ -7,11 +7,14 @@ import 'package:findmee/widgets/inputfield.dart';
 import 'package:findmee/widgets/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
+
+import '../../responsive.dart';
 
 class RecruitLogIn extends StatefulWidget {
   final PageController controller;
@@ -49,11 +52,13 @@ class _RecruitLogInState extends State<RecruitLogIn> {
         prefs.setString('data', jsonEncode({'email': email.text}));
         if(user.isNotEmpty){
           ///onesignal
-          OSDeviceState status = await OneSignal.shared.getDeviceState();
-          String playerID = status.userId;
-          await FirebaseFirestore.instance.collection('workers').doc(user[0].id).update({
-            'playerID': playerID
-          });
+          if(!kIsWeb){
+            OSDeviceState status = await OneSignal.shared.getDeviceState();
+            String playerID = status.userId;
+            await FirebaseFirestore.instance.collection('workers').doc(user[0].id).update({
+              'playerID': playerID
+            });
+          }
 
           widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
         }
@@ -77,6 +82,8 @@ class _RecruitLogInState extends State<RecruitLogIn> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),0),
@@ -103,8 +110,8 @@ class _RecruitLogInState extends State<RecruitLogIn> {
                         CustomText(text: 'LLog ind på\nFindme',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
                         Center(
                           child: SizedBox(
-                              width: ScreenUtil().setHeight(1200),
-                              height: ScreenUtil().setWidth(800),
+                              width: isTablet?width*0.3:ScreenUtil().setHeight(1200),
+                              height: isTablet?width*0.3:ScreenUtil().setWidth(800),
                               child: Image.asset('assets/images/login.png')),
                         ),
 
@@ -114,7 +121,7 @@ class _RecruitLogInState extends State<RecruitLogIn> {
 
                         Padding(
                           padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                          child: Button(text: 'Log ind',onclick: ()=>logIn()),
+                          child: Button(text: 'Log ind',padding: isTablet?width*0.025:10,onclick: ()=>logIn()),
                         )
 
                       ],

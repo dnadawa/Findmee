@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../responsive.dart';
+
 class RecruitDates extends StatefulWidget {
   final PageController controller;
 
@@ -54,6 +56,8 @@ class _RecruitDatesState extends State<RecruitDates> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
@@ -206,7 +210,7 @@ class _RecruitDatesState extends State<RecruitDates> {
 
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                      child: Button(text: 'Næste',onclick: () async {
+                      child: Button(text: 'Næste',padding: isTablet?width*0.025:10,onclick: () async {
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         Map data = jsonDecode(prefs.getString('data'));
 

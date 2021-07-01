@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/pop-ups/profile-pop-up.dart';
 import 'package:findmee/pop-ups/recieved-pop-up.dart';
+import 'package:findmee/screens/book-a-recruit/stepper.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/toast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mailer/mailer.dart';
@@ -13,6 +18,8 @@ import 'package:mailer/smtp_server/gmail.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import '../../responsive.dart';
 
 class Profiles extends StatefulWidget {
   @override
@@ -81,6 +88,8 @@ class _ProfilesState extends State<Profiles> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -95,7 +104,7 @@ class _ProfilesState extends State<Profiles> {
                     color: Theme.of(context).primaryColor
                   ),
                   child: catProfiles!=null?
-                      profiles.isEmpty?Center(child: CustomText(text: 'No profiles found!',color: Colors.white,)):
+                      profiles.isEmpty?Center(child: CustomText(text: 'No profiles found!',color: Colors.white,size: width*0.04,)):
                   ListView.builder(
                     itemCount: profiles.length,
                     itemBuilder: (context, i){
@@ -186,6 +195,7 @@ class _ProfilesState extends State<Profiles> {
               padding: EdgeInsets.all(ScreenUtil().setHeight(80)),
               child: Button(
                 text: 'Finish',
+                padding: isTablet?width*0.025:10,
                 onclick: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   List<String> emailList = prefs.getStringList('emailList');
@@ -212,29 +222,31 @@ class _ProfilesState extends State<Profiles> {
                       });
 
 
-                      ///send notification
-                      OneSignal.shared.postNotification(
-                          OSCreateNotification(
-                              playerIds: notificationList,
-                              content: 'You received a new job offer'
-                          )
-                      );
+                      if(!kIsWeb){
+                        ///send notification
+                        OneSignal.shared.postNotification(
+                            OSCreateNotification(
+                                playerIds: notificationList,
+                                content: 'You received a new job offer'
+                            )
+                        );
 
-                      String username = dotenv.env['EMAIL'];
-                      String password = dotenv.env['PASSWORD'];
+                        String username = dotenv.env['EMAIL'];
+                        String password = dotenv.env['PASSWORD'];
 
-                      final smtpServer = gmail(username, password);
-                      final message = Message()
-                        ..from = Address(username, 'Findmee')
-                        ..recipients.addAll(emailList)
-                        ..subject = "Offer Received"
-                        ..text = "You received a new job offer";
-                      try {
-                        final sendReport = await send(message, smtpServer);
-                        print('Message sent: ' + sendReport.toString());
-                      } on MailerException catch (e) {
-                        for (var p in e.problems) {
-                          print('Problem: ${p.code}: ${p.msg}');
+                        final smtpServer = gmail(username, password);
+                        final message = Message()
+                          ..from = Address(username, 'Findmee')
+                          ..recipients.addAll(emailList)
+                          ..subject = "Offer Received"
+                          ..text = "You received a new job offer";
+                        try {
+                          final sendReport = await send(message, smtpServer);
+                          print('Message sent: ' + sendReport.toString());
+                        } on MailerException catch (e) {
+                          for (var p in e.problems) {
+                            print('Problem: ${p.code}: ${p.msg}');
+                          }
                         }
                       }
                       pd.hide();
@@ -242,7 +254,87 @@ class _ProfilesState extends State<Profiles> {
                         showDialog(
                             context: context,
                             builder: (BuildContext context){
-                              return ReceivedPopUp();
+                              if(kIsWeb) {
+                                return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  insetPadding: EdgeInsets.symmetric(
+                                      vertical: 24, horizontal: 10),
+                                  contentPadding: EdgeInsets.fromLTRB(
+                                      24, 0, 24, 24),
+                                  scrollable: true,
+                                  backgroundColor: Colors.white,
+                                  content: Container(
+                                    width: double.infinity,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+
+                                        ///check mark
+                                        Container(
+                                          width: ScreenUtil().setHeight(800),
+                                          height: ScreenUtil().setHeight(800),
+                                          child: Center(child: Image.asset(
+                                              'assets/images/tick.gif')),
+                                        ),
+
+
+                                        ///text
+                                        CustomText(
+                                          text: 'Offer successfully sent to selected recruiters. You will receive an email and a notification when they are respond to the offer.',
+                                          font: 'ComicSans',
+                                          isBold: false,
+                                          size: ScreenUtil().setSp(55),
+                                        ),
+                                        SizedBox(
+                                          height: ScreenUtil().setWidth(100),),
+
+                                        ///buttons
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: SizedBox(
+                                                height: ScreenUtil().setHeight(
+                                                    230),
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pushAndRemoveUntil(
+                                                        CupertinoPageRoute(
+                                                            builder: (
+                                                                context) =>
+                                                                StepperPage()), (
+                                                        Route<
+                                                            dynamic> route) => false);
+                                                  },
+                                                  style: ElevatedButton
+                                                      .styleFrom(
+                                                    primary: Color(0xff00C853),
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius
+                                                            .circular(10)
+                                                    ),
+                                                    padding: EdgeInsets.all(10),
+                                                  ),
+                                                  child: CustomText(
+                                                    text: 'Jeg skal ansætte flere vikarer',
+                                                    size: 18,
+                                                    color: Colors.white,),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+
+
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              else{
+                                return ReceivedPopUp();
+                              }
                        });
                       prefs.remove('cart');
                       prefs.remove('emailList');

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/email.dart';
+import 'package:findmee/responsive.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
@@ -96,6 +97,8 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),0),
@@ -123,8 +126,8 @@ class _SignUpState extends State<SignUp> {
                           CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
                           Center(
                             child: SizedBox(
-                                width: ScreenUtil().setHeight(600),
-                                height: ScreenUtil().setWidth(600),
+                                width: isTablet?width*0.3:ScreenUtil().setHeight(600),
+                                height: isTablet?width*0.3:ScreenUtil().setWidth(600),
                                 child: Image.asset('assets/images/register.png')),
                           ),
                           SizedBox(height: ScreenUtil().setHeight(40),),
@@ -138,7 +141,7 @@ class _SignUpState extends State<SignUp> {
 
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                            child: Button(text: 'Tilmeld',onclick: ()=>signUp()),
+                            child: Button(text: 'Tilmeld',padding: isTablet?width*0.025:10,onclick: ()=>signUp()),
                           )
 
                         ],

@@ -10,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
+import '../../responsive.dart';
+
 class RecruitSignUp extends StatefulWidget {
   final PageController controller;
 
@@ -31,6 +33,8 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),0),
@@ -58,8 +62,8 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                           CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                           Center(
                             child: SizedBox(
-                                width: ScreenUtil().setHeight(600),
-                                height: ScreenUtil().setWidth(600),
+                                width: isTablet?width*0.3:ScreenUtil().setHeight(600),
+                                height: isTablet?width*0.3:ScreenUtil().setWidth(600),
                                 child: Image.asset('assets/images/register.png')),
                           ),
                           SizedBox(height: ScreenUtil().setHeight(40),),
@@ -104,7 +108,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
 
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                            child: Button(text: 'Næste',onclick: () async {
+                            child: Button(text: 'Næste',padding: isTablet?width*0.025:10,onclick: () async {
                               if(name.text.isNotEmpty && surname.text.isNotEmpty && cpr.text.isNotEmpty && experience.text.isNotEmpty && password.text.isNotEmpty){
                                 SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                 pd.show(

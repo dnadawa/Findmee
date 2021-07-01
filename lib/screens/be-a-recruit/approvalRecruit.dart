@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../responsive.dart';
 import 'offers.dart';
 
 class Approval extends StatefulWidget {
@@ -39,6 +40,8 @@ class _ApprovalState extends State<Approval> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
@@ -84,6 +87,7 @@ class _ApprovalState extends State<Approval> {
                         padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
                         child: Button(
                           text: 'Opret en ny konto',
+                          padding: isTablet?width*0.025:10,
                           onclick: () async {
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.remove('data');
@@ -96,6 +100,7 @@ class _ApprovalState extends State<Approval> {
                         padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
                         child: Button(
                           text: 'Næste',
+                          padding: isTablet?width*0.025:10,
                           onclick: () async {
                             Navigator.push(
                               context,

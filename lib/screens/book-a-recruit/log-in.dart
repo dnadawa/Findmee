@@ -12,6 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../../responsive.dart';
+
 class LogIn extends StatefulWidget {
   final PageController controller;
 
@@ -45,6 +47,7 @@ class _LogInState extends State<LogIn> {
         var user = sub.docs;
 
         if(user[0]['status'] == 'ban'){
+          pd.hide();
           showDialog(
               context: context,
               builder: (BuildContext context){
@@ -90,6 +93,7 @@ class _LogInState extends State<LogIn> {
           });
         }
         else if(user[0]['status'] == 'pending'){
+          pd.hide();
           showDialog(
               context: context,
               builder: (BuildContext context){
@@ -155,6 +159,9 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),0),
@@ -181,8 +188,8 @@ class _LogInState extends State<LogIn> {
                         CustomText(text: 'Log ind på\nFindme',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
                         Center(
                           child: SizedBox(
-                              width: ScreenUtil().setHeight(1200),
-                              height: ScreenUtil().setWidth(800),
+                              width: isTablet?width*0.3:ScreenUtil().setHeight(1200),
+                              height: isTablet?width*0.3:ScreenUtil().setWidth(800),
                               child: Image.asset('assets/images/login.png')),
                         ),
 
@@ -192,7 +199,7 @@ class _LogInState extends State<LogIn> {
 
                         Padding(
                           padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                          child: Button(text: 'Log ind',onclick: ()=>logIn()),
+                          child: Button(text: 'Log ind',padding: isTablet?width*0.025:10,onclick: ()=>logIn()),
                         )
 
                       ],
