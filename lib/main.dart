@@ -58,8 +58,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Color(0xff8C0000)
         ),
         // home: kIsWeb?HomeWeb():WelcomeWeb(),
-        // home: Responsive(mobile: StepperPage(), tablet: StepperPage(), desktop: StepperWebCompany()),
-        home: WelcomeWeb(),
+        home: Responsive(mobile: WelcomeWeb(), tablet: WelcomeWeb(), desktop: HomeWeb()),
       ),
     );
   }
