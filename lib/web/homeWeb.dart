@@ -45,7 +45,10 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                     },
                     child: Container(
                         height: width*0.16,
-                        color: Theme.of(context).primaryColor,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
+                          color: Theme.of(context).primaryColor,
+                        ),
                         child: Image.asset('assets/images/logo.png')
                     ),
                   ),
@@ -63,7 +66,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                   },
                   child: CustomText(
                     text: 'Kontakt os',
-                    color: _controller.index==1?Theme.of(context).primaryColor:Colors.black,
+                    color: _controller.index==1?Colors.red:Colors.black,
                     size: width*0.04,
                   ),
                 ),
@@ -80,7 +83,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                   },
                   child: CustomText(
                     text: 'Om os',
-                    color: _controller.index==2?Theme.of(context).primaryColor:Colors.black,
+                    color: _controller.index==2?Colors.red:Colors.black,
                     size: width*0.04,
                   ),
                 ),
@@ -89,11 +92,13 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
             ],
           ),
 
+          ///body
           Expanded(
             child: TabBarView(
               controller: _controller,
               physics: NeverScrollableScrollPhysics(),
               children: [
+                ///homepage
                 Container(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height,
@@ -187,8 +192,140 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                     ),
                   ),
                 ),
-                Container(color: Colors.black,),
-                Container(color: Colors.blue,),
+
+                ///contact us
+                Container(
+                  child: Row(
+                    children: [
+                      ///image
+                      Expanded(flex: 6,child: Padding(
+                        padding: EdgeInsets.all(width*0.06),
+                        child: Image.asset('assets/web/contact-us.png'),
+                      )),
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.horizontal(left: Radius.circular(20))
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(width*0.08),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text: 'Kontakt os',
+                                  size: width*0.1,
+                                  font: 'Ubuntu',
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: width*0.1),
+                                  child: CustomText(
+                                    text: 'Her kan du se vores kontaktoplysninger.\n\nVi glæder os til at høre fra dig.',
+                                    font: 'GoogleSans',
+                                    size: width*0.04,
+                                    isBold: false,
+                                    align: TextAlign.start,
+                                  ),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.dialer_sip),
+                                  title: CustomText(
+                                    text: 'Telephone: 42 33 43 43',
+                                    font: 'ComicSans',
+                                    align: TextAlign.start,
+                                    isBold: false,
+                                  ),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.dialer_sip),
+                                  title: CustomText(
+                                    text: 'CVR-nummer: 28119575',
+                                    font: 'ComicSans',
+                                    align: TextAlign.start,
+                                    isBold: false,
+                                  ),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.dialer_sip),
+                                  title: CustomText(
+                                    text: 'info@findme.dk',
+                                    font: 'ComicSans',
+                                    align: TextAlign.start,
+                                    isBold: false,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                ///about us
+                Container(
+                  child: Row(
+                    children: [
+                      ///image
+                      Expanded(flex: 6,child: Padding(
+                        padding: EdgeInsets.all(width*0.06),
+                        child: Image.asset('assets/web/about-us.png'),
+                      )),
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.horizontal(left: Radius.circular(20))
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(width*0.08),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text: 'Om os',
+                                  size: width*0.1,
+                                  font: 'Ubuntu',
+                                ),
+                                SizedBox(height: width*0.1,),
+                                CustomText(
+                                  text: 'Velkommen til Findme aps\n\n'
+                                      'Vi er et ungt og dynamisk team med gåpåmod, som står til tjeneste '
+                                      '24/7 i 365 dage, så du kan altid træffe os, når der opstår akutte situationer. '
+                                      'Det eneste det kræver for dig er at ringe og booke en af vores vikarer på 42 33 43 43',
+                                  font: 'GoogleSans',
+                                  size: width*0.04,
+                                  isBold: false,
+                                  align: TextAlign.start,
+                                ),
+                                CustomText(
+                                  text: '\nVi er anderledes end de fleste vikarbureauer.\n',
+                                  font: 'GoogleSans',
+                                  size: width*0.045,
+                                  align: TextAlign.start,
+                                ),
+                                CustomText(
+                                  text: 'Du kan nemt planlægge og bestille alle vores personligt udvalgte vikarer og kan vælge præcis den medarbejder, '
+                                      'der passer til dit behov. Mens vi sørger for, at forholdene og papirarbejdet altid er i orden. Opret en profil hos os allerede i dag.',
+                                  font: 'GoogleSans',
+                                  size: width*0.04,
+                                  isBold: false,
+                                  align: TextAlign.start,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
