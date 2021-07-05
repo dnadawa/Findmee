@@ -1,29 +1,29 @@
 import 'dart:collection';
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
-import 'package:findmee/widgets/toast.dart';
+import 'package:findmee/widgets/message-dialog.dart';
 import 'package:findmee/widgets/toggle-button.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../responsive.dart';
-
-class EditDates extends StatefulWidget {
+class EditDatesWeb extends StatefulWidget {
   final String email;
 
-  const EditDates({Key key, this.email}) : super(key: key);
+  const EditDatesWeb({Key key, this.email}) : super(key: key);
 
   @override
-  _EditDatesState createState() => _EditDatesState();
+  _EditDatesWebState createState() => _EditDatesWebState();
 }
 
-class _EditDatesState extends State<EditDates> {
+class _EditDatesWebState extends State<EditDatesWeb> {
   bool morning = false;
   bool evening = false;
   bool night = false;
@@ -33,7 +33,7 @@ class _EditDatesState extends State<EditDates> {
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
     equals: isSameDay,
   );
-  
+
   _onCreated() async {
     var sub = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: widget.email).get();
     var user = sub.docs;
@@ -113,25 +113,23 @@ class _EditDatesState extends State<EditDates> {
 
   @override
   Widget build(BuildContext context) {
-    bool isTablet = Responsive.isTablet(context);
     double width = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                )
-            ),
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
-                child: SingleChildScrollView(
+
+    return Scaffold(
+      backgroundColor: Color(0xffFA1E0E).withOpacity(0.05),
+      body: Row(
+        children: [
+          ///whitebox
+          Expanded(
+            child: Container(
+              height: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.horizontal(right: Radius.circular(60))
+              ),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(width*0.05),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -140,31 +138,35 @@ class _EditDatesState extends State<EditDates> {
                       CustomText(text: 'Datoer.',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                       SizedBox(height: ScreenUtil().setHeight(50),),
                       CustomText(text: 'Please add/remove your available days and shifts',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
-                      SizedBox(height: ScreenUtil().setHeight(100),),
-                      TableCalendar(
-                        firstDay: DateTime.now(),
-                        lastDay: DateTime(3000,12,31),
-                        focusedDay: _focusedDay,
-                        calendarFormat: CalendarFormat.month,
-                        startingDayOfWeek: StartingDayOfWeek.monday,
-                        availableGestures: AvailableGestures.none,
-                        headerStyle: HeaderStyle(
-                            formatButtonVisible: false,
-                            titleCentered: true
-                        ),
-                        calendarStyle: CalendarStyle(
-                          selectedDecoration: BoxDecoration(
-                              color: Color(0xffFA1E0E),
-                              shape: BoxShape.circle
+                      SizedBox(height: width*0.03,),
+
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: TableCalendar(
+                          firstDay: DateTime.now(),
+                          lastDay: DateTime(3000,12,31),
+                          focusedDay: _focusedDay,
+                          calendarFormat: CalendarFormat.month,
+                          startingDayOfWeek: StartingDayOfWeek.monday,
+                          availableGestures: AvailableGestures.none,
+                          headerStyle: HeaderStyle(
+                              formatButtonVisible: false,
+                              titleCentered: true
                           ),
+                          calendarStyle: CalendarStyle(
+                            selectedDecoration: BoxDecoration(
+                                color: Color(0xffFA1E0E),
+                                shape: BoxShape.circle
+                            ),
+                          ),
+                          onPageChanged: (focusedDay) {
+                            _focusedDay = focusedDay;
+                          },
+                          selectedDayPredicate: (day) {
+                            return _selectedDays.contains(day);
+                          },
+                          onDaySelected: _onDaySelected,
                         ),
-                        onPageChanged: (focusedDay) {
-                          _focusedDay = focusedDay;
-                        },
-                        selectedDayPredicate: (day) {
-                          return _selectedDays.contains(day);
-                        },
-                        onDaySelected: _onDaySelected,
                       ),
                       SizedBox(height: ScreenUtil().setHeight(40),),
 
@@ -178,55 +180,49 @@ class _EditDatesState extends State<EditDates> {
 
                           int index = list.indexWhere((element) => element['day']==date);
                           return ExpansionTile(
-                            title: CustomText(text: date,),
+                            title: CustomText(text: date,size: width*0.01,),
                             initiallyExpanded: true,
                             childrenPadding: EdgeInsets.only(bottom: ScreenUtil().setHeight(40)),
                             children: [
                               ///toggle buttons
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ToggleButton(
-                                    text: 'Morgen',
-                                    onclick: (){
-                                      setState(() {
-                                        list[index]['morning'] = !list[index]['morning'];
-                                      });
-                                    },
-                                    isSelected: list[index]['morning'],
-                                  ),
-                                  ToggleButton(
-                                    text: 'Eftermiddag',
-                                    onclick: (){
-                                      setState(() {
-                                        list[index]['evening'] = !list[index]['evening'];
-                                      });
-                                    },
-                                    isSelected: list[index]['evening'],
-                                  ),
-                                ],
+                              ToggleButton(
+                                text: 'Morgen',
+                                onclick: (){
+                                  setState(() {
+                                    list[index]['morning'] = !list[index]['morning'];
+                                  });
+                                },
+                                isSelected: list[index]['morning'],
                               ),
                               SizedBox(height: ScreenUtil().setHeight(70),),
-                              Center(
-                                child: ToggleButton(
-                                  text: 'Nat',
-                                  onclick: (){
-                                    setState(() {
-                                      list[index]['night'] = !list[index]['night'];
-                                    });
-                                  },
-                                  isSelected: list[index]['night'],
-                                ),
+                              ToggleButton(
+                                text: 'Eftermiddag',
+                                onclick: (){
+                                  setState(() {
+                                    list[index]['evening'] = !list[index]['evening'];
+                                  });
+                                },
+                                isSelected: list[index]['evening'],
+                              ),
+                              SizedBox(height: ScreenUtil().setHeight(70),),
+                              ToggleButton(
+                                text: 'Nat',
+                                onclick: (){
+                                  setState(() {
+                                    list[index]['night'] = !list[index]['night'];
+                                  });
+                                },
+                                isSelected: list[index]['night'],
                               ),
                             ],
                           );
                         },
                       ),
 
-                      ///button
+                      SizedBox(height: ScreenUtil().setHeight(80),),
                       Padding(
-                        padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                        child: Button(text: 'Update',padding: isTablet?width*0.025:10,onclick: () async {
+                        padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
+                        child: Button(text: 'Update',padding: width*0.01,onclick: () async {
                           Set datesAndShifts = {};
                           list.forEach((element) {
                             String day = element['day'];
@@ -247,15 +243,17 @@ class _EditDatesState extends State<EditDates> {
                           });
 
                           if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
-                            ToastBar(text: 'Please select at least one date and shift', color: Colors.red).show();
+                            MessageDialog.show(context: context, text: 'Please select at least one date and shift');
                           }
                           else{
                             await FirebaseFirestore.instance.collection('workers').doc(widget.email).update({
                               'datesAndShifts': finalDatesAndShifts
                             });
-                            ToastBar(text: 'Dates Updated!', color: Colors.green).show();
+                            MessageDialog.show(context: context, text: 'Dates Updated!',type: CoolAlertType.success);
                           }
-                        }),
+                        }
+
+                        ),
                       )
 
                     ],
@@ -264,8 +262,20 @@ class _EditDatesState extends State<EditDates> {
               ),
             ),
           ),
-        ),
+
+          ///image
+          Expanded(
+            child: Container(
+              height: width*0.25,
+              child: Center(
+                  child: Image.asset('assets/images/calendar.png')
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
+
+
