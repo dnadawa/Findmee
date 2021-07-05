@@ -173,18 +173,19 @@ class _DatesState extends State<Dates> {
                         Set datesAndShifts = {};
                         List<String> longDates = [];
                         list.forEach((element) {
-                          int day = DateTime.parse(element['day']).weekday;
+                          // int day = DateTime.parse(element['day']).weekday;
+                          String day = element['day'];
                           if(element['morning']){
-                            datesAndShifts.add(day.toString()+'mor');
-                            longDates.add(element['day']+":mor");
+                            datesAndShifts.add(day+'mor');
+                            longDates.add(day+":mor");
                           }
                           if(element['evening']){
-                            datesAndShifts.add(day.toString()+'eve');
-                            longDates.add(element['day']+":eve");
+                            datesAndShifts.add(day+'eve');
+                            longDates.add(day+":eve");
                           }
                           if(element['night']){
-                            datesAndShifts.add(day.toString()+'nig');
-                            longDates.add(element['day']+":nig");
+                            datesAndShifts.add(day+'nig');
+                            longDates.add(day+":nig");
                           }
                         });
 

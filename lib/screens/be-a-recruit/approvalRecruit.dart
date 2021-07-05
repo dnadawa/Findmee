@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../responsive.dart';
+import 'editDates.dart';
 import 'offers.dart';
 
 class Approval extends StatefulWidget {
@@ -21,9 +22,10 @@ class Approval extends StatefulWidget {
 
 class _ApprovalState extends State<Approval> {
   String status = 'pending';
+  String email;
   getStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String email = jsonDecode(prefs.getString('data'))['email'];
+    email = jsonDecode(prefs.getString('data'))['email'];
     var sub = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
     var user = sub.docs;
     setState(() {
@@ -47,7 +49,7 @@ class _ApprovalState extends State<Approval> {
         padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
         child: Center(
           child: Container(
-            height: ScreenUtil().setHeight(1500),
+            height: ScreenUtil().setHeight(status=='approved'?1700:1500),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -105,6 +107,21 @@ class _ApprovalState extends State<Approval> {
                             Navigator.push(
                               context,
                               CupertinoPageRoute(builder: (context) => Offers()),
+                            );
+                          },
+                        ),
+                      ),
+                    if(status=='approved')
+                      Padding(
+                        padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
+                        child: Button(
+                          text: 'Edit Available Dates',
+                          padding: isTablet?width*0.025:10,
+                          color: Colors.red,
+                          onclick: () async {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(builder: (context) => EditDates(email: email,)),
                             );
                           },
                         ),

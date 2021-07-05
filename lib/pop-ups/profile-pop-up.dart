@@ -75,12 +75,12 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
     List temp = [];
     Map data;
     widget.userDatesAndShifts.forEach((element) {
-      if(!temp.contains(element[0])){
-        temp.add(element[0]);
-        var shifts = widget.userDatesAndShifts.where((x) => x.toString().startsWith(element[0]));
+      if(!temp.contains(element.toString().substring(0, 10))){
+        temp.add(element.toString().substring(0, 10));
+        var shifts = widget.userDatesAndShifts.where((x) => x.toString().startsWith(element.toString().substring(0, 10)));
 
         String shift = "";
-        String day = Data().getDay(element[0]);
+        String day = element.toString().substring(0, 10);
 
         shifts.forEach((x) {
           if(x.contains('mor')){

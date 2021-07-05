@@ -30,7 +30,7 @@ class _PhotosState extends State<Photos> {
 
   File profileImage , selfie;
   Future getImage(String type) async {
-    final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery,imageQuality: 50);
+    final pickedFile = await ImagePicker().getImage(source: ImageSource.camera,imageQuality: 50);
     setState(() {
       if (pickedFile != null) {
         if(type=='profile'){

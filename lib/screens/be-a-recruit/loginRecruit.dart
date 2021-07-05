@@ -107,7 +107,7 @@ class _RecruitLogInState extends State<RecruitLogIn> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         SizedBox(height: ScreenUtil().setHeight(30),),
-                        CustomText(text: 'LLog ind på\nFindme',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
+                        CustomText(text: 'Log ind på\nFindme',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
                         Center(
                           child: SizedBox(
                               width: isTablet?width*0.3:ScreenUtil().setHeight(1200),
