@@ -1,4 +1,5 @@
 import 'package:findmee/responsive.dart';
+import 'package:findmee/routes.dart';
 import 'package:findmee/screens/book-a-recruit/stepper.dart';
 import 'package:findmee/screens/welcome.dart';
 import 'package:findmee/web/book-a-recruit/profiles.dart';
@@ -12,10 +13,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:url_strategy/url_strategy.dart';
 import 'screens/welcome.dart';
 import 'screens/welcome.dart';
 
 void main(){
+  setPathUrlStrategy();
   runApp(MyApp());
 }
 
@@ -41,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Flurorouter.defineRoutes();
     initApp();
   }
 
@@ -57,6 +61,11 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Color(0xff8C0000),
           scaffoldBackgroundColor: Color(0xff8C0000)
         ),
+        initialRoute: '/',
+        onGenerateRoute: Flurorouter.router.generator,
+        onGenerateTitle: (BuildContext context){
+          return "Findme";
+        },
         // home: kIsWeb?HomeWeb():WelcomeWeb(),
         home: Responsive(mobile: WelcomeWeb(), tablet: WelcomeWeb(), desktop: HomeWeb()),
       ),
