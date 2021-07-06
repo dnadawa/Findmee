@@ -1,4 +1,5 @@
 import 'package:findmee/admin/businessProfiles.dart';
+import 'package:findmee/admin/workerProfiles.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -167,7 +168,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
               physics: NeverScrollableScrollPhysics(),
               children: [
                 BusinessProfiles(),
-                Container(),
+                WorkerProfiles(),
                 Container(),
               ],
             ),

@@ -7,8 +7,9 @@ class AdminInputField extends StatefulWidget {
 
   final String hint;
   final TextEditingController controller;
+  final int maxLines;
 
-  const AdminInputField({Key key, this.hint, this.controller}) : super(key: key);
+  const AdminInputField({Key key, this.hint, this.controller, this.maxLines=1}) : super(key: key);
 
   @override
   _AdminInputFieldState createState() => _AdminInputFieldState();
@@ -20,6 +21,7 @@ class _AdminInputFieldState extends State<AdminInputField> {
     return TextField(
       controller: widget.controller,
       enabled: false,
+      maxLines: widget.maxLines,
       style: TextStyle(fontFamily: 'ComicSans'),
       decoration: InputDecoration(
           labelText: widget.hint,
