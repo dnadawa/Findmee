@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'book-a-recruit/stepper.dart';
+
 class HomeWeb extends StatefulWidget {
   @override
   _HomeWebState createState() => _HomeWebState();
@@ -47,7 +49,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                         height: width*0.16,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
-                          color: Theme.of(context).primaryColor,
+                          color: Color(0xffe01b22),
                         ),
                         child: Image.asset('assets/images/logo.png')
                     ),
@@ -103,10 +105,10 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/web/desktop-back.png'),alignment: Alignment.bottomRight, fit: BoxFit.fitHeight)
+                    image: DecorationImage(image: AssetImage('assets/web/desktop-back.png'),alignment: Alignment.bottomRight, fit: BoxFit.cover)
                   ),
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(width*0.2,width*0.2,width*0.2,0),
+                    padding: EdgeInsets.fromLTRB(width*0.28,width*0.15,width*0.2,0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -131,12 +133,32 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                         ),
                         SizedBox(height: width*0.06,),
                         Text(
-                            'Hire talented professionals\nOR\nMarket your skills to find jobs',
+                            'Hire talented professionals',
                             style: GoogleFonts.koHo(
                               fontWeight: FontWeight.w500,
                               fontSize: width*0.046,
                               fontStyle: FontStyle.italic,
                               color: Color(0xff8C0000)
+                            ),
+                            textAlign: TextAlign.start
+                        ),
+                        Text(
+                            'OR',
+                            style: GoogleFonts.koHo(
+                                fontWeight: FontWeight.bold,
+                                fontSize: width*0.046,
+                                fontStyle: FontStyle.italic,
+                                color: Color(0xff8C0000)
+                            ),
+                            textAlign: TextAlign.start
+                        ),
+                        Text(
+                            'Market your skills to find jobs',
+                            style: GoogleFonts.koHo(
+                                fontWeight: FontWeight.w500,
+                                fontSize: width*0.046,
+                                fontStyle: FontStyle.italic,
+                                color: Color(0xff8C0000)
                             ),
                             textAlign: TextAlign.start
                         ),
@@ -202,6 +224,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                         padding: EdgeInsets.all(width*0.06),
                         child: Image.asset('assets/web/contact-us.png'),
                       )),
+                      SizedBox(width: width*0.1,),
                       Expanded(
                         flex: 5,
                         child: Container(
@@ -231,7 +254,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                                   ),
                                 ),
                                 ListTile(
-                                  leading: Icon(Icons.dialer_sip),
+                                  leading: SizedBox(width: width*0.07,child: Image.asset('assets/web/phone.png')),
                                   title: CustomText(
                                     text: 'Telephone: 42 33 43 43',
                                     font: 'ComicSans',
@@ -240,7 +263,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                                   ),
                                 ),
                                 ListTile(
-                                  leading: Icon(Icons.dialer_sip),
+                                  leading: SizedBox(width: width*0.07,child: Image.asset('assets/web/cvr.png')),
                                   title: CustomText(
                                     text: 'CVR-nummer: 28119575',
                                     font: 'ComicSans',
@@ -249,7 +272,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                                   ),
                                 ),
                                 ListTile(
-                                  leading: Icon(Icons.dialer_sip),
+                                  leading: SizedBox(width: width*0.07,child: Image.asset('assets/web/email.png')),
                                   title: CustomText(
                                     text: 'info@findme.dk',
                                     font: 'ComicSans',
@@ -277,50 +300,70 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                       )),
                       Expanded(
                         flex: 5,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.horizontal(left: Radius.circular(20))
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(width*0.08),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomText(
-                                  text: 'Om os',
-                                  size: width*0.1,
-                                  font: 'Ubuntu',
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.horizontal(left: Radius.circular(20))
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(width*0.08),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText(
+                                      text: 'Om os',
+                                      size: width*0.1,
+                                      font: 'Ubuntu',
+                                    ),
+                                    SizedBox(height: width*0.1,),
+                                    CustomText(
+                                      text: 'Velkommen til Findme aps\n\n'
+                                          'Vi er et ungt og dynamisk team med gåpåmod, som står til tjeneste '
+                                          '24/7 i 365 dage, så du kan altid træffe os, når der opstår akutte situationer. '
+                                          'Det eneste det kræver for dig er at ringe og booke en af vores vikarer på 42 33 43 43',
+                                      font: 'GoogleSans',
+                                      size: width*0.04,
+                                      isBold: false,
+                                      align: TextAlign.start,
+                                    ),
+                                    CustomText(
+                                      text: '\nVi er anderledes end de fleste vikarbureauer.\n',
+                                      font: 'GoogleSans',
+                                      size: width*0.045,
+                                      align: TextAlign.start,
+                                    ),
+                                    CustomText(
+                                      text: 'Du kan nemt planlægge og bestille alle vores personligt udvalgte vikarer og kan vælge præcis den medarbejder, '
+                                          'der passer til dit behov. Mens vi sørger for, at forholdene og papirarbejdet altid er i orden. Opret en profil hos os allerede i dag.',
+                                      font: 'GoogleSans',
+                                      size: width*0.04,
+                                      isBold: false,
+                                      align: TextAlign.start,
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(height: width*0.1,),
-                                CustomText(
-                                  text: 'Velkommen til Findme aps\n\n'
-                                      'Vi er et ungt og dynamisk team med gåpåmod, som står til tjeneste '
-                                      '24/7 i 365 dage, så du kan altid træffe os, når der opstår akutte situationer. '
-                                      'Det eneste det kræver for dig er at ringe og booke en af vores vikarer på 42 33 43 43',
-                                  font: 'GoogleSans',
-                                  size: width*0.04,
-                                  isBold: false,
-                                  align: TextAlign.start,
-                                ),
-                                CustomText(
-                                  text: '\nVi er anderledes end de fleste vikarbureauer.\n',
-                                  font: 'GoogleSans',
-                                  size: width*0.045,
-                                  align: TextAlign.start,
-                                ),
-                                CustomText(
-                                  text: 'Du kan nemt planlægge og bestille alle vores personligt udvalgte vikarer og kan vælge præcis den medarbejder, '
-                                      'der passer til dit behov. Mens vi sørger for, at forholdene og papirarbejdet altid er i orden. Opret en profil hos os allerede i dag.',
-                                  font: 'GoogleSans',
-                                  size: width*0.04,
-                                  isBold: false,
-                                  align: TextAlign.start,
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                            SizedBox(height: width*0.1,),
+                            SizedBox(
+                              width: width*0.65,
+                              child: Button(
+                                color: Colors.red,
+                                text: 'Book vikar',
+                                onclick: (){
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(builder: (context) => StepperWebCompany()),
+                                  );
+                                },
+                                padding: width*0.04,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

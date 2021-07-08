@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'dashboard.dart';
 import 'editDates.dart';
 
 class ApprovalWeb extends StatefulWidget {
@@ -108,22 +109,7 @@ class _ApprovalWebState extends State<ApprovalWeb> {
                       onclick: () async {
                         Navigator.push(
                           context,
-                          CupertinoPageRoute(builder: (context) => Responsive(mobile: Offers(), tablet: Offers(), desktop: OffersWeb())),
-                        );
-                      },
-                    ),
-                  ),
-                if(status=='approved')
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(width*0.03,0,width*0.03,width*0.03),
-                    child: Button(
-                      text: 'Edit Available Dates',
-                      padding: width*0.01,
-                      color: Colors.red,
-                      onclick: () async {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(builder: (context) => EditDatesWeb(email: email,)),
+                          CupertinoPageRoute(builder: (context) => Dashboard(email: email)),
                         );
                       },
                     ),

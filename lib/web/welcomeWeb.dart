@@ -74,8 +74,8 @@ class _WelcomeWebState extends State<WelcomeWeb> {
                 color: Colors.red,
                 text: buttonText,
                 borderRadius: 10,
-                padding: width*0.01,
-                textSize: width*0.01,
+                padding: width*0.015,
+                textSize: width*0.015,
                 onclick: (){
                   Navigator.push(
                     context,

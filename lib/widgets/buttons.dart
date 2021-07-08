@@ -26,25 +26,31 @@ class Button extends StatelessWidget {
           onPressed: onclick,
           style: ElevatedButton.styleFrom(
             primary: color,
+            elevation: 8,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius)
             ),
             padding: EdgeInsets.all(padding),
           ),
           child: Row(
-            mainAxisAlignment: text=='Næste'?MainAxisAlignment.spaceBetween:MainAxisAlignment.center,
+            mainAxisAlignment: text=='Næste'||image!=null?MainAxisAlignment.spaceBetween:MainAxisAlignment.center,
             children: [
               if(text=='Næste')
                 SizedBox.shrink(),
               if(image!=null)
-              SizedBox(
-                height: ScreenUtil().setHeight(imageSize),
-                width: ScreenUtil().setHeight(imageSize),
-                child: Image.asset('assets/images/$image'),
+              Padding(
+                padding:  EdgeInsets.only(left: contentPadding),
+                child: SizedBox(
+                  height: ScreenUtil().setHeight(imageSize),
+                  width: ScreenUtil().setHeight(imageSize),
+                  child: Image.asset('assets/images/$image'),
+                ),
               ),
               if(image!=null)
-                SizedBox(width: ScreenUtil().setWidth(contentPadding),),
+                Expanded(child: SizedBox.shrink()),
               CustomText(text: text,size: textSize,color: textColor,),
+              if(image!=null)
+                Expanded(child: SizedBox.shrink()),
               if(text=='Næste')
                 Icon(Icons.play_circle_fill)
             ],

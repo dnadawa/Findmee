@@ -29,8 +29,7 @@ class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
     final textStyle = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontFamily: 'ComicSans'
+        fontFamily: 'ComicSans'
     );
     return Padding(
       padding:  EdgeInsets.only(top: widget.ispassword?0:10),

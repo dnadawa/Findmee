@@ -160,28 +160,30 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Padding(
-        padding: EdgeInsets.all(width*0.075),
+        padding: EdgeInsets.fromLTRB(width*0.05,width*0.075,width*0.1,width*0.075),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: ScreenUtil().setHeight(30),),
-            CustomText(text: 'Log ind på\nFindme',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
+            CustomText(text: 'Log ind på\nFindme',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D),),
             SizedBox(height: width*0.03,),
 
             InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
             InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
-            SizedBox(height: ScreenUtil().setHeight(70),),
+            SizedBox(height: ScreenUtil().setHeight(200),),
 
             Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
+                padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20), vertical: ScreenUtil().setWidth(40)),
               child: Button(
                 text: 'Log ind',
-                padding: width*0.01,
+                color: Colors.red,
+                padding: width*0.013,
                 onclick: ()=>logIn(),
             )
             ),
 
+            SizedBox(height: width*0.09,),
             Align(
               alignment: Alignment.bottomLeft,
               child: MouseRegion(
@@ -190,7 +192,7 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
                     onTap: (){
                       widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
                     },
-                    child: CustomText(text: "Har du ikke allerede en konto? Tilmeld dig nu.",color: Colors.black, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
+                    child: CustomText(text: "Har du ikke allerede en konto? Tilmeld dig nu.",color: Theme.of(context).primaryColor, size: ScreenUtil().setSp(50),font: 'GoogleSans',)),
               ),
             ),
 

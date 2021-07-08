@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class EditDatesWeb extends StatefulWidget {
@@ -123,141 +121,134 @@ class _EditDatesWebState extends State<EditDatesWeb> {
           Expanded(
             child: Container(
               height: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.horizontal(right: Radius.circular(60))
-              ),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.all(width*0.05),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(height: ScreenUtil().setHeight(30),),
-                      CustomText(text: 'Datoer.',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
-                      SizedBox(height: ScreenUtil().setHeight(50),),
-                      CustomText(text: 'Please add/remove your available days and shifts',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
-                      SizedBox(height: width*0.03,),
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.all(width*0.05),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: ScreenUtil().setHeight(30),),
+                    CustomText(text: 'Datoer.',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+                    SizedBox(height: ScreenUtil().setHeight(50),),
+                    CustomText(text: 'Please add/remove your available days and shifts',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+                    SizedBox(height: width*0.03,),
 
-                      MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: TableCalendar(
-                          firstDay: DateTime.now(),
-                          lastDay: DateTime(3000,12,31),
-                          focusedDay: _focusedDay,
-                          calendarFormat: CalendarFormat.month,
-                          startingDayOfWeek: StartingDayOfWeek.monday,
-                          availableGestures: AvailableGestures.none,
-                          headerStyle: HeaderStyle(
-                              formatButtonVisible: false,
-                              titleCentered: true
-                          ),
-                          calendarStyle: CalendarStyle(
-                            selectedDecoration: BoxDecoration(
-                                color: Color(0xffFA1E0E),
-                                shape: BoxShape.circle
-                            ),
-                          ),
-                          onPageChanged: (focusedDay) {
-                            _focusedDay = focusedDay;
-                          },
-                          selectedDayPredicate: (day) {
-                            return _selectedDays.contains(day);
-                          },
-                          onDaySelected: _onDaySelected,
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: TableCalendar(
+                        firstDay: DateTime.now(),
+                        lastDay: DateTime(3000,12,31),
+                        focusedDay: _focusedDay,
+                        calendarFormat: CalendarFormat.month,
+                        startingDayOfWeek: StartingDayOfWeek.monday,
+                        availableGestures: AvailableGestures.none,
+                        headerStyle: HeaderStyle(
+                            formatButtonVisible: false,
+                            titleCentered: true
                         ),
-                      ),
-                      SizedBox(height: ScreenUtil().setHeight(40),),
-
-                      ///dates
-                      ListView.builder(
-                        itemCount: _selectedDays.length,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, i){
-                          String date = DateFormat('yyyy-MM-dd').format(_selectedDays.elementAt(i));
-
-                          int index = list.indexWhere((element) => element['day']==date);
-                          return ExpansionTile(
-                            title: CustomText(text: date,size: width*0.01,),
-                            initiallyExpanded: true,
-                            childrenPadding: EdgeInsets.only(bottom: ScreenUtil().setHeight(40)),
-                            children: [
-                              ///toggle buttons
-                              ToggleButton(
-                                text: 'Morgen',
-                                onclick: (){
-                                  setState(() {
-                                    list[index]['morning'] = !list[index]['morning'];
-                                  });
-                                },
-                                isSelected: list[index]['morning'],
-                              ),
-                              SizedBox(height: ScreenUtil().setHeight(70),),
-                              ToggleButton(
-                                text: 'Eftermiddag',
-                                onclick: (){
-                                  setState(() {
-                                    list[index]['evening'] = !list[index]['evening'];
-                                  });
-                                },
-                                isSelected: list[index]['evening'],
-                              ),
-                              SizedBox(height: ScreenUtil().setHeight(70),),
-                              ToggleButton(
-                                text: 'Nat',
-                                onclick: (){
-                                  setState(() {
-                                    list[index]['night'] = !list[index]['night'];
-                                  });
-                                },
-                                isSelected: list[index]['night'],
-                              ),
-                            ],
-                          );
+                        calendarStyle: CalendarStyle(
+                          selectedDecoration: BoxDecoration(
+                              color: Color(0xffFA1E0E),
+                              shape: BoxShape.circle
+                          ),
+                        ),
+                        onPageChanged: (focusedDay) {
+                          _focusedDay = focusedDay;
                         },
+                        selectedDayPredicate: (day) {
+                          return _selectedDays.contains(day);
+                        },
+                        onDaySelected: _onDaySelected,
                       ),
+                    ),
+                    SizedBox(height: ScreenUtil().setHeight(40),),
 
-                      SizedBox(height: ScreenUtil().setHeight(80),),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
-                        child: Button(text: 'Update',padding: width*0.01,onclick: () async {
-                          Set datesAndShifts = {};
-                          list.forEach((element) {
-                            String day = element['day'];
-                            if(element['morning']){
-                              datesAndShifts.add(day+'mor');
-                            }
-                            if(element['evening']){
-                              datesAndShifts.add(day+'eve');
-                            }
-                            if(element['night']){
-                              datesAndShifts.add(day+'nig');
-                            }
-                          });
+                    ///dates
+                    // ListView.builder(
+                    //   itemCount: _selectedDays.length,
+                    //   shrinkWrap: true,
+                    //   physics: NeverScrollableScrollPhysics(),
+                    //   itemBuilder: (context, i){
+                    //     String date = DateFormat('yyyy-MM-dd').format(_selectedDays.elementAt(i));
+                    //
+                    //     int index = list.indexWhere((element) => element['day']==date);
+                    //     return ExpansionTile(
+                    //       title: CustomText(text: date,size: width*0.01,),
+                    //       initiallyExpanded: true,
+                    //       childrenPadding: EdgeInsets.only(bottom: ScreenUtil().setHeight(40)),
+                    //       children: [
+                    //         ///toggle buttons
+                    //         ToggleButton(
+                    //           text: 'Morgen',
+                    //           onclick: (){
+                    //             setState(() {
+                    //               list[index]['morning'] = !list[index]['morning'];
+                    //             });
+                    //           },
+                    //           isSelected: list[index]['morning'],
+                    //         ),
+                    //         SizedBox(height: ScreenUtil().setHeight(70),),
+                    //         ToggleButton(
+                    //           text: 'Eftermiddag',
+                    //           onclick: (){
+                    //             setState(() {
+                    //               list[index]['evening'] = !list[index]['evening'];
+                    //             });
+                    //           },
+                    //           isSelected: list[index]['evening'],
+                    //         ),
+                    //         SizedBox(height: ScreenUtil().setHeight(70),),
+                    //         ToggleButton(
+                    //           text: 'Nat',
+                    //           onclick: (){
+                    //             setState(() {
+                    //               list[index]['night'] = !list[index]['night'];
+                    //             });
+                    //           },
+                    //           isSelected: list[index]['night'],
+                    //         ),
+                    //       ],
+                    //     );
+                    //   },
+                    // ),
 
-                          List<String> finalDatesAndShifts = [];
-                          datesAndShifts.forEach((element) {
-                            finalDatesAndShifts.add(element);
-                          });
-
-                          if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
-                            MessageDialog.show(context: context, text: 'Please select at least one date and shift');
+                    SizedBox(height: ScreenUtil().setHeight(80),),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
+                      child: Button(text: 'Update',padding: width*0.01,onclick: () async {
+                        Set datesAndShifts = {};
+                        list.forEach((element) {
+                          String day = element['day'];
+                          if(element['morning']){
+                            datesAndShifts.add(day+'mor');
                           }
-                          else{
-                            await FirebaseFirestore.instance.collection('workers').doc(widget.email).update({
-                              'datesAndShifts': finalDatesAndShifts
-                            });
-                            MessageDialog.show(context: context, text: 'Dates Updated!',type: CoolAlertType.success);
+                          if(element['evening']){
+                            datesAndShifts.add(day+'eve');
                           }
+                          if(element['night']){
+                            datesAndShifts.add(day+'nig');
+                          }
+                        });
+
+                        List<String> finalDatesAndShifts = [];
+                        datesAndShifts.forEach((element) {
+                          finalDatesAndShifts.add(element);
+                        });
+
+                        if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
+                          MessageDialog.show(context: context, text: 'Please select at least one date and shift');
                         }
-
-                        ),
-                      )
-
-                    ],
-                  ),
+                        else{
+                          await FirebaseFirestore.instance.collection('workers').doc(widget.email).update({
+                            'datesAndShifts': finalDatesAndShifts
+                          });
+                          MessageDialog.show(context: context, text: 'Dates Updated!',type: CoolAlertType.success);
+                        }
+                      }
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -266,9 +257,58 @@ class _EditDatesWebState extends State<EditDatesWeb> {
           ///image
           Expanded(
             child: Container(
-              height: width*0.25,
-              child: Center(
-                  child: Image.asset('assets/images/calendar.png')
+              color: Colors.white,
+              height: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: width*0.08, vertical: width*0.04),
+                child: Scrollbar(
+                  isAlwaysShown: true,
+                  child: ListView.builder(
+                    itemCount: _selectedDays.length,
+                    itemBuilder: (context, i){
+                      String date = DateFormat('yyyy-MM-dd').format(_selectedDays.elementAt(i));
+
+                      int index = list.indexWhere((element) => element['day']==date);
+                      return ExpansionTile(
+                        title: CustomText(text: date,size: width*0.01,),
+                        initiallyExpanded: true,
+                        childrenPadding: EdgeInsets.only(bottom: ScreenUtil().setHeight(40)),
+                        children: [
+                          ///toggle buttons
+                          ToggleButton(
+                            text: 'Morgen',
+                            onclick: (){
+                              setState(() {
+                                list[index]['morning'] = !list[index]['morning'];
+                              });
+                            },
+                            isSelected: list[index]['morning'],
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(70),),
+                          ToggleButton(
+                            text: 'Eftermiddag',
+                            onclick: (){
+                              setState(() {
+                                list[index]['evening'] = !list[index]['evening'];
+                              });
+                            },
+                            isSelected: list[index]['evening'],
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(70),),
+                          ToggleButton(
+                            text: 'Nat',
+                            onclick: (){
+                              setState(() {
+                                list[index]['night'] = !list[index]['night'];
+                              });
+                            },
+                            isSelected: list[index]['night'],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
           ),

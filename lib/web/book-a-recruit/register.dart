@@ -93,13 +93,13 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Padding(
-        padding: EdgeInsets.all(width*0.075),
+        padding: EdgeInsets.fromLTRB(width*0.05,width*0.075,width*0.1,width*0.075),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: ScreenUtil().setHeight(30),),
-            CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
+            CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D),isBold: true,),
             SizedBox(height: width*0.03,),
             InputField(hint: 'Fimanavn',controller: businessName,),
             InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
@@ -110,11 +110,12 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
             SizedBox(height: ScreenUtil().setHeight(40),),
 
             Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(40)),
+              padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20), vertical: ScreenUtil().setWidth(40)),
               child: Button(
                 text: 'Tilmeld',
                 onclick: ()=>signUp(),
-                padding: width*0.01,
+                color: Colors.red,
+                padding: width*0.013,
               ),
             ),
 
@@ -126,7 +127,7 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
                     onTap: (){
                       widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
                     },
-                    child: CustomText(text: "Er du allerede tilmeldt? Log ind her",color: Colors.black, size: ScreenUtil().setSp(40),font: 'GoogleSans',)),
+                    child: CustomText(text: "Er du allerede tilmeldt? Log ind her",color: Theme.of(context).primaryColor, size: ScreenUtil().setSp(50),font: 'GoogleSans',)),
               ),
             ),
           ],

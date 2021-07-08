@@ -57,16 +57,6 @@ class _OffersWebState extends State<OffersWeb> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          ///appbar
-          Container(
-              color: Theme.of(context).primaryColor,
-              width: double.infinity,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: width*0.01),
-                child: CustomText(text: 'Job Offers',size: width*0.018,color: Colors.white,),
-              )
-          ),
-
           ///ribbon
           Padding(
             padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(80)),

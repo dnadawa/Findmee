@@ -41,183 +41,186 @@ class _PhotosWebState extends State<PhotosWeb> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.all(width*0.075),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: ScreenUtil().setHeight(30),),
-            CustomText(text: 'Billeder',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
-            SizedBox(height: width*0.03,),
+    return Scrollbar(
+      isAlwaysShown: true,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(width*0.05,width*0.04,width*0.1,0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: ScreenUtil().setHeight(30),),
+              CustomText(text: 'Billeder',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D)),
+              SizedBox(height: width*0.03,),
 
-            ///pro pic
-            GestureDetector(
-              onTap: ()=>getImage('profile'),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Color(0xfff5f5f5),
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ///header
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10)
-                            )
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(width*0.01),
-                          child: CustomText(text: 'Profilbillede',color: Colors.white,size: ScreenUtil().setSp(45),),
-                        ),
-                      ),
-                    ),
-
-                    ///image
-                    Padding(
-                      padding: EdgeInsets.all(width*0.02),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.red,
-                        radius: 60,
-                        backgroundImage: profileImage!=null?MemoryImage(profileImage):AssetImage('assets/images/avatar.png'),
-                      ),
-                    ),
-
-                    ///text
-                    CustomText(
-                      text: 'Klik gerne her for at uploade din profilbillede',
-                      font: 'GoogleSans',
-                      size: ScreenUtil().setSp(40),
-                    ),
-                    SizedBox(height: ScreenUtil().setHeight(60),)
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: ScreenUtil().setHeight(60),),
-
-            ///selfie
-            GestureDetector(
-              onTap: ()=>getImage('selfie'),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Color(0xfff5f5f5),
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ///header
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10)
-                            )
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(width*0.01),
-                          child: CustomText(text: 'Selfe',color: Colors.white,size: ScreenUtil().setSp(45),),
+              ///pro pic
+              GestureDetector(
+                onTap: ()=>getImage('profile'),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Color(0xfff5f5f5),
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ///header
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)
+                              )
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(width*0.01),
+                            child: CustomText(text: 'Profilbillede',color: Colors.white,size: ScreenUtil().setSp(45),),
+                          ),
                         ),
                       ),
-                    ),
 
-                    ///image
-                    Padding(
-                      padding: EdgeInsets.all(width*0.02),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 60,
-                        child: selfie!=null?Image.memory(selfie):Image.asset('assets/images/selfie.png'),
+                      ///image
+                      Padding(
+                        padding: EdgeInsets.all(width*0.02),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.red,
+                          radius: 60,
+                          backgroundImage: profileImage!=null?MemoryImage(profileImage):AssetImage('assets/images/avatar.png'),
+                        ),
                       ),
-                    ),
 
-                    ///text
-                    CustomText(
-                      text: 'Klik gerne ger for at uploade selfie af dig',
-                      font: 'GoogleSans',
-                      size: ScreenUtil().setSp(40),
-                    ),
-                    SizedBox(height: ScreenUtil().setHeight(60),)
-                  ],
+                      ///text
+                      CustomText(
+                        text: 'Klik gerne her for at uploade din profilbillede',
+                        font: 'GoogleSans',
+                        size: ScreenUtil().setSp(40),
+                      ),
+                      SizedBox(height: ScreenUtil().setHeight(60),)
+                    ],
+                  ),
                 ),
               ),
-            ),
+              SizedBox(height: ScreenUtil().setHeight(60),),
 
-            SizedBox(height: ScreenUtil().setHeight(120),),
+              ///selfie
+              GestureDetector(
+                onTap: ()=>getImage('selfie'),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Color(0xfff5f5f5),
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ///header
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)
+                              )
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(width*0.01),
+                            child: CustomText(text: 'Selfe',color: Colors.white,size: ScreenUtil().setSp(45),),
+                          ),
+                        ),
+                      ),
 
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
-              child: Button(text: 'Næste',padding: width*0.01,onclick: () async {
-                if(profileImage!=null&&selfie!=null){
-                  SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                  pd.show(
-                      message: 'Please wait',
-                      type: SimpleFontelicoProgressDialogType.custom,
-                      loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
-                  );
-                  try{
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
-                    Map data = jsonDecode(prefs.getString('data'));
+                      ///image
+                      Padding(
+                        padding: EdgeInsets.all(width*0.02),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 60,
+                          child: selfie!=null?Image.memory(selfie):Image.asset('assets/images/selfie.png'),
+                        ),
+                      ),
 
-                    String email = data['email'];
+                      ///text
+                      CustomText(
+                        text: 'Klik gerne ger for at uploade selfie af dig',
+                        font: 'GoogleSans',
+                        size: ScreenUtil().setSp(40),
+                      ),
+                      SizedBox(height: ScreenUtil().setHeight(60),)
+                    ],
+                  ),
+                ),
+              ),
 
-                    ///upload images
-                    FirebaseStorage storage = FirebaseStorage.instance;
-                    TaskSnapshot snap = await storage.ref('$email/profile.png').putData(profileImage);
-                    String proPicUrl = await snap.ref.getDownloadURL();
+              SizedBox(height: ScreenUtil().setHeight(120),),
 
-                    TaskSnapshot snap2 = await storage.ref('$email/selfie.png').putData(selfie);
-                    String selfieUrl = await snap2.ref.getDownloadURL();
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20), vertical: ScreenUtil().setWidth(40)),
+                child: Button(text: 'Næste',padding: width*0.01,color: Colors.red,onclick: () async {
+                  if(profileImage!=null&&selfie!=null){
+                    SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                    pd.show(
+                        message: 'Please wait',
+                        type: SimpleFontelicoProgressDialogType.custom,
+                        loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                    );
+                    try{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      Map data = jsonDecode(prefs.getString('data'));
 
-                    data['profileImage'] = proPicUrl;
-                    data['selfie'] = selfieUrl;
-                    data['status'] = 'approved';
-                    //todo: change approved to pending
+                      String email = data['email'];
 
-                    ///onesignal
-                    data['playerID'] = "";
+                      ///upload images
+                      FirebaseStorage storage = FirebaseStorage.instance;
+                      TaskSnapshot snap = await storage.ref('$email/profile.png').putData(profileImage);
+                      String proPicUrl = await snap.ref.getDownloadURL();
 
-                    ///add to db
-                    await FirebaseFirestore.instance.collection('workers').doc(email).set(data);
+                      TaskSnapshot snap2 = await storage.ref('$email/selfie.png').putData(selfie);
+                      String selfieUrl = await snap2.ref.getDownloadURL();
 
-                    ///send notification
+                      data['profileImage'] = proPicUrl;
+                      data['selfie'] = selfieUrl;
+                      data['status'] = 'approved';
+                      //todo: change approved to pending
 
-                    pd.hide();
-                    widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      ///onesignal
+                      data['playerID'] = "";
+
+                      ///add to db
+                      await FirebaseFirestore.instance.collection('workers').doc(email).set(data);
+
+                      ///send notification
+
+                      pd.hide();
+                      widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                    }
+                    catch(e){
+                      pd.hide();
+                      MessageDialog.show(
+                        context: context,
+                        text: 'Something went wrong!',
+                      );
+                    }
                   }
-                  catch(e){
-                    pd.hide();
+                  else{
                     MessageDialog.show(
                       context: context,
-                      text: 'Something went wrong!',
+                      text: 'Please upload a profile picture and a selfie!',
                     );
                   }
                 }
-                else{
-                  MessageDialog.show(
-                    context: context,
-                    text: 'Please upload a profile picture and a selfie!',
-                  );
-                }
-              }
-              ),
-            )
+                ),
+              )
 
-          ],
+            ],
+          ),
         ),
       ),
     );

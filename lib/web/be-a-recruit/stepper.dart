@@ -111,6 +111,7 @@ class _StepperWebWorkerState extends State<StepperWebWorker> {
       children: [
         ///whitebox
         Expanded(
+          flex: 4,
           child: Container(
             height: double.infinity,
             decoration: BoxDecoration(
@@ -123,8 +124,9 @@ class _StepperWebWorkerState extends State<StepperWebWorker> {
 
         ///image
         Expanded(
+          flex: 6,
           child: Container(
-            height: width*0.25,
+            height: width*0.3,
             child: Center(
                 child: Image.asset(image)
             ),

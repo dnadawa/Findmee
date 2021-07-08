@@ -4,6 +4,7 @@ import 'package:findmee/screens/book-a-recruit/profiles.dart';
 import 'package:findmee/web/book-a-recruit/profiles.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
+import 'package:findmee/widgets/message-dialog.dart';
 import 'package:findmee/widgets/toast.dart';
 import 'package:findmee/widgets/toggle-button.dart';
 import 'package:flutter/cupertino.dart';
@@ -65,15 +66,15 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
     double width = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: EdgeInsets.all(width*0.075),
+      padding: EdgeInsets.fromLTRB(width*0.05,width*0.04,width*0.1,0),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: ScreenUtil().setHeight(30),),
-            CustomText(text: 'Datoer',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
-            SizedBox(height: ScreenUtil().setHeight(50),),
+            CustomText(text: 'Datoer',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D)),
+            SizedBox(height: ScreenUtil().setHeight(80),),
             CustomText(text: 'Vælg gerne dato/datoer og tid når du har brug for at ansætte en vikar',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
             SizedBox(height: width*0.03,),
 
@@ -158,8 +159,8 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
 
             SizedBox(height: ScreenUtil().setHeight(80),),
             Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-              child: Button(text: 'Næste',padding: width*0.01,onclick: () async {
+              padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20), vertical: ScreenUtil().setWidth(40)),
+              child: Button(text: 'Næste',padding: width*0.01,color: Colors.red,onclick: () async {
                 Set datesAndShifts = {};
                 List<String> longDates = [];
                 list.forEach((element) {
@@ -199,7 +200,7 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
 
 
                 if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
-                  ToastBar(text: 'Please select at least one date and shift', color: Colors.red).show();
+                  MessageDialog.show(context: context, text: 'Please select at least one date and shift');
                 }
                 else{
                   Navigator.push(

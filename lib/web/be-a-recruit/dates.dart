@@ -64,13 +64,13 @@ class _DatesWebWorkerState extends State<DatesWebWorker> {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(width*0.075),
+        padding: EdgeInsets.fromLTRB(width*0.05,width*0.04,width*0.1,0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: ScreenUtil().setHeight(30),),
-            CustomText(text: 'Datoer.',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+            CustomText(text: 'Datoer.',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D)),
             SizedBox(height: ScreenUtil().setHeight(50),),
             CustomText(text: 'Vælg gerne dato/datoer og tider når du vil arbejde',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
             SizedBox(height: width*0.03,),
@@ -156,8 +156,8 @@ class _DatesWebWorkerState extends State<DatesWebWorker> {
 
             SizedBox(height: ScreenUtil().setHeight(80),),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
-              child: Button(text: 'Næste',padding: width*0.01,onclick: () async {
+              padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20), vertical: ScreenUtil().setWidth(40)),
+              child: Button(text: 'Næste',padding: width*0.01,color: Colors.red,onclick: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 Map data = jsonDecode(prefs.getString('data'));
 

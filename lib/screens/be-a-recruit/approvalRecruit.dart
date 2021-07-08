@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:findmee/web/be-a-recruit/dashboard.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
@@ -106,27 +107,11 @@ class _ApprovalState extends State<Approval> {
                           onclick: () async {
                             Navigator.push(
                               context,
-                              CupertinoPageRoute(builder: (context) => Offers()),
+                              CupertinoPageRoute(builder: (context) => Dashboard(email: email)),
                             );
                           },
                         ),
                       ),
-                    if(status=='approved')
-                      Padding(
-                        padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
-                        child: Button(
-                          text: 'Edit Available Dates',
-                          padding: isTablet?width*0.025:10,
-                          color: Colors.red,
-                          onclick: () async {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(builder: (context) => EditDates(email: email,)),
-                            );
-                          },
-                        ),
-                      )
-
                   ],
                 ),
               ),

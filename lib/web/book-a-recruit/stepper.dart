@@ -62,7 +62,7 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
           Expanded(
             child: PageView(
               controller: _controller,
-              physics: NeverScrollableScrollPhysics(),
+              // physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: [
                 page(
@@ -101,6 +101,7 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
       children: [
         ///whitebox
         Expanded(
+          flex: 4,
           child: Container(
             height: double.infinity,
             decoration: BoxDecoration(
@@ -113,8 +114,9 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
 
         ///image
         Expanded(
+          flex: 6,
           child: Container(
-            height: width*0.25,
+            height: width*0.3,
             child: Center(
                 child: Image.asset(image)
             ),

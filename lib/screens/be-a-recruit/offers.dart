@@ -59,11 +59,6 @@ class _OffersState extends State<Offers> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        title: CustomText(text: 'Job Offers',color: Colors.white,),
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
