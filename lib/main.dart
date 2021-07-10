@@ -2,6 +2,7 @@ import 'package:findmee/responsive.dart';
 import 'package:findmee/routes.dart';
 import 'package:findmee/screens/book-a-recruit/stepper.dart';
 import 'package:findmee/screens/welcome.dart';
+import 'package:findmee/web/be-a-recruit/dashboard.dart';
 import 'package:findmee/web/book-a-recruit/profiles.dart';
 import 'package:findmee/web/book-a-recruit/stepper.dart';
 import 'package:findmee/web/homeWeb.dart';
@@ -66,7 +67,6 @@ class _MyAppState extends State<MyApp> {
         onGenerateTitle: (BuildContext context){
           return "Findme";
         },
-        // home: kIsWeb?HomeWeb():WelcomeWeb(),
         home: Responsive(mobile: WelcomeWeb(), tablet: WelcomeWeb(), desktop: HomeWeb()),
       ),
     );

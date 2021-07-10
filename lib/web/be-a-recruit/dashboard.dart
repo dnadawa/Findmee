@@ -6,6 +6,7 @@ import 'package:findmee/web/be-a-recruit/editDates.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../responsive.dart';
 import 'offers.dart';
@@ -51,11 +52,13 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
         child: Column(
           children: [
             Container(
+              height: ScreenUtil().setHeight(400),
+                width: double.infinity,
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
                 ),
                 child: Image.asset('assets/images/logo.png')),
+            SizedBox(height: ScreenUtil().setHeight(60),),
             ListTile(
               title: CustomText(text: 'Job Offers',color: _controller.index==0?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
               trailing: Icon(Icons.arrow_forward_ios_outlined),
@@ -97,7 +100,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                         height: width*0.16,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
-                          color: Theme.of(context).primaryColor,
+                          color: Color(0xffFA1E0E),
                         ),
                         child: Image.asset('assets/images/logo.png')
                     ),
@@ -114,7 +117,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                       },
                       child: CustomText(
                         text: 'Job Offers',
-                        color: _controller.index==0?Theme.of(context).primaryColor:Colors.black,
+                        color: _controller.index==0?Color(0xffFA1E0E):Colors.black,
                         size: width*0.04,
                       ),
                     ),
@@ -131,7 +134,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                       },
                       child: CustomText(
                         text: 'Calendar',
-                        color: _controller.index==1?Theme.of(context).primaryColor:Colors.black,
+                        color: _controller.index==1?Color(0xffFA1E0E):Colors.black,
                         size: width*0.04,
                       ),
                     ),

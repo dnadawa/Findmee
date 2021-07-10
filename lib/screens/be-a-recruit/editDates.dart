@@ -117,6 +117,7 @@ class _EditDatesState extends State<EditDates> {
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Padding(
           padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
           child: Container(
