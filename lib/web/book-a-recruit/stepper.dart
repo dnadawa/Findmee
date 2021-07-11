@@ -62,7 +62,7 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
           Expanded(
             child: PageView(
               controller: _controller,
-              // physics: NeverScrollableScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: [
                 page(
