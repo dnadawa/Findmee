@@ -10,8 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../responsive.dart';
-import 'editDates.dart';
-import 'offers.dart';
 
 class Approval extends StatefulWidget {
   final PageController controller;

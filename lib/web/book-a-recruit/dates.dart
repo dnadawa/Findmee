@@ -1,11 +1,9 @@
 import 'dart:collection';
 
-import 'package:findmee/screens/book-a-recruit/profiles.dart';
 import 'package:findmee/web/book-a-recruit/profiles.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/message-dialog.dart';
-import 'package:findmee/widgets/toast.dart';
 import 'package:findmee/widgets/toggle-button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +12,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import '../../responsive.dart';
 
 class DatesWebCompany extends StatefulWidget {
   @override

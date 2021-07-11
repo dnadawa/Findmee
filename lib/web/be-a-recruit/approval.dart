@@ -1,9 +1,6 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:findmee/responsive.dart';
-import 'package:findmee/screens/be-a-recruit/offers.dart';
-import 'package:findmee/web/be-a-recruit/offers.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dashboard.dart';
-import 'editDates.dart';
 
 class ApprovalWeb extends StatefulWidget {
   final PageController controller;

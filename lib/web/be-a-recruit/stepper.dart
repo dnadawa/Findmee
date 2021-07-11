@@ -5,7 +5,6 @@ import 'package:findmee/web/be-a-recruit/photos.dart';
 import 'package:findmee/web/be-a-recruit/register.dart';
 import 'package:findmee/web/book-a-recruit/categories.dart';
 import 'package:findmee/web/book-a-recruit/cities.dart';
-import 'package:findmee/web/book-a-recruit/dates.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:im_stepper/stepper.dart';

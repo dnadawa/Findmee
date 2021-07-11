@@ -1,5 +1,3 @@
-import 'package:findmee/admin/businessProfiles.dart';
-import 'package:findmee/admin/workerProfiles.dart';
 import 'package:findmee/screens/be-a-recruit/editDates.dart';
 import 'package:findmee/screens/be-a-recruit/offers.dart';
 import 'package:findmee/web/be-a-recruit/editDates.dart';

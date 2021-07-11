@@ -1,10 +1,5 @@
 import 'package:findmee/responsive.dart';
 import 'package:findmee/routes.dart';
-import 'package:findmee/screens/book-a-recruit/stepper.dart';
-import 'package:findmee/screens/welcome.dart';
-import 'package:findmee/web/be-a-recruit/dashboard.dart';
-import 'package:findmee/web/book-a-recruit/profiles.dart';
-import 'package:findmee/web/book-a-recruit/stepper.dart';
 import 'package:findmee/web/homeWeb.dart';
 import 'package:findmee/web/welcomeWeb.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,8 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:url_strategy/url_strategy.dart';
-import 'screens/welcome.dart';
-import 'screens/welcome.dart';
 
 void main(){
   setPathUrlStrategy();
