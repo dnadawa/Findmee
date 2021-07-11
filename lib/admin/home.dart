@@ -1,8 +1,11 @@
 import 'package:findmee/admin/businessProfiles.dart';
+import 'package:findmee/admin/searchProfiles.dart';
+import 'package:findmee/admin/searchProfilesMobile.dart';
 import 'package:findmee/admin/workerProfiles.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../responsive.dart';
 
@@ -45,11 +48,14 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
               child: Column(
                 children: [
                   Container(
+                      height: ScreenUtil().setHeight(400),
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
                       ),
-                      child: Image.asset('assets/images/logo.png')),
+                      child: Image.asset('assets/images/logo.png')
+                  ),
+                  SizedBox(height: ScreenUtil().setHeight(60),),
                   ListTile(
                     title: CustomText(text: 'Business Profiles',color: _controller.index==0?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
                     trailing: Icon(Icons.arrow_forward_ios_outlined),
@@ -71,7 +77,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                     },
                   ),
                   ListTile(
-                    title: CustomText(text: 'Calendar Profiles',color: _controller.index==2?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
+                    title: CustomText(text: 'Calendar',color: _controller.index==2?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
                     trailing: Icon(Icons.arrow_forward_ios_outlined),
                     onTap: (){
                       setState(() {
@@ -169,7 +175,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
               children: [
                 BusinessProfiles(),
                 WorkerProfiles(),
-                Container(),
+                Responsive(mobile: SearchProfilesMobile(), tablet: SearchProfilesMobile(), desktop: SearchProfiles(),)
               ],
             ),
           ),
