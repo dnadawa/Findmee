@@ -58,7 +58,7 @@ class _SignUpState extends State<SignUp> {
           'phone': phone.text,
           'cvr': cvr.text,
           'username': username.text,
-          'status': 'approved',
+          'status': 'pending',
           'playerID': playerID
         });
         //todo:change approved to pending

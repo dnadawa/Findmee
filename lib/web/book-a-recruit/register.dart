@@ -47,7 +47,7 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
           'phone': phone.text,
           'cvr': cvr.text,
           'username': username.text,
-          'status': 'approved',
+          'status': 'pending',
           'playerID': ''
         });
         //todo:change approved to pending

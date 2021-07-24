@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
@@ -96,6 +97,42 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
 
             InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
             InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
+            SizedBox(height: ScreenUtil().setHeight(100),),
+            MouseRegion(
+              child: GestureDetector(
+                  onTap: () async {
+                    SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                    pd.show(
+                        message: 'Please wait',
+                        type: SimpleFontelicoProgressDialogType.custom,
+                        loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                    );
+                    try{
+                      if(email.text.isNotEmpty) {
+                        FirebaseAuth auth = FirebaseAuth.instance;
+                        await auth.sendPasswordResetEmail(email: email.text);
+                        pd.hide();
+                        MessageDialog.show(context: context, text: 'Password reset link sent to your email!', type: CoolAlertType.success);
+                      }
+                      else{
+                        pd.hide();
+                        MessageDialog.show(context: context, text: 'Please fill the email');
+                      }
+                    }
+                    on FirebaseAuthException catch(e){
+                      if (e.code == 'user-not-found') {
+                        pd.hide();
+                        MessageDialog.show(context: context, text: 'No user found for that email');
+                      }
+                      else{
+                        pd.hide();
+                        MessageDialog.show(context: context, text: 'Something went wrong!');
+                      }
+                    }
+                  },
+                  child: CustomText(text: "Forget Password",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(50),font: 'GoogleSans',)
+              ),
+            ),
             SizedBox(height: ScreenUtil().setHeight(70),),
 
             Padding(

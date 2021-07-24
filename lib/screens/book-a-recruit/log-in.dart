@@ -195,6 +195,40 @@ class _LogInState extends State<LogIn> {
 
                         InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
                         InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
+                        SizedBox(height: ScreenUtil().setHeight(80),),
+                        GestureDetector(
+                            onTap: () async {
+                              SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                              pd.show(
+                                  message: 'Please wait',
+                                  type: SimpleFontelicoProgressDialogType.custom,
+                                  loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                              );
+                              try{
+                                if(email.text.isNotEmpty) {
+                                  FirebaseAuth auth = FirebaseAuth.instance;
+                                  await auth.sendPasswordResetEmail(email: email.text);
+                                  pd.hide();
+                                  ToastBar(text: 'Password reset link sent to your email!',color: Colors.green).show();
+                                }
+                                else{
+                                  pd.hide();
+                                  ToastBar(text: 'Please fill the email',color: Colors.red).show();
+                                }
+                              }
+                              on FirebaseAuthException catch(e){
+                                if (e.code == 'user-not-found') {
+                                  pd.hide();
+                                  ToastBar(text: 'No user found for that email',color: Colors.red).show();
+                                }
+                                else{
+                                  pd.hide();
+                                  ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                                }
+                              }
+                            },
+                            child: CustomText(text: "Forget Password",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(40),font: 'GoogleSans',)
+                        ),
                         SizedBox(height: ScreenUtil().setHeight(70),),
 
                         Padding(

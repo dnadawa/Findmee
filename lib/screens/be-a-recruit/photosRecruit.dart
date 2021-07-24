@@ -243,7 +243,7 @@ class _PhotosState extends State<Photos> {
 
                             data['profileImage'] = proPicUrl;
                             data['selfie'] = selfieUrl;
-                            data['status'] = 'approved';
+                            data['status'] = 'pending';
                             //todo: change approved to pending
 
                             ///onesignal
