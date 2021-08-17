@@ -131,7 +131,7 @@ class _SignUpState extends State<SignUp> {
                                 child: Image.asset('assets/images/register.png')),
                           ),
                           SizedBox(height: ScreenUtil().setHeight(40),),
-                          InputField(hint: 'Fimanavn',controller: businessName,),
+                          InputField(hint: 'Firmanavn',controller: businessName,),
                           InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
                           InputField(hint: 'Mobiltelefon',type: TextInputType.phone,controller: phone),
                           InputField(hint: 'CVR',controller: cvr,),

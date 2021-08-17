@@ -101,7 +101,7 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
             SizedBox(height: ScreenUtil().setHeight(30),),
             CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D),isBold: true,),
             SizedBox(height: width*0.03,),
-            InputField(hint: 'Fimanavn',controller: businessName,),
+            InputField(hint: 'Firmanavn',controller: businessName,),
             InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
             InputField(hint: 'Mobiltelefon',type: TextInputType.phone,controller: phone),
             InputField(hint: 'CVR',controller: cvr,),

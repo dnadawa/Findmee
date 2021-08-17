@@ -2,22 +2,25 @@ class Data{
 
 
   final List categories = [
-    {'category': 'Anlæg' , 'selected': false},
+    {'category': 'Anlægsgartner' , 'selected': false},
     {'category': 'Nedriver' , 'selected': false},
     {'category': 'Pakke/plukke' , 'selected': false},
-    {'category': 'Truckkørsel' , 'selected': false},
+    {'category': 'Truck kørsel' , 'selected': false},
     {'category': 'Maskinoperatør' , 'selected': false},
     {'category': 'Montage' , 'selected': false},
     {'category': 'Oprydning' , 'selected': false},
     {'category': 'Rengøring' , 'selected': false},
     {'category': 'Vinduespudsning' , 'selected': false},
-    {'category': 'Atuomekaniker' , 'selected': false},
+    {'category': 'Automekaniker' , 'selected': false},
     {'category': 'Brolægning' , 'selected': false},
-    {'category': 'Atu. Kloakarbejde' , 'selected': false},
+    {'category': 'Aut. Kloakarbejde' , 'selected': false},
     {'category': 'Elektriker' , 'selected': false},
     {'category': 'Tømrer' , 'selected': false},
     {'category': 'Arbejdsmand' , 'selected': false},
     {'category': 'Maler' , 'selected': false},
+    {'category': 'Vagt' , 'selected': false},
+    {'category': 'SOSU- assistent' , 'selected': false},
+    {'category': 'Hjemmepleje' , 'selected': false},
   ];
 
 

@@ -36,7 +36,7 @@ class _CitiesWebState extends State<CitiesWeb> {
           SizedBox(height: ScreenUtil().setHeight(30),),
           CustomText(text: 'Byer',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D)),
           SizedBox(height: ScreenUtil().setHeight(80),),
-          CustomText(text: 'Select city/cities that you need to hire a recruiter',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+          CustomText(text: 'Vælg by/byer hvor du har brug for at ansætte en vikar/vikarer',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
           SizedBox(height: width*0.03,),
 
           Expanded(
