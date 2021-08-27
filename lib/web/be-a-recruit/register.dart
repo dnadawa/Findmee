@@ -46,8 +46,8 @@ class _RegisterWebWorkerState extends State<RegisterWebWorker> {
             child: Scrollbar(
               child: ListView(
                 children: [
-                  InputField(hint: 'Name',controller: name,),
-                  InputField(hint: 'Surname',controller: surname),
+                  InputField(hint: 'Navn',controller: name,),
+                  InputField(hint: 'Efternavn',controller: surname),
                   InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
                   InputField(hint: 'Mobiltelefon',controller: phone,type: TextInputType.phone,),
                   InputField(hint: 'CPR',controller: cpr),

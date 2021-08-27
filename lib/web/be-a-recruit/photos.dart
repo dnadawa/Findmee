@@ -24,7 +24,7 @@ class PhotosWeb extends StatefulWidget {
 class _PhotosWebState extends State<PhotosWeb> {
   Uint8List profileImage, selfie;
   Future getImage(String type) async {
-    final pickedFile = await ImagePicker().getImage(source: ImageSource.camera,imageQuality: 50);
+    final pickedFile = await ImagePicker().getImage(source: type=='profile'?ImageSource.gallery:ImageSource.camera,imageQuality: 50);
      if (pickedFile != null) {
         if(type=='profile'){
           profileImage = await pickedFile.readAsBytes();

@@ -53,7 +53,7 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
         //todo:change approved to pending
 
         ///send notification
-        // await Email.sendEmail('Findmee has received your details, please wait to be approved from team', 'Welcome to Findmee', to: email.text);
+        // await Email.sendEmail('Findmee has received your details, please wait to be approved from team', 'Velkommen til FindMe', to: email.text);
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 
       } on FirebaseAuthException catch (e) {

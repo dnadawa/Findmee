@@ -30,7 +30,7 @@ class _PhotosState extends State<Photos> {
 
   File profileImage , selfie;
   Future getImage(String type) async {
-    final pickedFile = await ImagePicker().getImage(source: ImageSource.camera,imageQuality: 50);
+    final pickedFile = await ImagePicker().getImage(source: type=='profile'?ImageSource.gallery:ImageSource.camera,imageQuality: 50);
     setState(() {
       if (pickedFile != null) {
         if(type=='profile'){
@@ -47,7 +47,7 @@ class _PhotosState extends State<Photos> {
 
   Uint8List profileImageData, selfieData;
   Future getImageWeb(String type) async {
-    final pickedFile = await ImagePicker().getImage(source: ImageSource.camera,imageQuality: 50);
+    final pickedFile = await ImagePicker().getImage(source: type=='profile'?ImageSource.gallery:ImageSource.camera,imageQuality: 50);
     if (pickedFile != null) {
       if(type=='profile'){
         profileImageData = await pickedFile.readAsBytes();
@@ -268,7 +268,7 @@ class _PhotosState extends State<Photos> {
                                   )
                               );
 
-                              await Email.sendEmail('Findmee has received your details, please wait to be approved from team','Welcome to Findmee', to: email);
+                              await Email.sendEmail('Findmee has received your details, please wait to be approved from team','Velkommen til FindMe', to: email);
                             }
 
                             widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));

@@ -108,9 +108,9 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      AdminInputField(hint: 'First Name',controller: name,),
+                      AdminInputField(hint: 'Navn',controller: name,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Surname',controller: surname,),
+                      AdminInputField(hint: 'Efternavn',controller: surname,),
                       SizedBox(height: width*0.05,),
                       AdminInputField(hint: 'Contact Email',controller: email,),
                       SizedBox(height: width*0.05,),

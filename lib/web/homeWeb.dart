@@ -114,7 +114,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                       children: [
                         ///texts
                         Text(
-                          'Welcome to',
+                          'Velkommen til',
                           style: GoogleFonts.merriweather(
                               fontSize: width*0.09,
                               fontWeight: FontWeight.w700
@@ -133,7 +133,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                         ),
                         SizedBox(height: width*0.06,),
                         Text(
-                            'Hire talented professionals',
+                            'Har du brug for en vikar?',
                             style: GoogleFonts.koHo(
                               fontWeight: FontWeight.w500,
                               fontSize: width*0.046,
@@ -143,7 +143,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                             textAlign: TextAlign.start
                         ),
                         Text(
-                            'OR',
+                            'ELLER',
                             style: GoogleFonts.koHo(
                                 fontWeight: FontWeight.bold,
                                 fontSize: width*0.046,
@@ -153,7 +153,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                             textAlign: TextAlign.start
                         ),
                         Text(
-                            'Market your skills to find jobs',
+                            'Ønsker du at blive en vikar?',
                             style: GoogleFonts.koHo(
                                 fontWeight: FontWeight.w500,
                                 fontSize: width*0.046,
@@ -200,7 +200,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                           width: width*0.65,
                           child: Button(
                             color: Colors.red,
-                            text: 'Get started',
+                            text: 'Tilmeld dig nu',
                             onclick: (){
                               Navigator.push(
                                 context,
