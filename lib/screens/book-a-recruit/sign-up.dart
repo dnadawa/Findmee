@@ -76,6 +76,7 @@ class _SignUpState extends State<SignUp> {
               'Findmee has received your details, please wait to be approved from team',
               'Velkommen til FindMe', to: email.text);
         }
+        pd.hide();
         ToastBar(text: 'User registered!',color: Colors.green).show();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 

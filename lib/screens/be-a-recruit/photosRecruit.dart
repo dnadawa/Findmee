@@ -244,6 +244,7 @@ class _PhotosState extends State<Photos> {
                             data['profileImage'] = proPicUrl;
                             data['selfie'] = selfieUrl;
                             data['status'] = 'pending';
+                            data['complete'] = true;
                             //todo: change approved to pending
 
                             ///onesignal
@@ -257,7 +258,7 @@ class _PhotosState extends State<Photos> {
                             print(data);
 
                             ///add to db
-                            await FirebaseFirestore.instance.collection('workers').doc(email).set(data);
+                            await FirebaseFirestore.instance.collection('workers').doc(email).update(data);
 
                             ///send notification
                             if(!kIsWeb){

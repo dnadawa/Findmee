@@ -49,8 +49,16 @@ class _RecruitLogInState extends State<RecruitLogIn> {
         var user = sub.docs;
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('data', jsonEncode({'email': email.text}));
-        if(user.isNotEmpty){
+        Map data = {
+            'name': user[0]['name'],
+            'surname': user[0]['surname'],
+            'cpr': user[0]['cpr'],
+            'experience': user[0]['experience'],
+            'phone': user[0]['phone'],
+            'email': user[0]['email'],
+        };
+        prefs.setString('data', jsonEncode(data));
+        if(user[0]['complete']){
           ///onesignal
           if(!kIsWeb){
             OSDeviceState status = await OneSignal.shared.getDeviceState();

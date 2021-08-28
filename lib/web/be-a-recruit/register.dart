@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
@@ -103,21 +104,20 @@ class _RegisterWebWorkerState extends State<RegisterWebWorker> {
                       type: SimpleFontelicoProgressDialogType.custom,
                       loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                   );
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
                   try {
                     await FirebaseAuth.instance.createUserWithEmailAndPassword(
                         email: email.text,
                         password: password.text
                     );
-                    Map reg = {
+                    await FirebaseFirestore.instance.collection('workers').doc(email.text).set({
                       'name': name.text,
                       'surname': surname.text,
                       'cpr': cpr.text,
                       'experience': experience.text,
                       'phone': phone.text,
-                      'email': email.text
-                    };
-                    prefs.setString('data', jsonEncode(reg));
+                      'email': email.text,
+                      'complete': false
+                    });
                     pd.hide();
                     widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 

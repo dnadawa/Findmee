@@ -33,6 +33,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
   var catProfiles;
 
   getProfiles() async {
+    profiles = [];
     SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
     pd.show(
         message: 'Please wait',

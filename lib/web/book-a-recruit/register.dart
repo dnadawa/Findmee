@@ -54,6 +54,7 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
 
         ///send notification
         // await Email.sendEmail('Findmee has received your details, please wait to be approved from team', 'Velkommen til FindMe', to: email.text);
+        pd.hide();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 
       } on FirebaseAuthException catch (e) {
