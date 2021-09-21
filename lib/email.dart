@@ -27,7 +27,7 @@ class CustomEmail{
 
   static sendEmail(String msg, String subjectText, {String to='shakib@live.dk'}) async {
     try{
-      String api = "http://localhost:3000/sendEmail";
+      String api = "https://api.prkcar.com:7000/sendEmail";
       var response = await http.post(
         Uri.parse(api),
         body: {
