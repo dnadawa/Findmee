@@ -61,7 +61,6 @@ class _SignUpState extends State<SignUp> {
           'status': 'pending',
           'playerID': playerID
         });
-        //todo:change approved to pending
 
         ///send notification
         if(!kIsWeb) {
@@ -71,11 +70,10 @@ class _SignUpState extends State<SignUp> {
                   content: 'Findmee has received your details, please wait to be approved from team'
               )
           );
-
-          await Email.sendEmail(
-              'Findmee has received your details, please wait to be approved from team',
-              'Velkommen til FindMe', to: email.text);
         }
+        await CustomEmail.sendEmail(
+            'Findmee has received your details, please wait to be approved from team',
+            'Velkommen til FindMe', to: email.text);
         pd.hide();
         ToastBar(text: 'User registered!',color: Colors.green).show();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
@@ -87,7 +85,8 @@ class _SignUpState extends State<SignUp> {
           ToastBar(text: 'The account already exists for that email',color: Colors.red).show();
         }
       } catch (e) {
-        ToastBar(text: 'Something went wrong',color: Colors.red).show();
+        print(e.toString());
+        ToastBar(text: e.toString(),color: Colors.red).show();
       }
       pd.hide();
     }

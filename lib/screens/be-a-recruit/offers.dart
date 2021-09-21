@@ -6,11 +6,8 @@ import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -302,7 +299,6 @@ class _OffersState extends State<Offers> {
                                           String email = jsonDecode(prefs.getString('data'))['email'];
 
                                           ///send email
-                                          if(!kIsWeb){
                                             var subCompany = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: offers[i]['company']).get();
                                             var company = subCompany.docs;
 
@@ -321,60 +317,31 @@ class _OffersState extends State<Offers> {
                                                 "\t\tMobile Phone: ${worker[0]['phone']}\n"
                                                 "\t\tCPR Number: ${worker[0]['cpr']}";
 
-                                            String username = dotenv.env['EMAIL'];
-                                            String password = dotenv.env['PASSWORD'];
+                                            bool isSendEmail = await CustomEmail.sendEmail(msg, 'Workers');
+                                            if(isSendEmail){
+                                                ToastBar(text: 'Email sent!',color: Colors.green).show();
+                                                await FirebaseFirestore.instance.collection('offers').doc(id).update({
+                                                  'sent': FieldValue.arrayRemove([email]),
+                                                  'accepted': FieldValue.arrayUnion([email])
+                                                });
+                                                getOffers();
 
-                                            final smtpServer = gmail(username, password);
-                                            final message = Message()
-                                              ..from = Address(username, 'Findmee')
-                                              ..recipients.add('shakib@live.dk')
-                                            // ..recipients.add('dulajnadawa@gmail.com')
-                                              ..subject = 'Workers'
-                                              ..text = msg;
-                                            try {
-                                              final sendReport = await send(message, smtpServer);
-                                              print('Message sent: ' + sendReport.toString());
-                                              ToastBar(text: 'Email sent!',color: Colors.green).show();
+                                                if(!kIsWeb){
+                                                  OneSignal.shared.postNotification(
+                                                      OSCreateNotification(
+                                                          playerIds: [company[0]['playerID']],
+                                                          content: 'Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}'
+                                                      )
+                                                  );
+                                                }
 
-                                              await FirebaseFirestore.instance.collection('offers').doc(id).update({
-                                                'sent': FieldValue.arrayRemove([email]),
-                                                'accepted': FieldValue.arrayUnion([email])
-                                              });
-
-                                              getOffers();
-
-                                              ///send notification
-                                              OneSignal.shared.postNotification(
-                                                  OSCreateNotification(
-                                                      playerIds: [company[0]['playerID']],
-                                                      content: 'Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}'
-                                                  )
-                                              );
-
-                                              await Email.sendEmail('Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Accepted', to: company[0]['email']);
-
-                                              ToastBar(text: 'Accepted',color: Colors.green).show();
-                                            } on MailerException catch (e) {
-                                              for (var p in e.problems) {
-                                                print('Problem: ${p.code}: ${p
-                                                    .msg}');
-                                                ToastBar(
-                                                    text: 'Email not sent! ${p
-                                                        .msg}', color: Colors.red)
-                                                    .show();
-                                              }
+                                                await CustomEmail.sendEmail('Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Accepted', to: company[0]['email']);
+                                                ToastBar(text: 'Accepted',color: Colors.green).show();
                                             }
-                                          }
-                                          else{
-                                            await FirebaseFirestore.instance.collection('offers').doc(id).update({
-                                              'sent': FieldValue.arrayRemove([email]),
-                                              'accepted': FieldValue.arrayUnion([email])
-                                            });
-
-                                            getOffers();
-                                            ToastBar(text: 'Accepted',color: Colors.green).show();
-                                          }
-                                          pd.hide();
+                                            else{
+                                                  ToastBar(text: 'Email not sent!', color: Colors.red).show();
+                                            }
+                                            pd.hide();
                                         },
                                       ),
                                     ),
@@ -412,8 +379,9 @@ class _OffersState extends State<Offers> {
                                                   )
                                               );
 
-                                              await Email.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
                                             }
+
+                                            await CustomEmail.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
 
                                             await FirebaseFirestore.instance.collection('offers').doc(id).update({
                                               'sent': FieldValue.arrayRemove([email])

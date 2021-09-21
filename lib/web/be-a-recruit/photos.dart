@@ -12,6 +12,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
+import '../../email.dart';
+
 class PhotosWeb extends StatefulWidget {
   final PageController controller;
 
@@ -197,6 +199,7 @@ class _PhotosWebState extends State<PhotosWeb> {
                       await FirebaseFirestore.instance.collection('workers').doc(email).update(data);
 
                       ///send notification
+                      await CustomEmail.sendEmail('Findmee has received your details, please wait to be approved from team','Velkommen til FindMe', to: email);
 
                       pd.hide();
                       widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));

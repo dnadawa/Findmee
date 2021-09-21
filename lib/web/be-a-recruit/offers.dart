@@ -15,6 +15,8 @@ import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
+import '../../email.dart';
+
 class OffersWeb extends StatefulWidget {
   @override
   _OffersWebState createState() => _OffersWebState();
@@ -353,6 +355,7 @@ class _OffersWebState extends State<OffersWeb> {
                                               "\t\tCPR Number: ${worker[0]['cpr']}";
 
                                           ///send email to admin
+                                          await CustomEmail.sendEmail(msg, 'Workers');
 
                                           await FirebaseFirestore.instance.collection('offers').doc(id).update({
                                               'sent': FieldValue.arrayRemove([email]),
@@ -384,13 +387,12 @@ class _OffersWebState extends State<OffersWeb> {
                                             SharedPreferences prefs = await SharedPreferences.getInstance();
                                             String email = jsonDecode(prefs.getString('data'))['email'];
 
-                                            // var subCompany = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: offers[i]['company']).get();
-                                            // var company = subCompany.docs;
-                                            //
-                                            // var subWorker = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
-                                            // var worker = subWorker.docs;
+                                            var subWorker = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
+                                            var worker = subWorker.docs;
 
                                             ///send notification
+
+                                            await CustomEmail.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
 
                                             await FirebaseFirestore.instance.collection('offers').doc(id).update({
                                               'sent': FieldValue.arrayRemove([email])

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
@@ -9,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 class RegisterWebWorker extends StatefulWidget {

@@ -268,9 +268,9 @@ class _PhotosState extends State<Photos> {
                                       content: 'Findmee has received your details, please wait to be approved from team'
                                   )
                               );
-
-                              await Email.sendEmail('Findmee has received your details, please wait to be approved from team','Velkommen til FindMe', to: email);
                             }
+
+                            await CustomEmail.sendEmail('Findmee has received your details, please wait to be approved from team','Velkommen til FindMe', to: email);
 
                             widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
                           }

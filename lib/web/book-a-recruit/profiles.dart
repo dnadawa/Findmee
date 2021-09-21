@@ -12,6 +12,7 @@ import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
+import '../../email.dart';
 import '../welcomeWeb.dart';
 
 class ProfilesWeb extends StatefulWidget {
@@ -160,7 +161,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
                           onTap: ()async{
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             List<String> emailList = prefs.getStringList('emailList');
-                            List<String> notificationList = prefs.getStringList('notificationList');
+
                             if(emailList==null){
                               MessageDialog.show(
                                 context: context,
@@ -187,6 +188,9 @@ class _ProfilesWebState extends State<ProfilesWeb> {
 
 
                                 ///send notification
+                                emailList.forEach((element) async {
+                                  await CustomEmail.sendEmail("You received a new job offer", "Offer Received", to: element);
+                                });
                                 pd.hide();
 
                                 showDialog(

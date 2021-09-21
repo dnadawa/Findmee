@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:findmee/email.dart';
 import 'package:findmee/pop-ups/profile-pop-up.dart';
 import 'package:findmee/pop-ups/recieved-pop-up.dart';
 import 'package:findmee/screens/book-a-recruit/stepper.dart';
@@ -8,10 +9,7 @@ import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
@@ -227,25 +225,10 @@ class _ProfilesState extends State<Profiles> {
                                 content: 'You received a new job offer'
                             )
                         );
-
-                        String username = dotenv.env['EMAIL'];
-                        String password = dotenv.env['PASSWORD'];
-
-                        final smtpServer = gmail(username, password);
-                        final message = Message()
-                          ..from = Address(username, 'Findmee')
-                          ..recipients.addAll(emailList)
-                          ..subject = "Offer Received"
-                          ..text = "You received a new job offer";
-                        try {
-                          final sendReport = await send(message, smtpServer);
-                          print('Message sent: ' + sendReport.toString());
-                        } on MailerException catch (e) {
-                          for (var p in e.problems) {
-                            print('Problem: ${p.code}: ${p.msg}');
-                          }
-                        }
                       }
+                      emailList.forEach((element) async {
+                        await CustomEmail.sendEmail("You received a new job offer", "Offer Received", to: element);
+                      });
                       pd.hide();
 
                         showDialog(

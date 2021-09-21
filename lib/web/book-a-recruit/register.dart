@@ -9,6 +9,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
+import '../../email.dart';
+
 class RegisterWebCompany extends StatefulWidget {
   final PageController controller;
 
@@ -53,7 +55,9 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
         //todo:change approved to pending
 
         ///send notification
-        // await Email.sendEmail('Findmee has received your details, please wait to be approved from team', 'Velkommen til FindMe', to: email.text);
+        await CustomEmail.sendEmail(
+            'Findmee has received your details, please wait to be approved from team',
+            'Velkommen til FindMe', to: email.text);
         pd.hide();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 
