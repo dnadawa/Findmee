@@ -1,3 +1,4 @@
+import 'package:findmee/web/home.dart';
 import 'package:findmee/responsive.dart';
 import 'package:findmee/routes.dart';
 import 'package:findmee/web/homeWeb.dart';
@@ -60,7 +61,7 @@ class _MyAppState extends State<MyApp> {
         onGenerateTitle: (BuildContext context){
           return "Findme";
         },
-        home: Responsive(mobile: WelcomeWeb(), tablet: WelcomeWeb(), desktop: HomeWeb()),
+        home: Responsive(mobile: Home(), tablet: WelcomeWeb(), desktop: HomeWeb()),
       ),
     );
   }
