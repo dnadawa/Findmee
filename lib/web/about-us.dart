@@ -44,7 +44,7 @@ class AboutUs extends StatelessWidget {
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),),
-                elevation: 4,
+                elevation: 6,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
                   child: Column(
@@ -57,28 +57,28 @@ class AboutUs extends StatelessWidget {
                         size: width*0.07,
                         font: 'Ubuntu',
                       ),
-                      SizedBox(height: width*0.06,),
+                      SizedBox(height: width*0.08,),
                       CustomText(
                         text: 'Velkommen til Findme aps\n\n'
                             'Vi er et ungt og dynamisk team med gåpåmod, som står til tjeneste '
                             '24/7 i 365 dage, så du kan altid træffe os, når der opstår akutte situationer. '
                             'Det eneste det kræver for dig er at ringe og booke en af vores vikarer på 42 33 43 43',
                         font: 'GoogleSans',
-                        size: width*0.035,
+                        size: width*0.042,
                         isBold: false,
                         align: TextAlign.start,
                       ),
                       CustomText(
                         text: '\nVi er anderledes end de fleste vikarbureauer.\n',
                         font: 'GoogleSans',
-                        size: width*0.040,
+                        size: width*0.050,
                         align: TextAlign.start,
                       ),
                       CustomText(
                         text: 'Du kan nemt planlægge og bestille alle vores personligt udvalgte vikarer og kan vælge præcis den medarbejder, '
                             'der passer til dit behov. Mens vi sørger for, at forholdene og papirarbejdet altid er i orden. Opret en profil hos os allerede i dag.',
                         font: 'GoogleSans',
-                        size: width*0.035,
+                        size: width*0.042,
                         isBold: false,
                         align: TextAlign.start,
                       ),
