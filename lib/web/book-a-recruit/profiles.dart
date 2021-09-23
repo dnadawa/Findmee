@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../../email.dart';
-import '../welcomeWeb.dart';
+import '../home-app.dart';
 
 class ProfilesWeb extends StatefulWidget {
   @override
@@ -226,7 +226,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
                                                 onPressed: (){
                                                   Navigator.of(context).pushAndRemoveUntil(
                                                       CupertinoPageRoute(builder: (context) =>
-                                                          WelcomeWeb()), (Route<dynamic> route) => false);
+                                                          HomeApp()), (Route<dynamic> route) => false);
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   primary: Color(0xff00C853),

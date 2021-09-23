@@ -1,4 +1,4 @@
-import 'package:findmee/web/welcomeWeb.dart';
+import 'package:findmee/web/home-app.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,12 +8,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'book-a-recruit/stepper.dart';
 
-class HomeWeb extends StatefulWidget {
+class HomeDesktopWeb extends StatefulWidget {
   @override
-  _HomeWebState createState() => _HomeWebState();
+  _HomeDesktopWebState createState() => _HomeDesktopWebState();
 }
 
-class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
+class _HomeDesktopWebState extends State<HomeDesktopWeb> with SingleTickerProviderStateMixin{
   TabController _controller;
 
   @override
@@ -204,7 +204,7 @@ class _HomeWebState extends State<HomeWeb> with SingleTickerProviderStateMixin{
                             onclick: (){
                               Navigator.push(
                                 context,
-                                CupertinoPageRoute(builder: (context) => WelcomeWeb()),
+                                CupertinoPageRoute(builder: (context) => HomeApp()),
                               );
                             },
                             padding: width*0.04,

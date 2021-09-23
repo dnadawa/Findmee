@@ -8,12 +8,12 @@ import '../screens/welcome.dart';
 import '../widgets/buttons.dart';
 import '../widgets/custom-text.dart';
 
-class WelcomeWeb extends StatefulWidget {
+class HomeApp extends StatefulWidget {
   @override
-  _WelcomeWebState createState() => _WelcomeWebState();
+  _HomeAppState createState() => _HomeAppState();
 }
 
-class _WelcomeWebState extends State<WelcomeWeb> {
+class _HomeAppState extends State<HomeApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

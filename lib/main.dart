@@ -1,10 +1,8 @@
-import 'package:findmee/web/about-us.dart';
-import 'package:findmee/web/contact-us.dart';
-import 'package:findmee/web/home.dart';
+import 'package:findmee/web/home-mobile-web.dart';
 import 'package:findmee/responsive.dart';
 import 'package:findmee/routes.dart';
-import 'package:findmee/web/homeWeb.dart';
-import 'package:findmee/web/welcomeWeb.dart';
+import 'package:findmee/web/home-desktop-web.dart';
+import 'package:findmee/web/home-app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,7 +61,7 @@ class _MyAppState extends State<MyApp> {
         onGenerateTitle: (BuildContext context){
           return "Findme";
         },
-        home: Responsive(mobile: Home(), tablet: WelcomeWeb(), desktop: HomeWeb()),
+        home: Responsive(mobile: kIsWeb?HomeMobileWeb():HomeApp(), tablet: kIsWeb?HomeMobileWeb():HomeApp(), desktop: HomeDesktopWeb()),
       ),
     );
   }
