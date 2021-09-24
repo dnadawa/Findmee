@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/email.dart';
+import 'package:findmee/responsive.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SignUp extends StatefulWidget {
   final PageController controller;
@@ -43,8 +45,11 @@ class _SignUpState extends State<SignUp> {
         );
 
         ///onesignal
-        OSDeviceState status = await OneSignal.shared.getDeviceState();
-        String playerID = status.userId;
+        String playerID = "";
+        if(!kIsWeb){
+          OSDeviceState status = await OneSignal.shared.getDeviceState();
+          playerID = status.userId;
+        }
 
         ///save details
         await FirebaseFirestore.instance.collection('companies').doc(email.text).set({
@@ -53,21 +58,23 @@ class _SignUpState extends State<SignUp> {
           'phone': phone.text,
           'cvr': cvr.text,
           'username': username.text,
-          'status': 'approved',
+          'status': 'pending',
           'playerID': playerID
         });
-        //todo:change approved to pending
 
         ///send notification
-        OneSignal.shared.postNotification(
-            OSCreateNotification(
-              playerIds: [playerID],
-              content: 'Findmee has received your details, please wait to be approved from team'
-            )
-        );
-
-        await Email.sendEmail('Findmee has received your details, please wait to be approved from team', 'Welcome to Findmee', to: email.text);
-
+        if(!kIsWeb) {
+          OneSignal.shared.postNotification(
+              OSCreateNotification(
+                  playerIds: [playerID],
+                  content: 'Findmee has received your details, please wait to be approved from team'
+              )
+          );
+        }
+        await CustomEmail.sendEmail(
+            'Findmee has received your details, please wait to be approved from team',
+            'Velkommen til FindMe', to: email.text);
+        pd.hide();
         ToastBar(text: 'User registered!',color: Colors.green).show();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 
@@ -78,7 +85,8 @@ class _SignUpState extends State<SignUp> {
           ToastBar(text: 'The account already exists for that email',color: Colors.red).show();
         }
       } catch (e) {
-        ToastBar(text: 'Something went wrong',color: Colors.red).show();
+        print(e.toString());
+        ToastBar(text: e.toString(),color: Colors.red).show();
       }
       pd.hide();
     }
@@ -89,6 +97,8 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),0),
@@ -116,12 +126,12 @@ class _SignUpState extends State<SignUp> {
                           CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
                           Center(
                             child: SizedBox(
-                                width: ScreenUtil().setHeight(600),
-                                height: ScreenUtil().setWidth(600),
+                                width: isTablet?width*0.3:ScreenUtil().setHeight(600),
+                                height: isTablet?width*0.3:ScreenUtil().setWidth(600),
                                 child: Image.asset('assets/images/register.png')),
                           ),
                           SizedBox(height: ScreenUtil().setHeight(40),),
-                          InputField(hint: 'Fimanavn',controller: businessName,),
+                          InputField(hint: 'Firmanavn',controller: businessName,),
                           InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
                           InputField(hint: 'Mobiltelefon',type: TextInputType.phone,controller: phone),
                           InputField(hint: 'CVR',controller: cvr,),
@@ -131,7 +141,7 @@ class _SignUpState extends State<SignUp> {
 
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                            child: Button(text: 'Tilmeld',onclick: ()=>signUp()),
+                            child: Button(text: 'Tilmeld',padding: isTablet?width*0.025:10,onclick: ()=>signUp()),
                           )
 
                         ],

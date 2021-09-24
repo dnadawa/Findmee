@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../responsive.dart';
+
 class Categories extends StatefulWidget {
   final String from;
   final PageController controller;
@@ -24,6 +26,8 @@ class _CategoriesState extends State<Categories> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
@@ -46,7 +50,7 @@ class _CategoriesState extends State<Categories> {
                   SizedBox(height: ScreenUtil().setHeight(30),),
                   CustomText(text: 'Kategorier',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                   SizedBox(height: ScreenUtil().setHeight(50),),
-                  CustomText(text: 'Vælg kategorier, du har brug for for at ansætte en vikar:',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+                  CustomText(text: 'Vælg kategorier du har brug for at ansætte en vikar/vikarer:',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                   SizedBox(height: ScreenUtil().setHeight(100),),
 
                   Expanded(
@@ -74,7 +78,7 @@ class _CategoriesState extends State<Categories> {
 
                   Padding(
                     padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                    child: Button(text: 'Næste',onclick: () async {
+                    child: Button(text: 'Næste',padding: isTablet?width*0.025:10,onclick: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
 
                       List<String> selectedCategories = [];
@@ -95,6 +99,7 @@ class _CategoriesState extends State<Categories> {
                         Map x = jsonDecode(prefs.getString('data'));
                         x['categories'] = selectedCategories;
                         prefs.setString('data', jsonEncode(x));
+                        print(x);
                         widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
                       }
                     }),

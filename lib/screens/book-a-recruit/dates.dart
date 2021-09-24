@@ -11,6 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../responsive.dart';
+
 class Dates extends StatefulWidget {
   @override
   _DatesState createState() => _DatesState();
@@ -55,6 +57,8 @@ class _DatesState extends State<Dates> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
@@ -164,23 +168,24 @@ class _DatesState extends State<Dates> {
 
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                      child: Button(text: 'Næste',onclick: () async {
+                      child: Button(text: 'Næste',padding: isTablet?width*0.025:10,onclick: () async {
 
                         Set datesAndShifts = {};
                         List<String> longDates = [];
                         list.forEach((element) {
-                          int day = DateTime.parse(element['day']).weekday;
+                          // int day = DateTime.parse(element['day']).weekday;
+                          String day = element['day'];
                           if(element['morning']){
-                            datesAndShifts.add(day.toString()+'mor');
-                            longDates.add(element['day']+":mor");
+                            datesAndShifts.add(day+'mor');
+                            longDates.add(day+":mor");
                           }
                           if(element['evening']){
-                            datesAndShifts.add(day.toString()+'eve');
-                            longDates.add(element['day']+":eve");
+                            datesAndShifts.add(day+'eve');
+                            longDates.add(day+":eve");
                           }
                           if(element['night']){
-                            datesAndShifts.add(day.toString()+'nig');
-                            longDates.add(element['day']+":nig");
+                            datesAndShifts.add(day+'nig');
+                            longDates.add(day+":nig");
                           }
                         });
 

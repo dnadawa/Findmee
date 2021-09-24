@@ -4,12 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/toast.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -17,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../../email.dart';
+import '../../responsive.dart';
 
 class Offers extends StatefulWidget {
   @override
@@ -53,13 +52,10 @@ class _OffersState extends State<Offers> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        title: CustomText(text: 'Job Offers',color: Colors.white,),
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -291,6 +287,7 @@ class _OffersState extends State<Offers> {
                                         text: 'Accept the job',
                                         color: Colors.green,
                                         borderRadius: 10,
+                                        padding: isTablet?width*0.025:10,
                                         onclick: () async {
                                           SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                           pd.show(
@@ -302,68 +299,49 @@ class _OffersState extends State<Offers> {
                                           String email = jsonDecode(prefs.getString('data'))['email'];
 
                                           ///send email
-                                          var subCompany = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: offers[i]['company']).get();
-                                          var company = subCompany.docs;
+                                            var subCompany = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: offers[i]['company']).get();
+                                            var company = subCompany.docs;
 
-                                          var subWorker = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
-                                          var worker = subWorker.docs;
+                                            var subWorker = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
+                                            var worker = subWorker.docs;
 
-                                          String msg = "${company[0]['name']} wants to hire following recruiter. All the details of the business and recruiter are mentioned below\n\n"
-                                              "Business Details:-\n\n"
-                                              "• Business Name: ${company[0]['name']}\n"
-                                              "• Contact Email: ${company[0]['email']}\n"
-                                              "• Mobile Phone: ${company[0]['phone']}\n"
-                                              "• CVR Number: ${company[0]['cvr']}\n\n"
-                                              "Recruiter Details:-\n\n"
-                                              "• ${worker[0]['name']} ${worker[0]['surname']}\n"
-                                              "\t\tContact email: $email\n"
-                                              "\t\tMobile Phone: ${worker[0]['phone']}\n"
-                                              "\t\tCPR Number: ${worker[0]['cpr']}";
+                                            String msg = "${company[0]['name']} wants to hire following recruiter. All the details of the business and recruiter are mentioned below\n\n"
+                                                "Business Details:-\n\n"
+                                                "• Business Name: ${company[0]['name']}\n"
+                                                "• Contact Email: ${company[0]['email']}\n"
+                                                "• Mobile Phone: ${company[0]['phone']}\n"
+                                                "• CVR Number: ${company[0]['cvr']}\n\n"
+                                                "Recruiter Details:-\n\n"
+                                                "• ${worker[0]['name']} ${worker[0]['surname']}\n"
+                                                "\t\tContact email: $email\n"
+                                                "\t\tMobile Phone: ${worker[0]['phone']}\n"
+                                                "\t\tCPR Number: ${worker[0]['cpr']}";
 
-                                          String username = dotenv.env['EMAIL'];
-                                          String password = dotenv.env['PASSWORD'];
+                                            bool isSendEmail = await CustomEmail.sendEmail(msg, 'Workers');
+                                            if(isSendEmail){
+                                                ToastBar(text: 'Email sent!',color: Colors.green).show();
+                                                await FirebaseFirestore.instance.collection('offers').doc(id).update({
+                                                  'sent': FieldValue.arrayRemove([email]),
+                                                  'accepted': FieldValue.arrayUnion([email])
+                                                });
+                                                getOffers();
 
-                                          final smtpServer = gmail(username, password);
-                                          final message = Message()
-                                            ..from = Address(username, 'Findmee')
-                                            ..recipients.add('shakib@live.dk')
-                                            // ..recipients.add('dulajnadawa@gmail.com')
-                                            ..subject = 'Workers'
-                                            ..text = msg;
-                                          try {
-                                            final sendReport = await send(message, smtpServer);
-                                            print('Message sent: ' + sendReport.toString());
-                                            ToastBar(text: 'Email sent!',color: Colors.green).show();
+                                                if(!kIsWeb){
+                                                  OneSignal.shared.postNotification(
+                                                      OSCreateNotification(
+                                                          playerIds: [company[0]['playerID']],
+                                                          content: 'Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}'
+                                                      )
+                                                  );
+                                                }
 
-                                            await FirebaseFirestore.instance.collection('offers').doc(id).update({
-                                              'sent': FieldValue.arrayRemove([email]),
-                                              'accepted': FieldValue.arrayUnion([email])
-                                            });
-
-                                            getOffers();
-
-                                            ///send notification
-                                            OneSignal.shared.postNotification(
-                                                OSCreateNotification(
-                                                    playerIds: [company[0]['playerID']],
-                                                    content: 'Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}'
-                                                )
-                                            );
-
-                                            await Email.sendEmail('Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Accepted', to: company[0]['email']);
-
-                                            ToastBar(text: 'Accepted',color: Colors.green).show();
-                                          } on MailerException catch (e) {
-                                            for (var p in e.problems) {
-                                              print('Problem: ${p.code}: ${p
-                                                  .msg}');
-                                              ToastBar(
-                                                  text: 'Email not sent! ${p
-                                                      .msg}', color: Colors.red)
-                                                  .show();
+                                                await CustomEmail.sendEmail('Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Accepted', to: company[0]['email']);
+                                                ToastBar(text: 'Accepted',color: Colors.green).show();
                                             }
-                                          }
-                                          pd.hide();
+                                            else{
+                                                  ToastBar(text: 'Email not sent!', color: Colors.red).show();
+                                            }
+                                            pd.hide();
                                         },
                                       ),
                                     ),
@@ -373,6 +351,7 @@ class _OffersState extends State<Offers> {
                                       child: Button(
                                         text: 'Reject the job',
                                         color: Colors.red,
+                                        padding: isTablet?width*0.025:10,
                                         borderRadius: 10,
                                         onclick: () async {
                                           SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
@@ -392,14 +371,17 @@ class _OffersState extends State<Offers> {
                                             var worker = subWorker.docs;
 
                                             ///send notification
-                                            OneSignal.shared.postNotification(
-                                                OSCreateNotification(
-                                                    playerIds: [company[0]['playerID']],
-                                                    content: 'Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}'
-                                                )
-                                            );
+                                            if(!kIsWeb){
+                                              OneSignal.shared.postNotification(
+                                                  OSCreateNotification(
+                                                      playerIds: [company[0]['playerID']],
+                                                      content: 'Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}'
+                                                  )
+                                              );
 
-                                            await Email.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
+                                            }
+
+                                            await CustomEmail.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
 
                                             await FirebaseFirestore.instance.collection('offers').doc(id).update({
                                               'sent': FieldValue.arrayRemove([email])

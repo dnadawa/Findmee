@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:findmee/web/be-a-recruit/dashboard.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'offers.dart';
+import '../../responsive.dart';
 
 class Approval extends StatefulWidget {
   final PageController controller;
@@ -20,9 +21,10 @@ class Approval extends StatefulWidget {
 
 class _ApprovalState extends State<Approval> {
   String status = 'pending';
+  String email;
   getStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String email = jsonDecode(prefs.getString('data'))['email'];
+    email = jsonDecode(prefs.getString('data'))['email'];
     var sub = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
     var user = sub.docs;
     setState(() {
@@ -39,12 +41,14 @@ class _ApprovalState extends State<Approval> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
         child: Center(
           child: Container(
-            height: ScreenUtil().setHeight(1500),
+            height: ScreenUtil().setHeight(status=='approved'?1700:1500),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -84,6 +88,7 @@ class _ApprovalState extends State<Approval> {
                         padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
                         child: Button(
                           text: 'Opret en ny konto',
+                          padding: isTablet?width*0.025:10,
                           onclick: () async {
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.remove('data');
@@ -96,15 +101,15 @@ class _ApprovalState extends State<Approval> {
                         padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
                         child: Button(
                           text: 'Næste',
+                          padding: isTablet?width*0.025:10,
                           onclick: () async {
                             Navigator.push(
                               context,
-                              CupertinoPageRoute(builder: (context) => Offers()),
+                              CupertinoPageRoute(builder: (context) => Dashboard(email: email)),
                             );
                           },
                         ),
-                      )
-
+                      ),
                   ],
                 ),
               ),

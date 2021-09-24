@@ -1,3 +1,4 @@
+import 'package:findmee/responsive.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,11 @@ import 'book-a-recruit/stepper.dart';
 class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/images/back.png')),
+          image: DecorationImage(image: AssetImage(!isTablet?'assets/images/back.png':'assets/web/tablet-back.png'), fit: BoxFit.fitWidth),
         ),
         width: double.infinity,
         height: double.infinity,

@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/inputfield.dart';
@@ -7,8 +6,9 @@ import 'package:findmee/widgets/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
+
+import '../../responsive.dart';
 
 class RecruitSignUp extends StatefulWidget {
   final PageController controller;
@@ -31,6 +31,8 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),ScreenUtil().setWidth(40),0),
@@ -58,13 +60,13 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                           CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                           Center(
                             child: SizedBox(
-                                width: ScreenUtil().setHeight(600),
-                                height: ScreenUtil().setWidth(600),
+                                width: isTablet?width*0.3:ScreenUtil().setHeight(600),
+                                height: isTablet?width*0.3:ScreenUtil().setWidth(600),
                                 child: Image.asset('assets/images/register.png')),
                           ),
                           SizedBox(height: ScreenUtil().setHeight(40),),
-                          InputField(hint: 'Name',controller: name,),
-                          InputField(hint: 'Surname',controller: surname),
+                          InputField(hint: 'Navn',controller: name,),
+                          InputField(hint: 'Efternavn',controller: surname),
                           InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
                           InputField(hint: 'Mobiltelefon',controller: phone,type: TextInputType.phone,),
                           InputField(hint: 'CPR',controller: cpr),
@@ -104,7 +106,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
 
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                            child: Button(text: 'Næste',onclick: () async {
+                            child: Button(text: 'Næste',padding: isTablet?width*0.025:10,onclick: () async {
                               if(name.text.isNotEmpty && surname.text.isNotEmpty && cpr.text.isNotEmpty && experience.text.isNotEmpty && password.text.isNotEmpty){
                                 SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                 pd.show(
@@ -112,21 +114,21 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                                     type: SimpleFontelicoProgressDialogType.custom,
                                     loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                 );
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
                                 try {
                                   await FirebaseAuth.instance.createUserWithEmailAndPassword(
                                       email: email.text,
                                       password: password.text
                                   );
-                                  Map reg = {
+
+                                  await FirebaseFirestore.instance.collection('workers').doc(email.text).set({
                                     'name': name.text,
                                     'surname': surname.text,
                                     'cpr': cpr.text,
                                     'experience': experience.text,
                                     'phone': phone.text,
-                                    'email': email.text
-                                  };
-                                  prefs.setString('data', jsonEncode(reg));
+                                    'email': email.text,
+                                    'complete': false
+                                  });
                                   widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 
                                 } on FirebaseAuthException catch (e) {
@@ -136,6 +138,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                                     ToastBar(text: 'Account already exists',color: Colors.red).show();
                                   }
                                 } catch (e) {
+                                  print(e);
                                   ToastBar(text: 'Something went wrong',color: Colors.red).show();
                                 }
                                pd.hide();

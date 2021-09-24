@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/toast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../../email.dart';
+import '../../responsive.dart';
 
 class Photos extends StatefulWidget {
   final PageController controller;
@@ -27,7 +30,7 @@ class _PhotosState extends State<Photos> {
 
   File profileImage , selfie;
   Future getImage(String type) async {
-    final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery,imageQuality: 50);
+    final pickedFile = await ImagePicker().getImage(source: type=='profile'?ImageSource.gallery:ImageSource.camera,imageQuality: 50);
     setState(() {
       if (pickedFile != null) {
         if(type=='profile'){
@@ -42,8 +45,24 @@ class _PhotosState extends State<Photos> {
     });
   }
 
+  Uint8List profileImageData, selfieData;
+  Future getImageWeb(String type) async {
+    final pickedFile = await ImagePicker().getImage(source: type=='profile'?ImageSource.gallery:ImageSource.camera,imageQuality: 50);
+    if (pickedFile != null) {
+      if(type=='profile'){
+        profileImageData = await pickedFile.readAsBytes();
+      }
+      else{
+        selfieData = await pickedFile.readAsBytes();
+      }
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
@@ -70,7 +89,7 @@ class _PhotosState extends State<Photos> {
 
                     ///pro pic
                     GestureDetector(
-                      onTap: ()=>getImage('profile'),
+                      onTap: ()=>kIsWeb?getImageWeb('profile'):getImage('profile'),
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -104,7 +123,11 @@ class _PhotosState extends State<Photos> {
                               child: CircleAvatar(
                                 backgroundColor: Colors.red,
                                 radius: 60,
-                                backgroundImage: profileImage!=null?FileImage(profileImage):AssetImage('assets/images/avatar.png'),
+                                backgroundImage: profileImage!=null||profileImageData!=null
+                                    ?
+                                kIsWeb?MemoryImage(profileImageData):FileImage(profileImage)
+                                    :
+                                AssetImage('assets/images/avatar.png'),
                               ),
                             ),
 
@@ -123,7 +146,7 @@ class _PhotosState extends State<Photos> {
 
                     ///selfie
                     GestureDetector(
-                      onTap: ()=>getImage('selfie'),
+                      onTap: ()=>kIsWeb?getImageWeb('selfie'):getImage('selfie'),
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -157,7 +180,11 @@ class _PhotosState extends State<Photos> {
                               child: CircleAvatar(
                                 backgroundColor: Colors.transparent,
                                 radius: 60,
-                                child: selfie!=null?Image.file(selfie):Image.asset('assets/images/selfie.png'),
+                                child: selfie!=null||selfieData!=null
+                                    ?
+                                kIsWeb?Image.memory(selfieData):Image.file(selfie)
+                                    :
+                                Image.asset('assets/images/selfie.png'),
                               ),
                             ),
 
@@ -178,8 +205,8 @@ class _PhotosState extends State<Photos> {
 
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                      child: Button(text: 'Næste',onclick: () async {
-                        if(profileImage!=null&&selfie!=null){
+                      child: Button(text: 'Næste',padding: isTablet?width*0.025:10,onclick: () async {
+                        if((profileImage!=null&&selfie!=null)||(profileImageData!=null&&selfieData!=null)){
                           SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                           pd.show(
                               message: 'Please wait',
@@ -195,38 +222,55 @@ class _PhotosState extends State<Photos> {
                             ///upload images
                             ToastBar(text: 'Uploading profile picture...',color: Colors.orange).show();
                             FirebaseStorage storage = FirebaseStorage.instance;
-                            TaskSnapshot snap = await storage.ref('$email/profile.png').putFile(profileImage);
+                            TaskSnapshot snap;
+                            if(kIsWeb){
+                              snap = await storage.ref('$email/profile.png').putData(profileImageData);
+                            }
+                            else{
+                              snap = await storage.ref('$email/profile.png').putFile(profileImage);
+                            }
                             String proPicUrl = await snap.ref.getDownloadURL();
 
                             ToastBar(text: 'Uploading selfie...',color: Colors.orange).show();
-                            TaskSnapshot snap2 = await storage.ref('$email/selfie.png').putFile(selfie);
+                            TaskSnapshot snap2;
+                            if(kIsWeb){
+                              snap2 = await storage.ref('$email/selfie.png').putData(selfieData);
+                            }
+                            else{
+                              snap2 = await storage.ref('$email/selfie.png').putFile(selfie);
+                            }
                             String selfieUrl = await snap2.ref.getDownloadURL();
 
                             data['profileImage'] = proPicUrl;
                             data['selfie'] = selfieUrl;
-                            data['status'] = 'approved';
+                            data['status'] = 'pending';
+                            data['complete'] = true;
                             //todo: change approved to pending
 
                             ///onesignal
-                            OSDeviceState status = await OneSignal.shared.getDeviceState();
-                            String playerID = status.userId;
+                            String playerID = "";
+                            if(!kIsWeb){
+                              OSDeviceState status = await OneSignal.shared.getDeviceState();
+                              playerID = status.userId;
+                            }
                             data['playerID'] = playerID;
-
 
                             print(data);
 
                             ///add to db
-                            await FirebaseFirestore.instance.collection('workers').doc(email).set(data);
+                            await FirebaseFirestore.instance.collection('workers').doc(email).update(data);
 
                             ///send notification
-                            OneSignal.shared.postNotification(
-                                OSCreateNotification(
-                                    playerIds: [playerID],
-                                    content: 'Findmee has received your details, please wait to be approved from team'
-                                )
-                            );
+                            if(!kIsWeb){
+                              OneSignal.shared.postNotification(
+                                  OSCreateNotification(
+                                      playerIds: [playerID],
+                                      content: 'Findmee has received your details, please wait to be approved from team'
+                                  )
+                              );
+                            }
 
-                            await Email.sendEmail('Findmee has received your details, please wait to be approved from team','Welcome to Findmee', to: email);
+                            await CustomEmail.sendEmail('Findmee has received your details, please wait to be approved from team','Velkommen til FindMe', to: email);
 
                             widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
                           }
