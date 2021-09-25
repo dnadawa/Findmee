@@ -30,7 +30,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController username = TextEditingController();
 
   signUp() async {
-    if(businessName.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&password.text.isNotEmpty && cvr.text.isNotEmpty && username.text.isNotEmpty){
+    if(businessName.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&password.text.isNotEmpty && username.text.isNotEmpty){
       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
           message: 'Please wait',
