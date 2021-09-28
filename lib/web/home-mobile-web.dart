@@ -171,12 +171,15 @@ class _HomeMobileWebState extends State<HomeMobileWeb> with SingleTickerProvider
           SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(
+                  height: ScreenUtil().setHeight(80),
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(150)),
                   child: Image.asset("assets/web/contact-us.png"),
                 ),
                 SizedBox(
-                  height: ScreenUtil().setHeight(30),
+                  height: ScreenUtil().setHeight(100),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
