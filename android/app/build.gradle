@@ -52,6 +52,11 @@ flutter {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
+    def work_version = "2.6.0"
+    // Force WorkManager 2.6.0 for transitive dependency
+    implementation("androidx.work:work-runtime-ktx:$work_version") {
+        force = true
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
