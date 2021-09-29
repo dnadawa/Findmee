@@ -256,7 +256,7 @@ class _HomeDesktopWebState extends State<HomeDesktopWeb> with SingleTickerProvid
                                 ListTile(
                                   leading: SizedBox(width: width*0.07,child: Image.asset('assets/web/phone.png')),
                                   title: CustomText(
-                                    text: 'Telephone: 42 33 43 43',
+                                    text: 'Telefonnr: 42 33 43 43',
                                     font: 'ComicSans',
                                     align: TextAlign.start,
                                     isBold: false,

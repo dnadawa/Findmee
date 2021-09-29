@@ -218,7 +218,7 @@ class _HomeMobileWebState extends State<HomeMobileWeb> with SingleTickerProvider
                             contentPadding: EdgeInsets.zero,
                             leading: SizedBox(width: width*0.09,child: Image.asset('assets/web/phone.png')),
                             title: CustomText(
-                              text: 'Telephone: 42 33 43 43',
+                              text: 'Telefonnr: 42 33 43 43',
                               font: 'ComicSans',
                               align: TextAlign.start,
                               isBold: false,
