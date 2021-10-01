@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:im_stepper/stepper.dart';
 
+import 'approval.dart';
+
 class StepperWebCompany extends StatefulWidget {
   @override
   _StepperWebCompanyState createState() => _StepperWebCompanyState();
@@ -54,6 +56,7 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
                 currentPage==2?AssetImage('assets/images/step3active.png'):AssetImage('assets/images/step3.png'),
                 currentPage==3?AssetImage('assets/images/step4active.png'):AssetImage('assets/images/step4.png'),
                 currentPage==4?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
+                currentPage==5?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
               ],
             ),
           ),
@@ -82,9 +85,10 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
                     image: 'assets/images/cities.png'
                 ),
                 page(
-                    left: DatesWebCompany(),
+                    left: DatesWebCompany(controller: _controller,),
                     image: 'assets/images/calendar.png'
                 ),
+                ApprovalWeb(controller: _controller,),
               ],
             ),
           ),

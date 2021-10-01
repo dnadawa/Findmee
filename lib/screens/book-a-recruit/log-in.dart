@@ -46,89 +46,89 @@ class _LogInState extends State<LogIn> {
             .get();
         var user = sub.docs;
 
-        if(user[0]['status'] == 'ban'){
-          pd.hide();
-          showDialog(
-              context: context,
-              builder: (BuildContext context){
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
-                  scrollable: true,
-                  backgroundColor: Colors.white,
-                  content: Container(
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
+        // if(user[0]['status'] == 'ban'){
+        //   pd.hide();
+        //   showDialog(
+        //       context: context,
+        //       builder: (BuildContext context){
+        //         return AlertDialog(
+        //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        //           insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
+        //           scrollable: true,
+        //           backgroundColor: Colors.white,
+        //           content: Container(
+        //             width: double.infinity,
+        //             child: Column(
+        //               mainAxisSize: MainAxisSize.min,
+        //               children: [
+        //
+        //                 ///banned image
+        //                 Container(
+        //                   width: ScreenUtil().setHeight(500),
+        //                   height: ScreenUtil().setHeight(500),
+        //                   child: Image.asset('assets/images/banned.png'),
+        //                 ),
+        //                 SizedBox(height: ScreenUtil().setWidth(100),),
+        //
+        //                 ///text
+        //                 CustomText(
+        //                   text: 'Din profil er ikke godkendt',
+        //                   font: 'ComicSans',
+        //                   size: ScreenUtil().setSp(55),
+        //                 ),
+        //                 SizedBox(height: ScreenUtil().setWidth(100),),
+        //
+        //                 ///buttons
+        //                 Button(
+        //                   text: 'Opret en ny konto',
+        //                   onclick: (){
+        //                     Navigator.pop(context);
+        //                     widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
+        //                   },
+        //                 )
+        //               ],
+        //             ),
+        //           ),
+        //         );
+        //   });
+        // }
+        // else if(user[0]['status'] == 'pending'){
+        //   pd.hide();
+        //   showDialog(
+        //       context: context,
+        //       builder: (BuildContext context){
+        //         return AlertDialog(
+        //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        //           insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
+        //           scrollable: true,
+        //           backgroundColor: Colors.white,
+        //           content: Container(
+        //             width: double.infinity,
+        //             child: Column(
+        //               mainAxisSize: MainAxisSize.min,
+        //               children: [
+        //
+        //                 ///pending logo
+        //                 Container(
+        //                   width: ScreenUtil().setHeight(500),
+        //                   height: ScreenUtil().setHeight(500),
+        //                   child: Image.asset('assets/images/waiting.png'),
+        //                 ),
+        //                 SizedBox(height: ScreenUtil().setWidth(100),),
+        //
+        //                 ///text
+        //                 CustomText(
+        //                   text: 'Venter på godkendelse',
+        //                   font: 'ComicSans',
+        //                   size: ScreenUtil().setSp(55),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         );
+        //       });
+        // }
 
-                        ///banned image
-                        Container(
-                          width: ScreenUtil().setHeight(500),
-                          height: ScreenUtil().setHeight(500),
-                          child: Image.asset('assets/images/banned.png'),
-                        ),
-                        SizedBox(height: ScreenUtil().setWidth(100),),
-
-                        ///text
-                        CustomText(
-                          text: 'Din profil er ikke godkendt',
-                          font: 'ComicSans',
-                          size: ScreenUtil().setSp(55),
-                        ),
-                        SizedBox(height: ScreenUtil().setWidth(100),),
-
-                        ///buttons
-                        Button(
-                          text: 'Opret en ny konto',
-                          onclick: (){
-                            Navigator.pop(context);
-                            widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                );
-          });
-        }
-        else if(user[0]['status'] == 'pending'){
-          pd.hide();
-          showDialog(
-              context: context,
-              builder: (BuildContext context){
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
-                  scrollable: true,
-                  backgroundColor: Colors.white,
-                  content: Container(
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-
-                        ///pending logo
-                        Container(
-                          width: ScreenUtil().setHeight(500),
-                          height: ScreenUtil().setHeight(500),
-                          child: Image.asset('assets/images/waiting.png'),
-                        ),
-                        SizedBox(height: ScreenUtil().setWidth(100),),
-
-                        ///text
-                        CustomText(
-                          text: 'Venter på godkendelse',
-                          font: 'ComicSans',
-                          size: ScreenUtil().setSp(55),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              });
-        }
-        else{
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('companyEmail', email.text);
 
@@ -142,7 +142,7 @@ class _LogInState extends State<LogIn> {
           }
 
           widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
-        }
+
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           ToastBar(text: 'No user found for that email', color: Colors.red)

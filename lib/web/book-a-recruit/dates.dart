@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:findmee/web/book-a-recruit/profiles.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/message-dialog.dart';
@@ -14,6 +13,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class DatesWebCompany extends StatefulWidget {
+  final PageController controller;
+
+  const DatesWebCompany({Key key, this.controller}) : super(key: key);
   @override
   _DatesWebCompanyState createState() => _DatesWebCompanyState();
 }
@@ -199,10 +201,7 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
                   MessageDialog.show(context: context, text: 'Please select at least one date and shift');
                 }
                 else{
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(builder: (context) => ProfilesWeb()),
-                  );
+                  widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
                 }
               }),
             )

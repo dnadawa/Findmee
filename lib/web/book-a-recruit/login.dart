@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
@@ -36,100 +35,94 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email.text, password: password.text);
 
-        var sub = await FirebaseFirestore.instance
-            .collection('companies')
-            .where('email', isEqualTo: email.text)
-            .get();
-        var user = sub.docs;
+        // if(user[0]['status'] == 'ban'){
+        //   pd.hide();
+        //   showDialog(
+        //       context: context,
+        //       builder: (BuildContext context){
+        //         return AlertDialog(
+        //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        //           insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
+        //           scrollable: true,
+        //           backgroundColor: Colors.white,
+        //           content: Container(
+        //             width: double.infinity,
+        //             child: Column(
+        //               mainAxisSize: MainAxisSize.min,
+        //               children: [
+        //
+        //                 ///banned image
+        //                 Container(
+        //                   width: ScreenUtil().setHeight(500),
+        //                   height: ScreenUtil().setHeight(500),
+        //                   child: Image.asset('assets/images/banned.png'),
+        //                 ),
+        //                 SizedBox(height: ScreenUtil().setWidth(20),),
+        //
+        //                 ///text
+        //                 CustomText(
+        //                   text: 'Din profil er ikke godkendt',
+        //                   font: 'ComicSans',
+        //                   size: ScreenUtil().setSp(55),
+        //                 ),
+        //                 SizedBox(height: ScreenUtil().setWidth(20),),
+        //
+        //                 ///buttons
+        //                 Button(
+        //                   text: 'Opret en ny konto',
+        //                   onclick: (){
+        //                     Navigator.pop(context);
+        //                     widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
+        //                   },
+        //                 )
+        //               ],
+        //             ),
+        //           ),
+        //         );
+        //       });
+        // }
+        // else if(user[0]['status'] == 'pending'){
+        //   pd.hide();
+        //   showDialog(
+        //       context: context,
+        //       builder: (BuildContext context){
+        //         return AlertDialog(
+        //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        //           insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
+        //           scrollable: true,
+        //           backgroundColor: Colors.white,
+        //           content: Container(
+        //             width: double.infinity,
+        //             child: Column(
+        //               mainAxisSize: MainAxisSize.min,
+        //               children: [
+        //
+        //                 ///pending logo
+        //                 Container(
+        //                   width: ScreenUtil().setHeight(500),
+        //                   height: ScreenUtil().setHeight(500),
+        //                   child: Image.asset('assets/images/waiting.png'),
+        //                 ),
+        //
+        //                 ///text
+        //                 CustomText(
+        //                   text: 'Venter på godkendelse',
+        //                   font: 'ComicSans',
+        //                   size: ScreenUtil().setSp(55),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         );
+        //       });
+        // }
 
-        if(user[0]['status'] == 'ban'){
-          pd.hide();
-          showDialog(
-              context: context,
-              builder: (BuildContext context){
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
-                  scrollable: true,
-                  backgroundColor: Colors.white,
-                  content: Container(
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-
-                        ///banned image
-                        Container(
-                          width: ScreenUtil().setHeight(500),
-                          height: ScreenUtil().setHeight(500),
-                          child: Image.asset('assets/images/banned.png'),
-                        ),
-                        SizedBox(height: ScreenUtil().setWidth(20),),
-
-                        ///text
-                        CustomText(
-                          text: 'Din profil er ikke godkendt',
-                          font: 'ComicSans',
-                          size: ScreenUtil().setSp(55),
-                        ),
-                        SizedBox(height: ScreenUtil().setWidth(20),),
-
-                        ///buttons
-                        Button(
-                          text: 'Opret en ny konto',
-                          onclick: (){
-                            Navigator.pop(context);
-                            widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              });
-        }
-        else if(user[0]['status'] == 'pending'){
-          pd.hide();
-          showDialog(
-              context: context,
-              builder: (BuildContext context){
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  insetPadding: EdgeInsets.symmetric(vertical: 24,horizontal: 10),
-                  scrollable: true,
-                  backgroundColor: Colors.white,
-                  content: Container(
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-
-                        ///pending logo
-                        Container(
-                          width: ScreenUtil().setHeight(500),
-                          height: ScreenUtil().setHeight(500),
-                          child: Image.asset('assets/images/waiting.png'),
-                        ),
-
-                        ///text
-                        CustomText(
-                          text: 'Venter på godkendelse',
-                          font: 'ComicSans',
-                          size: ScreenUtil().setSp(55),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              });
-        }
-        else{
           pd.hide();
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('companyEmail', email.text);
 
           widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
-        }
+
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           pd.hide();

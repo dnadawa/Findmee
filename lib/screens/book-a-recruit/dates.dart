@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'package:findmee/screens/book-a-recruit/profiles.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/toast.dart';
@@ -14,6 +13,9 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../responsive.dart';
 
 class Dates extends StatefulWidget {
+  final PageController controller;
+
+  const Dates({Key key, this.controller}) : super(key: key);
   @override
   _DatesState createState() => _DatesState();
 }
@@ -212,10 +214,7 @@ class _DatesState extends State<Dates> {
                           ToastBar(text: 'Please select at least one date and shift', color: Colors.red).show();
                         }
                         else{
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(builder: (context) => Profiles()),
-                          );
+                          widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
                         }
                       }),
                     )

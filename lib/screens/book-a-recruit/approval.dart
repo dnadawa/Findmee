@@ -1,7 +1,6 @@
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:findmee/web/be-a-recruit/dashboard.dart';
+import 'package:findmee/screens/book-a-recruit/profiles.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,21 +10,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../responsive.dart';
 
-class ApprovalRecruit extends StatefulWidget {
+class Approval extends StatefulWidget {
   final PageController controller;
 
-  const ApprovalRecruit({Key key, this.controller}) : super(key: key);
+  const Approval({Key key, this.controller}) : super(key: key);
   @override
-  _ApprovalRecruitState createState() => _ApprovalRecruitState();
+  _ApprovalState createState() => _ApprovalState();
 }
 
-class _ApprovalRecruitState extends State<ApprovalRecruit> {
+class _ApprovalState extends State<Approval> {
   String status = 'pending';
   String email;
   getStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    email = jsonDecode(prefs.getString('data'))['email'];
-    var sub = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
+    email = prefs.getString('companyEmail');
+    var sub = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: email).get();
     var user = sub.docs;
     setState(() {
       status = user[0]['status'];
@@ -105,7 +104,7 @@ class _ApprovalRecruitState extends State<ApprovalRecruit> {
                           onclick: () async {
                             Navigator.push(
                               context,
-                              CupertinoPageRoute(builder: (context) => Dashboard(email: email)),
+                              CupertinoPageRoute(builder: (context) => Profiles()),
                             );
                           },
                         ),

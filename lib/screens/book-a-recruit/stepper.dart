@@ -1,3 +1,4 @@
+import 'package:findmee/screens/book-a-recruit/approval.dart';
 import 'package:findmee/screens/book-a-recruit/sign-up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,6 +53,7 @@ class _StepperPageState extends State<StepperPage> {
               currentPage==2?AssetImage('assets/images/step3active.png'):AssetImage('assets/images/step3.png'),
               currentPage==3?AssetImage('assets/images/step4active.png'):AssetImage('assets/images/step4.png'),
               currentPage==4?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
+              currentPage==5?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
             ],
           ),
         ),
@@ -63,7 +65,8 @@ class _StepperPageState extends State<StepperPage> {
             LogIn(controller: _controller,),
             Categories(from: 'company',controller: _controller,),
             Cities(from: 'company',controller: _controller,),
-            Dates(),
+            Dates(controller: _controller,),
+            Approval(controller: _controller,)
           ],
         ),
       ),

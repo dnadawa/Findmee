@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:findmee/web/book-a-recruit/profiles.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,23 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'dashboard.dart';
-
-class ApprovalWorkerWeb extends StatefulWidget {
+class ApprovalWeb extends StatefulWidget {
   final PageController controller;
 
-  const ApprovalWorkerWeb({Key key, this.controller}) : super(key: key);
+  const ApprovalWeb({Key key, this.controller}) : super(key: key);
   @override
-  _ApprovalWorkerWebState createState() => _ApprovalWorkerWebState();
+  _ApprovalWebState createState() => _ApprovalWebState();
 }
 
-class _ApprovalWorkerWebState extends State<ApprovalWorkerWeb> {
+class _ApprovalWebState extends State<ApprovalWeb> {
   String status = 'pending';
   String email;
   getStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    email = jsonDecode(prefs.getString('data'))['email'];
-    var sub = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
+    email = prefs.getString('companyEmail');
+    var sub = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: email).get();
     var user = sub.docs;
     setState(() {
       status = user[0]['status'];
@@ -105,7 +102,7 @@ class _ApprovalWorkerWebState extends State<ApprovalWorkerWeb> {
                       onclick: () async {
                         Navigator.push(
                           context,
-                          CupertinoPageRoute(builder: (context) => Dashboard(email: email)),
+                          CupertinoPageRoute(builder: (context) => ProfilesWeb()),
                         );
                       },
                     ),
