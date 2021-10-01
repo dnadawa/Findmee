@@ -271,6 +271,9 @@ class _PhotosState extends State<Photos> {
                             }
 
                             await CustomEmail.sendEmail('Findmee has received your details, please wait to be approved from team','Velkommen til FindMe', to: email);
+                            await CustomEmail.sendEmail(
+                                'A new user has registered. Please approve or deny!',
+                                'User Registered');
 
                             widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
                           }

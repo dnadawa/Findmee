@@ -107,7 +107,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
                             child: Button(text: 'Næste',padding: isTablet?width*0.025:10,onclick: () async {
-                              if(name.text.isNotEmpty && surname.text.isNotEmpty && cpr.text.isNotEmpty && experience.text.isNotEmpty && password.text.isNotEmpty){
+                              if(name.text.isNotEmpty && surname.text.isNotEmpty && experience.text.isNotEmpty && password.text.isNotEmpty){
                                 SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                 pd.show(
                                     message: 'Please wait',

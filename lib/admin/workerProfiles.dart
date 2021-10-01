@@ -11,6 +11,7 @@ import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
+import '../email.dart';
 import '../responsive.dart';
 
 class WorkerProfiles extends StatefulWidget {
@@ -315,6 +316,7 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                                 await FirebaseFirestore.instance.collection('workers').doc(profiles[i].id).update({
                                   'status': 'approved'
                                 });
+                                await CustomEmail.sendEmail("Your account is approved!", "Approved", to: profiles[i].id);
                                 pd.hide();
                                 MessageDialog.show(context: context, text: 'Approved', type: CoolAlertType.success);
                               },
@@ -336,6 +338,7 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                                 await FirebaseFirestore.instance.collection('workers').doc(profiles[i].id).update({
                                   'status': 'ban'
                                 });
+                                await CustomEmail.sendEmail("Your account is banned!", "Banned", to: profiles[i].id);
                                 pd.hide();
                                 MessageDialog.show(context: context, text: 'Banned', type: CoolAlertType.success);
                               },

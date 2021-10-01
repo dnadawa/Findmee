@@ -94,7 +94,7 @@ class _RegisterWebWorkerState extends State<RegisterWebWorker> {
               color: Colors.red,
               padding: width*0.013,
               onclick: () async {
-                if(name.text.isNotEmpty && surname.text.isNotEmpty && cpr.text.isNotEmpty && experience.text.isNotEmpty && password.text.isNotEmpty){
+                if(name.text.isNotEmpty && surname.text.isNotEmpty && experience.text.isNotEmpty && password.text.isNotEmpty){
                   SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                   pd.show(
                       message: 'Please wait',

@@ -30,7 +30,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController username = TextEditingController();
 
   signUp() async {
-    if(businessName.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&password.text.isNotEmpty && username.text.isNotEmpty){
+    if(businessName.text.isNotEmpty && phone.text.isNotEmpty && cvr.text.isNotEmpty &&  email.text.isNotEmpty &&password.text.isNotEmpty && username.text.isNotEmpty){
       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
           message: 'Please wait',
@@ -74,6 +74,10 @@ class _SignUpState extends State<SignUp> {
         await CustomEmail.sendEmail(
             'Findmee has received your details, please wait to be approved from team',
             'Velkommen til FindMe', to: email.text);
+
+        await CustomEmail.sendEmail(
+            'A new user has registered. Please approve or deny!',
+            'User Registered');
         pd.hide();
         ToastBar(text: 'User registered!',color: Colors.green).show();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));

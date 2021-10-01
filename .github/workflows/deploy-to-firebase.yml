@@ -1,0 +1,39 @@
+name: Deploy to Firebase Hosting
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  build:
+    name: Build Web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.0.5'
+      - run: flutter pub get
+      - run: flutter build web --web-renderer html
+      - run: rm build/web/assets/NOTICES
+      - run: ls build/web/assets/
+      - uses: actions/upload-artifact@main
+        with:
+          name: build
+          path: build/web
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@main
+        with:
+          name: build
+          path: build/web
+      - uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

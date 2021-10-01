@@ -8,6 +8,7 @@ import 'package:findmee/widgets/message-dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
+import '../email.dart';
 import '../responsive.dart';
 
 class BusinessProfiles extends StatefulWidget {
@@ -111,6 +112,7 @@ class _BusinessProfilesState extends State<BusinessProfiles> {
                               await FirebaseFirestore.instance.collection('companies').doc(profiles[i].id).update({
                                 'status': 'approved'
                               });
+                              await CustomEmail.sendEmail("Your account is approved!", "Approved", to: profiles[i].id);
                               pd.hide();
                               MessageDialog.show(context: context, text: 'Approved', type: CoolAlertType.success);
                             },
@@ -132,6 +134,7 @@ class _BusinessProfilesState extends State<BusinessProfiles> {
                               await FirebaseFirestore.instance.collection('companies').doc(profiles[i].id).update({
                                 'status': 'ban'
                               });
+                              await CustomEmail.sendEmail("Your account is banned!", "Banned", to: profiles[i].id);
                               pd.hide();
                               MessageDialog.show(context: context, text: 'Banned', type: CoolAlertType.success);
                             },
