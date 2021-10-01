@@ -13,6 +13,11 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.0.5'
+      - name: Create .env file
+        run: |
+          touch .env
+          echo ONESIGNAL=${{ secrets.ONESIGNAL }} >> .env
+          cat .env
       - run: flutter pub get
       - run: flutter build web --web-renderer html
       - run: rm build/web/assets/NOTICES
