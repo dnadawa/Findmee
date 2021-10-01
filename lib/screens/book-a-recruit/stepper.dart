@@ -53,7 +53,7 @@ class _StepperPageState extends State<StepperPage> {
               currentPage==2?AssetImage('assets/images/step3active.png'):AssetImage('assets/images/step3.png'),
               currentPage==3?AssetImage('assets/images/step4active.png'):AssetImage('assets/images/step4.png'),
               currentPage==4?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
-              currentPage==5?AssetImage('assets/images/step5active.png'):AssetImage('assets/images/step5.png'),
+              currentPage==5?AssetImage('assets/images/step6active.png'):AssetImage('assets/images/step6.png'),
             ],
           ),
         ),
