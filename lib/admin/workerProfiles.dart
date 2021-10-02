@@ -7,6 +7,7 @@ import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/message-dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
@@ -72,41 +73,39 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: profiles!=null?GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: isDesktop?4:isTablet?2:1,
-            mainAxisSpacing: 15,
-            crossAxisSpacing: 15,
-            mainAxisExtent: width*3.3
-          ),
-        padding: EdgeInsets.all(width*0.05),
-        itemCount: profiles.length,
-        itemBuilder: (context, i){
-            TextEditingController name = TextEditingController();
-            TextEditingController surname = TextEditingController();
-            TextEditingController email = TextEditingController();
-            TextEditingController phone = TextEditingController();
-            TextEditingController cvr = TextEditingController();
-            TextEditingController experience = TextEditingController();
-            List<MultiSelectItem> categories = buildCategories(profiles[i]['categories']);
-            List<MultiSelectItem> cities = buildCategories(profiles[i]['cities']);
-            String profileImage = profiles[i]['profileImage'];
-            String selfie = profiles[i]['selfie'];
-            name.text = profiles[i]['name'];
-            surname.text = profiles[i]['surname'];
-            email.text = profiles[i]['email'];
-            phone.text = profiles[i]['phone'];
-            cvr.text = profiles[i]['cpr'];
-            experience.text = profiles[i]['experience'];
+      body: profiles!=null?Scrollbar(
+        child: StaggeredGridView.countBuilder(
+          staggeredTileBuilder: (index)=> StaggeredTile.fit(1),
+          crossAxisCount: isDesktop?4:isTablet?2:1,
+          mainAxisSpacing: 15,
+          crossAxisSpacing: 15,
+          padding: EdgeInsets.all(width*0.05),
+          itemCount: profiles.length,
+          itemBuilder: (context, i){
+              TextEditingController name = TextEditingController();
+              TextEditingController surname = TextEditingController();
+              TextEditingController email = TextEditingController();
+              TextEditingController phone = TextEditingController();
+              TextEditingController cvr = TextEditingController();
+              TextEditingController experience = TextEditingController();
+              List<MultiSelectItem> categories = buildCategories(profiles[i]['categories']);
+              List<MultiSelectItem> cities = buildCategories(profiles[i]['cities']);
+              String profileImage = profiles[i]['profileImage'];
+              String selfie = profiles[i]['selfie'];
+              name.text = profiles[i]['name'];
+              surname.text = profiles[i]['surname'];
+              email.text = profiles[i]['email'];
+              phone.text = profiles[i]['phone'];
+              cvr.text = profiles[i]['cpr'];
+              experience.text = profiles[i]['experience'];
 
-            return Container(
-              decoration: BoxDecoration(
-                color: Color(0xfff5f5f5),
-                borderRadius: BorderRadius.circular(10)
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(width*0.05),
-                child: SingleChildScrollView(
+              return Container(
+                decoration: BoxDecoration(
+                  color: Color(0xfff5f5f5),
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(width*0.05),
                   child: Column(
                     children: [
                       AdminInputField(hint: 'Navn',controller: name,),
@@ -349,9 +348,9 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                     ],
                   ),
                 ),
-              ),
-            );
-        },
+              );
+          },
+        ),
       ):Center(child: CircularProgressIndicator(),),
     );
   }
