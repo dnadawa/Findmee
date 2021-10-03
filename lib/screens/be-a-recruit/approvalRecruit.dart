@@ -20,7 +20,7 @@ class ApprovalRecruit extends StatefulWidget {
 }
 
 class _ApprovalRecruitState extends State<ApprovalRecruit> {
-  String status = 'pending';
+  String status = 'approved';
   String email;
   getStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -72,12 +72,12 @@ class _ApprovalRecruitState extends State<ApprovalRecruit> {
                     Container(
                       height: ScreenUtil().setHeight(500),
                       width: ScreenUtil().setHeight(500),
-                      child: Image.asset('assets/images/${status=='pending'?'waiting':status=='ban'?'banned':'approved'}.png'),
+                      child: Image.asset('assets/images/${status=='ban'?'banned':'approved'}.png'),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(100),),
 
                     CustomText(
-                      text: status=='pending'?'Venter på godkendelse':status=='ban'?'Din profil er ikke godkendt.':'Din profil er godkendt.',
+                      text: status=='ban'?'Din profil er ikke godkendt.':'Din profil er godkendt.',
                       font: 'ComicSans',
                       size: ScreenUtil().setSp(60),
                       isBold: false,

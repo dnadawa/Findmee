@@ -49,17 +49,16 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
           'phone': phone.text,
           'cvr': cvr.text,
           'username': username.text,
-          'status': 'pending',
+          'status': 'approved',
           'playerID': ''
         });
-        //todo:change approved to pending
 
         ///send notification
         await CustomEmail.sendEmail(
-            'Findmee has received your details, please wait to be approved from team',
+            'Findmee has received your details.',
             'Velkommen til FindMe', to: email.text);
         await CustomEmail.sendEmail(
-            'A new user has registered. Please approve or deny!',
+            'A new user has registered.',
             'User Registered');
         pd.hide();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
@@ -88,8 +87,8 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
     }
     else{
       MessageDialog.show(
-          context: context,
-          text: 'Please fill all fields',
+        context: context,
+        text: 'Please fill all fields',
       );
     }
   }

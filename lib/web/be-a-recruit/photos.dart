@@ -188,9 +188,8 @@ class _PhotosWebState extends State<PhotosWeb> {
 
                       data['profileImage'] = proPicUrl;
                       data['selfie'] = selfieUrl;
-                      data['status'] = 'pending';
+                      data['status'] = 'approved';
                       data['complete'] = true;
-                      //todo: change approved to pending
 
                       ///onesignal
                       data['playerID'] = "";
@@ -199,9 +198,9 @@ class _PhotosWebState extends State<PhotosWeb> {
                       await FirebaseFirestore.instance.collection('workers').doc(email).update(data);
 
                       ///send notification
-                      await CustomEmail.sendEmail('Findmee has received your details, please wait to be approved from team','Velkommen til FindMe', to: email);
+                      await CustomEmail.sendEmail('Findmee has received your details','Velkommen til FindMe', to: email);
                       await CustomEmail.sendEmail(
-                          'A new user has registered. Please approve or deny!',
+                          'A new user has registered.',
                           'User Registered');
 
                       pd.hide();

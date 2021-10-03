@@ -22,7 +22,7 @@ class _BusinessProfilesState extends State<BusinessProfiles> {
   StreamSubscription<QuerySnapshot> subscription;
 
   getData(){
-    subscription = FirebaseFirestore.instance.collection('companies').where('status', isEqualTo: 'pending').snapshots().listen((dataSnapshot) {
+    subscription = FirebaseFirestore.instance.collection('companies').snapshots().listen((dataSnapshot) {
       setState(() {
         profiles = dataSnapshot.docs;
       });
@@ -95,52 +95,24 @@ class _BusinessProfilesState extends State<BusinessProfiles> {
                       SizedBox(height: width*0.05,),
                       AdminInputField(hint: 'CVR Number',controller: cvr,),
                       SizedBox(height: width*0.1,),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Button(
-                              text: 'Approve',
-                              color: Colors.green,
-                              borderRadius: 10,
-                              padding: isTablet?15:10,
-                              onclick: () async {
-                                SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                                pd.show(
-                                    message: 'Please wait',
-                                    hideText: true
-                                );
-                                await FirebaseFirestore.instance.collection('companies').doc(profiles[i].id).update({
-                                  'status': 'approved'
-                                });
-                                await CustomEmail.sendEmail("Your account is approved!", "Approved", to: profiles[i].id);
-                                pd.hide();
-                                MessageDialog.show(context: context, text: 'Approved', type: CoolAlertType.success);
-                              },
-                            ),
-                          ),
-                          SizedBox(width: width*0.02,),
-                          Expanded(
-                            child: Button(
-                              text: 'Ban',
-                              borderRadius: 10,
-                              color: Colors.red,
-                              padding: isTablet?15:10,
-                              onclick: () async {
-                                SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                                pd.show(
-                                    message: 'Please wait',
-                                    hideText: true
-                                );
-                                await FirebaseFirestore.instance.collection('companies').doc(profiles[i].id).update({
-                                  'status': 'ban'
-                                });
-                                await CustomEmail.sendEmail("Your account is banned!", "Banned", to: profiles[i].id);
-                                pd.hide();
-                                MessageDialog.show(context: context, text: 'Banned', type: CoolAlertType.success);
-                              },
-                            ),
-                          ),
-                        ],
+                      Button(
+                        text: 'Ban',
+                        borderRadius: 10,
+                        color: Colors.red,
+                        padding: isTablet?15:10,
+                        onclick: () async {
+                          SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                          pd.show(
+                              message: 'Please wait',
+                              hideText: true
+                          );
+                          await FirebaseFirestore.instance.collection('companies').doc(profiles[i].id).update({
+                            'status': 'ban'
+                          });
+                          await CustomEmail.sendEmail("Your account is banned!", "Banned", to: profiles[i].id);
+                          pd.hide();
+                          MessageDialog.show(context: context, text: 'Banned', type: CoolAlertType.success);
+                        },
                       ),
                     ],
                   ),

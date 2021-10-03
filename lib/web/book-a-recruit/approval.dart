@@ -16,7 +16,7 @@ class ApprovalWeb extends StatefulWidget {
 }
 
 class _ApprovalWebState extends State<ApprovalWeb> {
-  String status = 'pending';
+  String status = 'approved';
   String email;
   getStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -69,12 +69,12 @@ class _ApprovalWebState extends State<ApprovalWeb> {
                 Container(
                   height: ScreenUtil().setHeight(500),
                   width: ScreenUtil().setHeight(500),
-                  child: Image.asset('assets/images/${status=='pending'?'waiting':status=='ban'?'banned':'approved'}.png'),
+                  child: Image.asset('assets/images/${status=='ban'?'banned':'approved'}.png'),
                 ),
                 SizedBox(height: ScreenUtil().setHeight(100),),
 
                 CustomText(
-                  text: status=='pending'?'Venter på godkendelse':status=='ban'?'Din profil er ikke godkendt.':'Din profil er godkendt.',
+                  text: status=='ban'?'Din profil er ikke godkendt.':'Din profil er godkendt.',
                   font: 'ComicSans',
                   size: ScreenUtil().setSp(60),
                   isBold: false,
@@ -107,9 +107,6 @@ class _ApprovalWebState extends State<ApprovalWeb> {
                       },
                     ),
                   ),
-                if(status=='pending')
-                  SizedBox(height: width*0.03,),
-
               ],
             ),
           ),

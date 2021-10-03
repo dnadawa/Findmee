@@ -243,9 +243,8 @@ class _PhotosState extends State<Photos> {
 
                             data['profileImage'] = proPicUrl;
                             data['selfie'] = selfieUrl;
-                            data['status'] = 'pending';
+                            data['status'] = 'approved';
                             data['complete'] = true;
-                            //todo: change approved to pending
 
                             ///onesignal
                             String playerID = "";
@@ -265,14 +264,14 @@ class _PhotosState extends State<Photos> {
                               OneSignal.shared.postNotification(
                                   OSCreateNotification(
                                       playerIds: [playerID],
-                                      content: 'Findmee has received your details, please wait to be approved from team'
+                                      content: 'Findmee has received your details.'
                                   )
                               );
                             }
 
-                            await CustomEmail.sendEmail('Findmee has received your details, please wait to be approved from team','Velkommen til FindMe', to: email);
+                            await CustomEmail.sendEmail('Findmee has received your details.','Velkommen til FindMe', to: email);
                             await CustomEmail.sendEmail(
-                                'A new user has registered. Please approve or deny!',
+                                'A new user has registered.',
                                 'User Registered');
 
                             widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
