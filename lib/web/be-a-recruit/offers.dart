@@ -296,7 +296,7 @@ class _OffersWebState extends State<OffersWeb> {
                                             ),
                                             child: Padding(
                                               padding: EdgeInsets.all(width*0.005),
-                                              child: CustomText(text: shift=='mor'?'Morgen':shift=='eve'?'Eftermiddag':'Nat',font: 'GoogleSans',isBold: false,size: width*0.01,align: TextAlign.start,),
+                                              child: CustomText(text: shift=='mor'?'Morgen':shift=='eve'?'Aften':'Nat',font: 'GoogleSans',isBold: false,size: width*0.01,align: TextAlign.start,),
                                             ),
                                           ),
                                         ),

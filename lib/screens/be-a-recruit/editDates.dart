@@ -196,7 +196,7 @@ class _EditDatesState extends State<EditDates> {
                                     isSelected: list[index]['morning'],
                                   ),
                                   ToggleButton(
-                                    text: 'Eftermiddag',
+                                    text: 'Aften',
                                     onclick: (){
                                       setState(() {
                                         list[index]['evening'] = !list[index]['evening'];

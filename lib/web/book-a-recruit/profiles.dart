@@ -118,7 +118,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
             shift += 'Morgen, ';
           }
           if(x.contains('eve')){
-            shift += 'Eftermiddag, ';
+            shift += 'Aften, ';
           }
           if(x.contains('nig')){
             shift += 'Nat, ';

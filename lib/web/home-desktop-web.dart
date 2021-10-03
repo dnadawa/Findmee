@@ -274,7 +274,7 @@ class _HomeDesktopWebState extends State<HomeDesktopWeb> with SingleTickerProvid
                                 ListTile(
                                   leading: SizedBox(width: width*0.07,child: Image.asset('assets/web/email.png')),
                                   title: CustomText(
-                                    text: 'info@findme.dk',
+                                    text: 'info@find-me.dk',
                                     font: 'ComicSans',
                                     align: TextAlign.start,
                                     isBold: false,

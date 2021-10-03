@@ -277,7 +277,7 @@ class _EditDatesWebState extends State<EditDatesWeb> {
                                   ),
                                   SizedBox(height: ScreenUtil().setHeight(50),),
                                   ToggleButton(
-                                    text: 'Eftermiddag',
+                                    text: 'Aften',
                                     onclick: (){
                                       setState(() {
                                         list[index]['evening'] = !list[index]['evening'];
