@@ -263,7 +263,7 @@ class _OffersState extends State<Offers> {
                                                         ),
                                                         child: Padding(
                                                           padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
-                                                          child: CustomText(text: shift=='mor'?'Morgen':shift=='eve'?'Eftermiddag':'Nat',font: 'GoogleSans',isBold: false,size: ScreenUtil().setSp(40),align: TextAlign.start,),
+                                                          child: CustomText(text: shift=='mor'?'Morgen':shift=='eve'?'Aften':'Nat',font: 'GoogleSans',isBold: false,size: ScreenUtil().setSp(40),align: TextAlign.start,),
                                                         ),
                                                       ),
                                                     ),

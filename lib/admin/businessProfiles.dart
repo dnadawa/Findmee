@@ -6,6 +6,7 @@ import 'package:findmee/widgets/admin-input-field.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/message-dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../email.dart';
@@ -59,95 +60,95 @@ class _BusinessProfilesState extends State<BusinessProfiles> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-    body: profiles!=null?GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: isDesktop?4:isTablet?3:1,
-            mainAxisSpacing: 15,
-            crossAxisSpacing: 15,
-            mainAxisExtent: width*1.2
-          ),
-        padding: EdgeInsets.all(width*0.05),
-        itemCount: profiles.length,
-        itemBuilder: (context, i){
-            TextEditingController name = TextEditingController();
-            TextEditingController email = TextEditingController();
-            TextEditingController phone = TextEditingController();
-            TextEditingController cvr = TextEditingController();
-            name.text = profiles[i]['name'];
-            email.text = profiles[i]['email'];
-            phone.text = profiles[i]['phone'];
-            cvr.text = profiles[i]['cvr'];
+    body: profiles!=null?Scrollbar(
+      child: StaggeredGridView.countBuilder(
+          staggeredTileBuilder: (index)=> StaggeredTile.fit(1),
+          crossAxisCount: isDesktop?4:isTablet?2:1,
+          mainAxisSpacing: 15,
+          crossAxisSpacing: 15,
+          padding: EdgeInsets.all(width*0.05),
+          itemCount: profiles.length,
+          itemBuilder: (context, i){
+              TextEditingController name = TextEditingController();
+              TextEditingController email = TextEditingController();
+              TextEditingController phone = TextEditingController();
+              TextEditingController cvr = TextEditingController();
+              name.text = profiles[i]['name'];
+              email.text = profiles[i]['email'];
+              phone.text = profiles[i]['phone'];
+              cvr.text = profiles[i]['cvr'];
 
-            return Container(
-              decoration: BoxDecoration(
-                color: Color(0xfff5f5f5),
-                borderRadius: BorderRadius.circular(10)
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(width*0.05),
-                child: Column(
-                  children: [
-                    AdminInputField(hint: 'Business Name',controller: name,),
-                    SizedBox(height: width*0.05,),
-                    AdminInputField(hint: 'Contact Email',controller: email,),
-                    SizedBox(height: width*0.05,),
-                    AdminInputField(hint: 'Mobile Number',controller: phone,),
-                    SizedBox(height: width*0.05,),
-                    AdminInputField(hint: 'CVR Number',controller: cvr,),
-                    SizedBox(height: width*0.1,),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Button(
-                            text: 'Approve',
-                            color: Colors.green,
-                            borderRadius: 10,
-                            padding: isTablet?15:10,
-                            onclick: () async {
-                              SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                              pd.show(
-                                  message: 'Please wait',
-                                  hideText: true
-                              );
-                              await FirebaseFirestore.instance.collection('companies').doc(profiles[i].id).update({
-                                'status': 'approved'
-                              });
-                              await CustomEmail.sendEmail("Your account is approved!", "Approved", to: profiles[i].id);
-                              pd.hide();
-                              MessageDialog.show(context: context, text: 'Approved', type: CoolAlertType.success);
-                            },
-                          ),
-                        ),
-                        SizedBox(width: width*0.02,),
-                        Expanded(
-                          child: Button(
-                            text: 'Ban',
-                            borderRadius: 10,
-                            color: Colors.red,
-                            padding: isTablet?15:10,
-                            onclick: () async {
-                              SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                              pd.show(
-                                  message: 'Please wait',
-                                  hideText: true
-                              );
-                              await FirebaseFirestore.instance.collection('companies').doc(profiles[i].id).update({
-                                'status': 'ban'
-                              });
-                              await CustomEmail.sendEmail("Your account is banned!", "Banned", to: profiles[i].id);
-                              pd.hide();
-                              MessageDialog.show(context: context, text: 'Banned', type: CoolAlertType.success);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+              return Container(
+                decoration: BoxDecoration(
+                  color: Color(0xfff5f5f5),
+                  borderRadius: BorderRadius.circular(10)
                 ),
-              ),
-            );
-        },
-      ):Center(child: CircularProgressIndicator(),),
+                child: Padding(
+                  padding: EdgeInsets.all(width*0.05),
+                  child: Column(
+                    children: [
+                      AdminInputField(hint: 'Business Name',controller: name,),
+                      SizedBox(height: width*0.05,),
+                      AdminInputField(hint: 'Contact Email',controller: email,),
+                      SizedBox(height: width*0.05,),
+                      AdminInputField(hint: 'Mobile Number',controller: phone,),
+                      SizedBox(height: width*0.05,),
+                      AdminInputField(hint: 'CVR Number',controller: cvr,),
+                      SizedBox(height: width*0.1,),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Button(
+                              text: 'Approve',
+                              color: Colors.green,
+                              borderRadius: 10,
+                              padding: isTablet?15:10,
+                              onclick: () async {
+                                SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                                pd.show(
+                                    message: 'Please wait',
+                                    hideText: true
+                                );
+                                await FirebaseFirestore.instance.collection('companies').doc(profiles[i].id).update({
+                                  'status': 'approved'
+                                });
+                                await CustomEmail.sendEmail("Your account is approved!", "Approved", to: profiles[i].id);
+                                pd.hide();
+                                MessageDialog.show(context: context, text: 'Approved', type: CoolAlertType.success);
+                              },
+                            ),
+                          ),
+                          SizedBox(width: width*0.02,),
+                          Expanded(
+                            child: Button(
+                              text: 'Ban',
+                              borderRadius: 10,
+                              color: Colors.red,
+                              padding: isTablet?15:10,
+                              onclick: () async {
+                                SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                                pd.show(
+                                    message: 'Please wait',
+                                    hideText: true
+                                );
+                                await FirebaseFirestore.instance.collection('companies').doc(profiles[i].id).update({
+                                  'status': 'ban'
+                                });
+                                await CustomEmail.sendEmail("Your account is banned!", "Banned", to: profiles[i].id);
+                                pd.hide();
+                                MessageDialog.show(context: context, text: 'Banned', type: CoolAlertType.success);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+          },
+        ),
+    ):Center(child: CircularProgressIndicator(),),
     );
   }
 }

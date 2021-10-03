@@ -7,6 +7,7 @@ import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -124,7 +125,7 @@ class _SearchProfilesState extends State<SearchProfiles> {
             shift += 'Morgen, ';
           }
           if(x.contains('eve')){
-            shift += 'Eftermiddag, ';
+            shift += 'Aften, ';
           }
           if(x.contains('nig')){
             shift += 'Nat, ';
@@ -407,14 +408,11 @@ class _SearchProfilesState extends State<SearchProfiles> {
               child: catProfiles!=null?
               profiles.isEmpty?Center(child: CustomText(text: 'No Profiles Found',color: Colors.black,size: profileWidth*0.01,font: 'GoogleSans',)):
               Scrollbar(
-                isAlwaysShown: true,
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: isDesktop?3:isTablet?2:1,
-                      crossAxisSpacing: 35,
-                      mainAxisExtent: profileWidth*0.5,
-                      mainAxisSpacing: 25
-                  ),
+                child: StaggeredGridView.countBuilder(
+                  staggeredTileBuilder: (index)=> StaggeredTile.fit(1),
+                  crossAxisCount: isDesktop?3:isTablet?2:1,
+                  crossAxisSpacing: 35,
+                  mainAxisSpacing: 25,
                   padding: EdgeInsets.all(30),
                   itemCount: profiles.length,
                   itemBuilder: (context, i){
@@ -435,251 +433,246 @@ class _SearchProfilesState extends State<SearchProfiles> {
                           ),
                           boxShadow: [BoxShadow(blurRadius: 20)]
                       ),
-                      child: Scrollbar(
-                        isAlwaysShown: true,
-                        child: SingleChildScrollView(
-                          child: Column(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ///top
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ///top
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ///image
-                                  Padding(
-                                    padding: EdgeInsets.all(profileWidth*0.015),
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      radius: profileWidth*0.04,
-                                      backgroundImage: CachedNetworkImageProvider(profileImage),
+                              ///image
+                              Padding(
+                                padding: EdgeInsets.all(profileWidth*0.015),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: profileWidth*0.04,
+                                  backgroundImage: CachedNetworkImageProvider(profileImage),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    ///name
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10))
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.01),
+                                          child: CustomText(text: name+" "+surname[0]+".",color: Colors.white,font: 'GoogleSans',size: profileWidth*0.01,),
+                                        ),
+                                      ),
                                     ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+
+                          ///categories
+                          SizedBox(
+                            width: double.infinity,
+                            child: Card(
+                              color: Colors.white,
+                              elevation: 5,
+                              margin: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.015),
+                                child: CustomText(
+                                  text: 'Kategori/ Kategorier',
+                                  color: Color(0xff52575D),
+                                  size: profileWidth*0.012,
+                                  align: TextAlign.start,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: profileWidth*0.009),
+                            child: AbsorbPointer(
+                              absorbing: true,
+                              child: MultiSelectChipField(
+                                title: Text(
+                                  'Kategori/ Kategorier',
+                                  style: TextStyle(
+                                      color: Color(0xff52575D),
+                                      fontWeight: FontWeight.bold
                                   ),
-                                  Expanded(
-                                    child: Column(
+                                ),
+                                headerColor: Colors.white,
+                                chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.transparent,width: 0),
+                                ),
+                                selectedChipColor: Color(0xff00C853),
+                                selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                                textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                                scroll: false,
+                                showHeader: false,
+                                items: categories,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: profileWidth*0.01,),
+
+                          ///cities
+                          SizedBox(
+                            width: double.infinity,
+                            child: Card(
+                              color: Colors.white,
+                              elevation: 5,
+                              margin: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.015),
+                                child: CustomText(
+                                  text: 'By /Byer',
+                                  color: Color(0xff52575D),
+                                  size: profileWidth*0.012,
+                                  align: TextAlign.start,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: profileWidth*0.009),
+                            child: AbsorbPointer(
+                              absorbing: true,
+                              child: MultiSelectChipField(
+                                title: Text(
+                                  'Kategori/ Kategorier',
+                                  style: TextStyle(
+                                      color: Color(0xff52575D),
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                headerColor: Colors.white,
+                                chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.transparent,width: 0),
+                                ),
+                                selectedChipColor: Color(0xff00C853),
+                                selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                                textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                                scroll: false,
+                                showHeader: false,
+                                items: cities,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: width*0.01,),
+
+                          ///shifts
+                          SizedBox(
+                            width: double.infinity,
+                            child: Card(
+                              color: Colors.white,
+                              elevation: 5,
+                              margin: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.015),
+                                child: CustomText(
+                                  text: 'Ledige arbejdsdage og tider',
+                                  color: Color(0xff52575D),
+                                  size: profileWidth*0.012,
+                                  align: TextAlign.start,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: double.infinity,
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(profileWidth*0.015,profileWidth*0.008,profileWidth*0.01,profileWidth*0.01),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: datesAndShifts.length,
+                                itemBuilder: (context, i){
+                                  String day = datesAndShifts[i]['day'];
+                                  String shift = datesAndShifts[i]['shift'];
+                                  Color color = Colors.black;
+                                  return Padding(
+                                    padding:  EdgeInsets.only(bottom: profileWidth*0.008),
+                                    child: Row(
                                       children: [
-                                        ///name
-                                        Align(
-                                          alignment: Alignment.topRight,
+                                        Expanded(
+                                          flex: 1,
                                           child: Container(
                                             decoration: BoxDecoration(
-                                                color: Theme.of(context).primaryColor,
-                                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10))
+                                                color: color,
+                                                borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
+                                                border: Border.all(width: 2,color: color)
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.01),
-                                              child: CustomText(text: name+" "+surname[0]+".",color: Colors.white,font: 'GoogleSans',size: profileWidth*0.01,),
+                                              padding: EdgeInsets.all(profileWidth*0.005),
+                                              child: CustomText(text: day,color: Colors.white,font: 'GoogleSans',size: profileWidth*0.01),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.horizontal(right: Radius.circular(10)),
+                                                border: Border.all(width: 2,color: color)
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(profileWidth*0.005),
+                                              child: CustomText(text: shift,font: 'GoogleSans',isBold: false,size: profileWidth*0.01,align: TextAlign.start,),
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                  )
-                                ],
+                                  );
+                                },
                               ),
-
-                              ///categories
-                              SizedBox(
-                                width: double.infinity,
-                                child: Card(
-                                  color: Colors.white,
-                                  elevation: 5,
-                                  margin: EdgeInsets.zero,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.015),
-                                    child: CustomText(
-                                      text: 'Kategori/ Kategorier',
-                                      color: Color(0xff52575D),
-                                      size: profileWidth*0.012,
-                                      align: TextAlign.start,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: profileWidth*0.009),
-                                child: AbsorbPointer(
-                                  absorbing: true,
-                                  child: MultiSelectChipField(
-                                    title: Text(
-                                      'Kategori/ Kategorier',
-                                      style: TextStyle(
-                                          color: Color(0xff52575D),
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                    headerColor: Colors.white,
-                                    chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.transparent,width: 0),
-                                    ),
-                                    selectedChipColor: Color(0xff00C853),
-                                    selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                                    textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                                    scroll: false,
-                                    showHeader: false,
-                                    items: categories,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: profileWidth*0.01,),
-
-                              ///cities
-                              SizedBox(
-                                width: double.infinity,
-                                child: Card(
-                                  color: Colors.white,
-                                  elevation: 5,
-                                  margin: EdgeInsets.zero,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.015),
-                                    child: CustomText(
-                                      text: 'By /Byer',
-                                      color: Color(0xff52575D),
-                                      size: profileWidth*0.012,
-                                      align: TextAlign.start,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: profileWidth*0.009),
-                                child: AbsorbPointer(
-                                  absorbing: true,
-                                  child: MultiSelectChipField(
-                                    title: Text(
-                                      'Kategori/ Kategorier',
-                                      style: TextStyle(
-                                          color: Color(0xff52575D),
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                    headerColor: Colors.white,
-                                    chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.transparent,width: 0),
-                                    ),
-                                    selectedChipColor: Color(0xff00C853),
-                                    selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                                    textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                                    scroll: false,
-                                    showHeader: false,
-                                    items: cities,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: width*0.01,),
-
-                              ///shifts
-                              SizedBox(
-                                width: double.infinity,
-                                child: Card(
-                                  color: Colors.white,
-                                  elevation: 5,
-                                  margin: EdgeInsets.zero,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.015),
-                                    child: CustomText(
-                                      text: 'Ledige arbejdsdage og tider',
-                                      color: Color(0xff52575D),
-                                      size: profileWidth*0.012,
-                                      align: TextAlign.start,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(profileWidth*0.015,profileWidth*0.008,profileWidth*0.01,profileWidth*0.01),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: datesAndShifts.length,
-                                    itemBuilder: (context, i){
-                                      String day = datesAndShifts[i]['day'];
-                                      String shift = datesAndShifts[i]['shift'];
-                                      Color color = Colors.black;
-                                      return Padding(
-                                        padding:  EdgeInsets.only(bottom: profileWidth*0.008),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: color,
-                                                    borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
-                                                    border: Border.all(width: 2,color: color)
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(profileWidth*0.005),
-                                                  child: CustomText(text: day,color: Colors.white,font: 'GoogleSans',size: profileWidth*0.01),
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.horizontal(right: Radius.circular(10)),
-                                                    border: Border.all(width: 2,color: color)
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(profileWidth*0.005),
-                                                  child: CustomText(text: shift,font: 'GoogleSans',isBold: false,size: profileWidth*0.01,align: TextAlign.start,),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-
-                              ///experience
-                              SizedBox(
-                                width: double.infinity,
-                                child: Card(
-                                  color: Colors.white,
-                                  elevation: 5,
-                                  margin: EdgeInsets.zero,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.015),
-                                    child: CustomText(
-                                      text: 'Erfaring',
-                                      color: Color(0xff52575D),
-                                      size: profileWidth*0.012,
-                                      align: TextAlign.start,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(profileWidth*0.015,profileWidth*0.01,profileWidth*0.01,profileWidth*0.01),
-                                child: CustomText(
-                                  text: experience,
-                                  align: TextAlign.justify,
-                                  size: profileWidth*0.01,
-                                  isBold: false,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+
+                          ///experience
+                          SizedBox(
+                            width: double.infinity,
+                            child: Card(
+                              color: Colors.white,
+                              elevation: 5,
+                              margin: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: profileWidth*0.005, horizontal: profileWidth*0.015),
+                                child: CustomText(
+                                  text: 'Erfaring',
+                                  color: Color(0xff52575D),
+                                  size: profileWidth*0.012,
+                                  align: TextAlign.start,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(profileWidth*0.015,profileWidth*0.01,profileWidth*0.01,profileWidth*0.01),
+                            child: CustomText(
+                              text: experience,
+                              align: TextAlign.justify,
+                              size: profileWidth*0.01,
+                              isBold: false,
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   },

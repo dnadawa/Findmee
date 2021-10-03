@@ -131,7 +131,7 @@ class _DatesWebWorkerState extends State<DatesWebWorker> {
                     ),
                     SizedBox(height: ScreenUtil().setHeight(70),),
                     ToggleButton(
-                      text: 'Eftermiddag',
+                      text: 'Aften',
                       onclick: (){
                         setState(() {
                           list[index]['evening'] = !list[index]['evening'];

@@ -124,7 +124,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
             shift += 'Morgen, ';
           }
           if(x.contains('eve')){
-            shift += 'Eftermiddag, ';
+            shift += 'Aften, ';
           }
           if(x.contains('nig')){
             shift += 'Nat, ';
