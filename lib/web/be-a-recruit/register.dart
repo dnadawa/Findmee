@@ -30,6 +30,7 @@ class _RegisterWebWorkerState extends State<RegisterWebWorker> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(width*0.05,width*0.04,width*0.1,0),
@@ -39,7 +40,7 @@ class _RegisterWebWorkerState extends State<RegisterWebWorker> {
         children: <Widget>[
           SizedBox(height: ScreenUtil().setHeight(30),),
           CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D),),
-          SizedBox(height: width*0.03,),
+          SizedBox(height: height*0.03,),
           Expanded(
             child: Scrollbar(
               child: ListView(

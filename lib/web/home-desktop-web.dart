@@ -105,10 +105,10 @@ class _HomeDesktopWebState extends State<HomeDesktopWeb> with SingleTickerProvid
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/web/desktop-back.png'),alignment: Alignment.bottomRight, fit: BoxFit.cover)
+                    image: DecorationImage(image: AssetImage('assets/web/desktop-back.png'),alignment: Alignment.bottomRight, fit: BoxFit.fitHeight)
                   ),
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(width*0.28,width*0.15,width*0.2,0),
+                    padding: EdgeInsets.fromLTRB(width*0.28,width*0.10,width*0.2,0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -194,6 +194,24 @@ class _HomeDesktopWebState extends State<HomeDesktopWeb> with SingleTickerProvid
                           ],
                         ),
                         SizedBox(height: width*0.3,),
+
+                        ///button
+                        SizedBox(
+                          width: width*0.65,
+                          child: Button(
+                            color: Colors.red,
+                            text: 'Log på',
+                            onclick: (){
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(builder: (context) => HomeApp()),
+                              );
+                            },
+                            padding: width*0.04,
+                          ),
+                        ),
+
+                        SizedBox(height: width*0.05,),
 
                         ///button
                         SizedBox(

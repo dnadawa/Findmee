@@ -97,11 +97,11 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(width*0.05,width*0.075,width*0.1,width*0.075),
+        padding: EdgeInsets.fromLTRB(width*0.05,height*0.12,width*0.1,height*0.010),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
