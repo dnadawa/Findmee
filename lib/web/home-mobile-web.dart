@@ -130,7 +130,7 @@ class _HomeMobileWebState extends State<HomeMobileWeb> with SingleTickerProvider
                     ),
                     textAlign: TextAlign.start
                 ),
-                SizedBox(height: ScreenUtil().setHeight(150)),
+                SizedBox(height: ScreenUtil().setHeight(125)),
                 Row(
                   children: [
                     SizedBox(
@@ -146,7 +146,23 @@ class _HomeMobileWebState extends State<HomeMobileWeb> with SingleTickerProvider
                     ),
                   ],
                 ),
-                SizedBox(height: ScreenUtil().setHeight(450)),
+                SizedBox(height: ScreenUtil().setHeight(350)),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width*0.146,),
+                  child: Button(
+                    color: Colors.red,
+                    text: 'Log på',
+                    textSize: width*0.046,
+                    onclick: (){
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(builder: (context) => HomeApp()),
+                      );
+                    },
+                    padding: ScreenUtil().setHeight(50),
+                  ),
+                ),
+                SizedBox(height: ScreenUtil().setHeight(50)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: width*0.146,),
                   child: Button(
