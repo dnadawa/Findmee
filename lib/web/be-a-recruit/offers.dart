@@ -357,6 +357,18 @@ class _OffersWebState extends State<OffersWeb> {
                                           'sent': FieldValue.arrayRemove([email]),
                                           'accepted': FieldValue.arrayUnion([email])
                                         });
+                                      await FirebaseFirestore.instance.collection('overview').add({
+                                        'business': company[0]['name'],
+                                        'businessEmail': company[0]['email'],
+                                        'businessPhone': company[0]['phone'],
+                                        'businessCVR': company[0]['cvr'],
+                                        'workerFName': worker[0]['name'],
+                                        'workerLName': worker[0]['surname'],
+                                        'workerEmail': email,
+                                        'workerPhone': worker[0]['phone'],
+                                        'workerCPR': worker[0]['cpr'],
+                                        'time': DateTime.now().toString(),
+                                      });
                                       getOffers();
                                       pd.hide();
                                       MessageDialog.show(context: context, text: 'Accepted',type: CoolAlertType.success);

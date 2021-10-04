@@ -7,6 +7,7 @@ import 'package:findmee/widgets/admin-input-field.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:findmee/widgets/message-dialog.dart';
+import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
@@ -321,7 +322,12 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                                 await FirebaseFirestore.instance.collection('workers').doc(email).delete();
                                 await CustomEmail.sendEmail("Your account is deleted!", "Account Deleted", to: email);
                                 pd.hide();
-                                MessageDialog.show(context: context, text: 'Deleted', type: CoolAlertType.success);
+                                if(Responsive.isMobile(context)){
+                                  ToastBar(text: 'Deleted!',color: Colors.green).show();
+                                }
+                                else{
+                                  MessageDialog.show(context: context, text: 'Deleted', type: CoolAlertType.success);
+                                }
                               }
                               else{
                                 throw Exception('API request failed!');
