@@ -62,10 +62,10 @@ class _StepperPageState extends State<StepperPage> {
           physics: NeverScrollableScrollPhysics(),
           children: [
             SignUp(controller: _controller,),
-            LogIn(controller: _controller,),
             Categories(from: 'company',controller: _controller,),
             Cities(from: 'company',controller: _controller,),
             Dates(controller: _controller,),
+            LogIn(controller: _controller,),
             Approval()
           ],
         ),

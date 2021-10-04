@@ -58,7 +58,7 @@ class _LogInState extends State<LogIn> {
             });
           }
 
-          widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+          widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

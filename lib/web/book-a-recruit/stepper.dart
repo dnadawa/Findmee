@@ -73,10 +73,6 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
                   image: 'assets/images/register.png'
                 ),
                 page(
-                  left: LoginWebCompany(controller: _controller,),
-                  image: 'assets/images/login.png'
-                ),
-                page(
                     left: CategoriesWeb(from: 'company', controller: _controller,),
                     image: 'assets/images/categories.png'
                 ),
@@ -87,6 +83,10 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
                 page(
                     left: DatesWebCompany(controller: _controller,),
                     image: 'assets/images/calendar.png'
+                ),
+                page(
+                    left: LoginWebCompany(controller: _controller,),
+                    image: 'assets/images/login.png'
                 ),
                 ApprovalWeb(),
               ],

@@ -214,7 +214,7 @@ class _DatesState extends State<Dates> {
                           ToastBar(text: 'Please select at least one date and shift', color: Colors.red).show();
                         }
                         else{
-                          widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                          widget.controller.animateToPage(4,curve: Curves.ease,duration: Duration(milliseconds: 200));
                         }
                       }),
                     )

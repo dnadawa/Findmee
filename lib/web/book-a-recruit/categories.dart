@@ -84,7 +84,7 @@ class _CategoriesWebState extends State<CategoriesWeb> {
               }
               else if(widget.from=='company'){
                 prefs.setStringList('companyCategories', selectedCategories);
-                widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
               }
               else{
                 Map x = jsonDecode(prefs.getString('data'));

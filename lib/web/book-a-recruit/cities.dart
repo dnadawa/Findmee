@@ -83,7 +83,7 @@ class _CitiesWebState extends State<CitiesWeb> {
               }
               else if(widget.from=='company'){
                 prefs.setStringList('companyCities', selectedCities);
-                widget.controller.animateToPage(4,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                widget.controller.animateToPage(3,curve: Curves.ease,duration: Duration(milliseconds: 200));
               }
               else{
                 Map x = jsonDecode(prefs.getString('data'));

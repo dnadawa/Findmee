@@ -39,7 +39,7 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('companyEmail', email.text);
 
-          widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+          widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
