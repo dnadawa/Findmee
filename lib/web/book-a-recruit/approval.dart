@@ -37,17 +37,17 @@ class _ApprovalWebState extends State<ApprovalWeb> {
                   ),
                     child: Padding(
                       padding: EdgeInsets.all(width*0.01),
-                      child: CustomText(text: 'Godkendelse',size: ScreenUtil().setSp(90),color: Colors.white,),
+                      child: CustomText(text: 'Velkommen',size: ScreenUtil().setSp(90),color: Colors.white,),
                     )
                 ),
                 SizedBox(height: ScreenUtil().setHeight(150),),
 
                 Container(
-                  height: ScreenUtil().setHeight(500),
-                  width: ScreenUtil().setHeight(500),
-                  child: Image.asset('assets/images/approved.png'),
+                  height: ScreenUtil().setHeight(400),
+                  width: ScreenUtil().setHeight(400),
+                  child: Image.asset('assets/images/logo-red.png'),
                 ),
-                SizedBox(height: ScreenUtil().setHeight(100),),
+                SizedBox(height: ScreenUtil().setHeight(200),),
 
                 CustomText(
                   text: 'Din profil er godkendt.',

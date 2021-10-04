@@ -37,7 +37,6 @@ class _ApprovalRecruitState extends State<ApprovalRecruit> {
         padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
         child: Center(
           child: Container(
-            height: ScreenUtil().setHeight(1700),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -55,15 +54,15 @@ class _ApprovalRecruitState extends State<ApprovalRecruit> {
                     SizedBox(height: ScreenUtil().setHeight(30),),
                     Align(
                         alignment: Alignment.topLeft,
-                        child: CustomText(text: 'Godkendelse',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D))),
+                        child: CustomText(text: 'Velkommen',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D))),
                     SizedBox(height: ScreenUtil().setHeight(150),),
 
                     Container(
-                      height: ScreenUtil().setHeight(500),
-                      width: ScreenUtil().setHeight(500),
-                      child: Image.asset('assets/images/approved.png'),
+                      height: ScreenUtil().setHeight(400),
+                      width: ScreenUtil().setHeight(400),
+                      child: Image.asset('assets/images/logo-red.png'),
                     ),
-                    SizedBox(height: ScreenUtil().setHeight(100),),
+                    SizedBox(height: ScreenUtil().setHeight(200),),
 
                     CustomText(
                       text: 'Din profil er godkendt.',
@@ -73,7 +72,7 @@ class _ApprovalRecruitState extends State<ApprovalRecruit> {
                     ),
 
                     Padding(
-                        padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
+                        padding: EdgeInsets.only(top: ScreenUtil().setHeight(200),bottom: ScreenUtil().setHeight(50)),
                         child: Button(
                           text: 'Næste',
                           padding: isTablet?width*0.025:10,
