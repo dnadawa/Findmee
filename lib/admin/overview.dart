@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:findmee/widgets/admin-input-field.dart';
@@ -9,24 +7,23 @@ import 'package:findmee/widgets/message-dialog.dart';
 import 'package:findmee/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:intl/intl.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
-import 'package:http/http.dart' as http;
-import '../email.dart';
 import '../responsive.dart';
 
-class BusinessProfiles extends StatefulWidget {
+class Overview extends StatefulWidget {
   @override
-  _BusinessProfilesState createState() => _BusinessProfilesState();
+  _OverviewState createState() => _OverviewState();
 }
 
-class _BusinessProfilesState extends State<BusinessProfiles> {
-  List<DocumentSnapshot> profiles;
+class _OverviewState extends State<Overview> {
+  List<DocumentSnapshot> entries;
   StreamSubscription<QuerySnapshot> subscription;
 
   getData(){
-    subscription = FirebaseFirestore.instance.collection('companies').snapshots().listen((dataSnapshot) {
+    subscription = FirebaseFirestore.instance.collection('overview').orderBy('time', descending: true).snapshots().listen((dataSnapshot) {
       setState(() {
-        profiles = dataSnapshot.docs;
+        entries = dataSnapshot.docs;
       });
     });
   }
@@ -62,23 +59,35 @@ class _BusinessProfilesState extends State<BusinessProfiles> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-    body: profiles!=null?Scrollbar(
+    body: entries!=null?Scrollbar(
       child: StaggeredGridView.countBuilder(
           staggeredTileBuilder: (index)=> StaggeredTile.fit(1),
           crossAxisCount: isDesktop?4:isTablet?2:1,
           mainAxisSpacing: 15,
           crossAxisSpacing: 15,
           padding: EdgeInsets.all(width*0.05),
-          itemCount: profiles.length,
+          itemCount: entries.length,
           itemBuilder: (context, i){
-              TextEditingController name = TextEditingController();
-              TextEditingController email = TextEditingController();
-              TextEditingController phone = TextEditingController();
+              TextEditingController bName = TextEditingController();
+              TextEditingController bEmail = TextEditingController();
+              TextEditingController bPhone = TextEditingController();
               TextEditingController cvr = TextEditingController();
-              name.text = profiles[i]['name'];
-              email.text = profiles[i]['email'];
-              phone.text = profiles[i]['phone'];
-              cvr.text = profiles[i]['cvr'];
+              TextEditingController wName = TextEditingController();
+              TextEditingController wEmail = TextEditingController();
+              TextEditingController wPhone = TextEditingController();
+              TextEditingController cpr = TextEditingController();
+              TextEditingController time = TextEditingController();
+              bName.text = entries[i]['business'];
+              bEmail.text = entries[i]['businessEmail'];
+              bPhone.text = entries[i]['businessPhone'];
+              cvr.text = entries[i]['businessCVR'];
+              wName.text = entries[i]['workerFName']+" "+entries[i]['workerLName'];
+              wEmail.text = entries[i]['workerEmail'];
+              wPhone.text = entries[i]['workerPhone'];
+              cpr.text = entries[i]['workerCPR'];
+              String formattedTime = DateFormat('dd/MM/yyyy hh:mm a').format(DateTime.parse(entries[i]['time']));
+              time.text = formattedTime;
+              String id = entries[i].id;
 
               return Container(
                 decoration: BoxDecoration(
@@ -89,13 +98,23 @@ class _BusinessProfilesState extends State<BusinessProfiles> {
                   padding: EdgeInsets.all(width*0.05),
                   child: Column(
                     children: [
-                      AdminInputField(hint: 'Business Name',controller: name,),
+                      AdminInputField(hint: 'Business Name',controller: bName,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Contact Email',controller: email,),
+                      AdminInputField(hint: 'Business Email',controller: bEmail,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Mobile Number',controller: phone,),
+                      AdminInputField(hint: 'Business Mobile Number',controller: bPhone,),
                       SizedBox(height: width*0.05,),
                       AdminInputField(hint: 'CVR Number',controller: cvr,),
+                      SizedBox(height: width*0.05,),
+                      AdminInputField(hint: 'Recruiter Name',controller: wName,),
+                      SizedBox(height: width*0.05,),
+                      AdminInputField(hint: 'Recruiter Email',controller: wEmail,),
+                      SizedBox(height: width*0.05,),
+                      AdminInputField(hint: 'Recruiter Mobile Number',controller: wPhone,),
+                      SizedBox(height: width*0.05,),
+                      AdminInputField(hint: 'CPR Number',controller: cpr,),
+                      SizedBox(height: width*0.05,),
+                      AdminInputField(hint: 'Created Time',controller: time,),
                       SizedBox(height: width*0.1,),
                       Button(
                         text: 'Delete',
@@ -109,29 +128,13 @@ class _BusinessProfilesState extends State<BusinessProfiles> {
                               hideText: true
                           );
                           try{
-                            String email = profiles[i].id;
-                            String api = "https://api.prkcar.com:7000/deleteUser/$email";
-                            var response = await http.get(Uri.parse(api));
-                            if(response.statusCode == 200){
-                              Map data = jsonDecode(response.body);
-                              if(data['status']=='done'){
-                                ///delete from firestore
-                                await FirebaseFirestore.instance.collection('companies').doc(email).delete();
-                                await CustomEmail.sendEmail("Your account is deleted!", "Account Deleted", to: email);
-                                pd.hide();
-                                if(Responsive.isMobile(context)){
-                                  ToastBar(text: 'Deleted!',color: Colors.green).show();
-                                }
-                                else{
-                                  MessageDialog.show(context: context, text: 'Deleted', type: CoolAlertType.success);
-                                }
-                              }
-                              else{
-                                throw Exception('API request failed!');
-                              }
+                            await FirebaseFirestore.instance.collection('overview').doc(id).delete();
+                            pd.hide();
+                            if(Responsive.isMobile(context)){
+                              ToastBar(text: 'Deleted!',color: Colors.green).show();
                             }
                             else{
-                              throw Exception('API request failed!');
+                              MessageDialog.show(context: context, text: 'Deleted', type: CoolAlertType.success);
                             }
                           }
                           catch(e){
