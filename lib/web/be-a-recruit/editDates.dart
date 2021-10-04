@@ -118,7 +118,7 @@ class _EditDatesWebState extends State<EditDatesWeb> {
       body: Column(
         children: [
           SizedBox(height: width*0.015,),
-          Center(child: CustomText(text: 'Please add/remove your available days and shifts',isBold: false, size: ScreenUtil().setSp(55),font: 'GoogleSans',)),
+          Center(child: CustomText(text: 'Vælg datoer og tidspunkter, hvor du ønsker at arbejde',isBold: false, size: ScreenUtil().setSp(55),font: 'GoogleSans',)),
 
           Expanded(
             child: Row(

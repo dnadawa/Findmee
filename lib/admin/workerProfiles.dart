@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
-
+import 'package:http/http.dart' as http;
 import '../email.dart';
 import '../responsive.dart';
 
@@ -25,7 +26,7 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
   StreamSubscription<QuerySnapshot> subscription;
 
   getData(){
-    subscription = FirebaseFirestore.instance.collection('workers').snapshots().listen((dataSnapshot) {
+    subscription = FirebaseFirestore.instance.collection('workers').where('status', isEqualTo: 'approved').snapshots().listen((dataSnapshot) {
       setState(() {
         profiles = dataSnapshot.docs;
       });
@@ -299,7 +300,7 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
 
                       ///buttons
                       Button(
-                        text: 'Ban',
+                        text: 'Delete',
                         borderRadius: 10,
                         color: Colors.red,
                         padding: isTablet?15:10,
@@ -309,12 +310,31 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                               message: 'Please wait',
                               hideText: true
                           );
-                          await FirebaseFirestore.instance.collection('workers').doc(profiles[i].id).update({
-                            'status': 'ban'
-                          });
-                          await CustomEmail.sendEmail("Your account is banned!", "Banned", to: profiles[i].id);
-                          pd.hide();
-                          MessageDialog.show(context: context, text: 'Banned', type: CoolAlertType.success);
+                          try{
+                            String email = profiles[i].id;
+                            String api = "https://api.prkcar.com:7000/deleteUser/$email";
+                            var response = await http.get(Uri.parse(api));
+                            if(response.statusCode == 200){
+                              Map data = jsonDecode(response.body);
+                              if(data['status']=='done'){
+                                ///delete from firestore
+                                await FirebaseFirestore.instance.collection('workers').doc(email).delete();
+                                await CustomEmail.sendEmail("Your account is deleted!", "Account Deleted", to: email);
+                                pd.hide();
+                                MessageDialog.show(context: context, text: 'Deleted', type: CoolAlertType.success);
+                              }
+                              else{
+                                throw Exception('API request failed!');
+                              }
+                            }
+                            else{
+                              throw Exception('API request failed!');
+                            }
+                          }
+                          catch(e){
+                            pd.hide();
+                            MessageDialog.show(context: context, text: e.toString(), type: CoolAlertType.error);
+                          }
                         },
                       ),
                     ],

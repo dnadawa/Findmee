@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,24 +9,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dashboard.dart';
 
 class ApprovalWorkerWeb extends StatefulWidget {
-  final PageController controller;
-
-  const ApprovalWorkerWeb({Key key, this.controller}) : super(key: key);
   @override
   _ApprovalWorkerWebState createState() => _ApprovalWorkerWebState();
 }
 
 class _ApprovalWorkerWebState extends State<ApprovalWorkerWeb> {
-  String status = 'approved';
   String email;
   getStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     email = jsonDecode(prefs.getString('data'))['email'];
-    var sub = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
-    var user = sub.docs;
-    setState(() {
-      status = user[0]['status'];
-    });
   }
 
   @override
@@ -45,7 +34,7 @@ class _ApprovalWorkerWebState extends State<ApprovalWorkerWeb> {
       backgroundColor: Color(0xffFA1E0E).withOpacity(0.05),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(status=='approved'?width*0.03:width*0.09),
+          padding: EdgeInsets.all(width*0.03),
           child: Container(
             width: width*0.3,
             decoration: BoxDecoration(
@@ -72,32 +61,18 @@ class _ApprovalWorkerWebState extends State<ApprovalWorkerWeb> {
                 Container(
                   height: ScreenUtil().setHeight(500),
                   width: ScreenUtil().setHeight(500),
-                  child: Image.asset('assets/images/${status=='ban'?'banned':'approved'}.png'),
+                  child: Image.asset('assets/images/approved.png'),
                 ),
                 SizedBox(height: ScreenUtil().setHeight(100),),
 
                 CustomText(
-                  text: status=='ban'?'Din profil er ikke godkendt.':'Din profil er godkendt.',
+                  text: 'Din profil er godkendt.',
                   font: 'ComicSans',
                   size: ScreenUtil().setSp(60),
                   isBold: false,
                 ),
 
-                if(status=='ban')
-                  Padding(
-                    padding: EdgeInsets.all(width*0.03),
-                    child: Button(
-                      text: 'Opret en ny konto',
-                      padding: width*0.01,
-                      onclick: () async {
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        prefs.remove('data');
-                        widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
-                      },
-                    ),
-                  ),
-                if(status=='approved')
-                  Padding(
+                Padding(
                     padding: EdgeInsets.all(width*0.03),
                     child: Button(
                       text: 'Næste',

@@ -93,7 +93,7 @@ class _StepperWebWorkerState extends State<StepperWebWorker> {
                     left: PhotosWeb(controller: _controller,),
                     image: 'assets/images/photos.png'
                 ),
-                ApprovalWorkerWeb(controller: _controller,),
+                ApprovalWorkerWeb(),
               ],
             ),
           ),

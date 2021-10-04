@@ -66,7 +66,7 @@ class _StepperPageState extends State<StepperPage> {
             Categories(from: 'company',controller: _controller,),
             Cities(from: 'company',controller: _controller,),
             Dates(controller: _controller,),
-            Approval(controller: _controller,)
+            Approval()
           ],
         ),
       ),

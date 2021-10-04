@@ -88,7 +88,7 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
                     left: DatesWebCompany(controller: _controller,),
                     image: 'assets/images/calendar.png'
                 ),
-                ApprovalWeb(controller: _controller,),
+                ApprovalWeb(),
               ],
             ),
           ),
