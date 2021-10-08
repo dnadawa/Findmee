@@ -210,6 +210,24 @@ class _HomeDesktopWebState extends State<HomeDesktopWeb> with SingleTickerProvid
                             padding: width*0.04,
                           ),
                         ),
+
+                        SizedBox(height: width*0.05,),
+
+                        ///button
+                        SizedBox(
+                          width: width*0.65,
+                          child: Button(
+                            color: Colors.red,
+                            text: 'Tilmeld dig nu',
+                            onclick: (){
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(builder: (context) => HomeApp()),
+                              );
+                            },
+                            padding: width*0.04,
+                          ),
+                        ),
                       ],
                     ),
                   ),
