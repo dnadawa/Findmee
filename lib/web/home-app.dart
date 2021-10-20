@@ -9,6 +9,9 @@ import '../widgets/buttons.dart';
 import '../widgets/custom-text.dart';
 
 class HomeApp extends StatefulWidget {
+  final bool logIn;
+
+  const HomeApp({Key key, this.logIn=false}) : super(key: key);
   @override
   _HomeAppState createState() => _HomeAppState();
 }
@@ -25,9 +28,9 @@ class _HomeAppState extends State<HomeApp> {
                       backgroundColor: Color(0xfff5f5f5),
                       image: 'book-a-recruit.png',
                       buttonText: 'Book vikar',
-                      description: 'Her kan du nemlig booke en vikar til din arbejdsopgave, så kan du bruge din tid på at fokusere hvad du er bedst til.\n\n'
-                          'Uanset om du har brug for en ekstra hånd i en dag eller for en længere periode , sender vi en vikar med de rette kvalifikationer.',
-                      destination: StepperWebCompany()
+                      description: 'Book en af vores vikarer til din arbejdsopgave. Vi står klar med de skarpeste vikarer på arbejdsmarkedet med de helt rette kvalifikationer rettet mod dit behov!\n\n'
+                          'Vi tager ansvar for, at finde de rette kandidater om det er små eller større opgaver - i en dag eller en længere periode.',
+                      destination: StepperWebCompany(logIn: widget.logIn,)
                   )
               ),
               Expanded(
@@ -35,19 +38,17 @@ class _HomeAppState extends State<HomeApp> {
                       backgroundColor: Colors.white,
                       image: 'be-a-recruit.png',
                       buttonText: 'Bliv vikar',
-                      description: 'Ønsker du at blive vikar, er du velkommen til at udfylde vores online ansøgningsskema, hvorefter vi vil kontakte dig.\n\n'
-                          'Søger du nye udfordringer, og har du hænderne skruet rigtigt på?\n\n'
-                          'Uanset dit mulige ønske om karrierevej, kan vi åbne dørene for dig til nye spændende muligheder på arbejdsmarkedet.\n\n'
-                          'Hos os kan du afprøve mange forskellige brancher og nivenaver. Du kan få små eller større opgaver.\n\n'
-                          'Tøv endelig ikke med at kontakte os for et uforpligtende tilbud.',
-                    destination: StepperWebWorker()
+                      description: 'Er du vores nye vikar? Søger du nye udfordringer? Og er du klar på at tage en masse vagter - så er du det helt rette sted!  Vi kan hermed åbne dørene op for dig til nye og spændende muligheder på arbejdsmarkedet.\n\n'
+                          'Hos os kan du afprøve mange forskellige brancher og nivenaver. Du kan få små eller stører opgaver rettet mod dine erfaringer og interesse.\n\n'
+                          'Tilmeld dig her, eller kontakt os for en uforpligtende samtale',
+                    destination: StepperWebWorker(logIn: widget.logIn,)
                   )
               ),
 
             ],
           ),
-          tablet: Welcome(),
-          mobile: Welcome(),
+          tablet: Welcome(logIn: widget.logIn,),
+          mobile: Welcome(logIn: widget.logIn,),
         ),
     );
   }

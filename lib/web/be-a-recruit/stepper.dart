@@ -10,6 +10,9 @@ import 'package:flutter/rendering.dart';
 import 'package:im_stepper/stepper.dart';
 
 class StepperWebWorker extends StatefulWidget {
+  final bool logIn;
+
+  const StepperWebWorker({Key key, this.logIn=false}) : super(key: key);
   @override
   _StepperWebWorkerState createState() => _StepperWebWorkerState();
 }
@@ -28,6 +31,13 @@ class _StepperWebWorkerState extends State<StepperWebWorker> {
         });
       }
     });
+
+    if(widget.logIn){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+      });
+    }
+
   }
 
   @override

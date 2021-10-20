@@ -156,7 +156,7 @@ class _HomeMobileWebState extends State<HomeMobileWeb> with SingleTickerProvider
                     onclick: (){
                       Navigator.push(
                         context,
-                        CupertinoPageRoute(builder: (context) => HomeApp()),
+                        CupertinoPageRoute(builder: (context) => HomeApp(logIn: true,)),
                       );
                     },
                     padding: ScreenUtil().setHeight(50),

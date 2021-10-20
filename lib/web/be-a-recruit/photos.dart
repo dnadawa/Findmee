@@ -97,7 +97,7 @@ class _PhotosWebState extends State<PhotosWeb> {
 
                       ///text
                       CustomText(
-                        text: 'Klik gerne her for at uploade din profilbillede',
+                        text: 'Vedhæft profilbillede',
                         font: 'GoogleSans',
                         size: ScreenUtil().setSp(40),
                       ),
@@ -150,7 +150,7 @@ class _PhotosWebState extends State<PhotosWeb> {
 
                       ///text
                       CustomText(
-                        text: 'Klik gerne ger for at uploade selfie af dig',
+                        text: 'Vedhæft selfie',
                         font: 'GoogleSans',
                         size: ScreenUtil().setSp(40),
                       ),
@@ -198,7 +198,9 @@ class _PhotosWebState extends State<PhotosWeb> {
                       await FirebaseFirestore.instance.collection('workers').doc(email).update(data);
 
                       ///send notification
-                      await CustomEmail.sendEmail('Findmee has received your details','Velkommen til FindMe', to: email);
+                      await CustomEmail.sendEmail('Tak fordi du har oprettet en bruger hos os! Din bruger ville blive aktiveret, når en administrator har valideret din profil. Vi ville derefter kontakte dig telefonisk til en mere uddybende samtale.\n\n'
+                          'Tak fordi du valgte os!\n\n'
+                          'De bedste hilsner fra\n\nTeam Findme','Velkommen til FindMe', to: email);
                       await CustomEmail.sendEmail(
                           'A new user has registered.',
                           'User Registered');

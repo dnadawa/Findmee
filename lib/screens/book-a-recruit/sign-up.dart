@@ -72,7 +72,7 @@ class _SignUpState extends State<SignUp> {
           );
         }
         await CustomEmail.sendEmail(
-            'Findmee has received your details.',
+            'Tak fordi du har oprettet en bruger hos os!\n\nVi ser frem til et stærkt og professionelt fremadrettet samarbejde med jer og den rette vikarservice. ',
             'Velkommen til FindMe', to: email.text);
 
         await CustomEmail.sendEmail(

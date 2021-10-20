@@ -10,6 +10,9 @@ import 'package:im_stepper/stepper.dart';
 import 'approval.dart';
 
 class StepperWebCompany extends StatefulWidget {
+  final bool logIn;
+
+  const StepperWebCompany({Key key, this.logIn=false}) : super(key: key);
   @override
   _StepperWebCompanyState createState() => _StepperWebCompanyState();
 }
@@ -28,6 +31,13 @@ class _StepperWebCompanyState extends State<StepperWebCompany> {
         });
       }
     });
+
+    if(widget.logIn){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+      });
+    }
+
   }
 
   @override

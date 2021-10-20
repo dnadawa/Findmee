@@ -12,6 +12,9 @@ import 'datesRecruit.dart';
 
 // ignore: must_be_immutable
 class RecruitStepperPage extends StatefulWidget {
+  final bool logIn;
+
+  const RecruitStepperPage({Key key, this.logIn=false}) : super(key: key);
   @override
   _RecruitStepperPageState createState() => _RecruitStepperPageState();
 }
@@ -31,6 +34,13 @@ class _RecruitStepperPageState extends State<RecruitStepperPage> {
         });
       }
     });
+
+    if(widget.logIn){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+      });
+    }
+
   }
   @override
   Widget build(BuildContext context) {

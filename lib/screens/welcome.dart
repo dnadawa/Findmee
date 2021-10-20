@@ -8,6 +8,9 @@ import 'be-a-recruit/stepperRecruit.dart';
 import 'book-a-recruit/stepper.dart';
 
 class Welcome extends StatelessWidget {
+  final bool logIn;
+
+  const Welcome({Key key, this.logIn=false}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
@@ -39,7 +42,7 @@ class Welcome extends StatelessWidget {
                     onclick: (){
                       Navigator.push(
                         context,
-                        CupertinoPageRoute(builder: (context) => StepperPage()),
+                        CupertinoPageRoute(builder: (context) => StepperPage(logIn: logIn,)),
                       );
                     },
                     text: 'Book vikar',
@@ -59,7 +62,7 @@ class Welcome extends StatelessWidget {
                   onclick: (){
                     Navigator.push(
                       context,
-                      CupertinoPageRoute(builder: (context) => RecruitStepperPage()),
+                      CupertinoPageRoute(builder: (context) => RecruitStepperPage(logIn: logIn,)),
                     );
                   },
                   text: 'Bliv vikar',

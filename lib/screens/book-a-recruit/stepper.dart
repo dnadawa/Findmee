@@ -11,6 +11,9 @@ import 'log-in.dart';
 
 // ignore: must_be_immutable
 class StepperPage extends StatefulWidget {
+  final bool logIn;
+
+  const StepperPage({Key key, this.logIn=false}) : super(key: key);
   @override
   _StepperPageState createState() => _StepperPageState();
 }
@@ -29,6 +32,13 @@ class _StepperPageState extends State<StepperPage> {
         });
       }
     });
+
+    if(widget.logIn){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+      });
+    }
+
   }
 
   @override

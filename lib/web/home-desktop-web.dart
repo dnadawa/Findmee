@@ -204,7 +204,7 @@ class _HomeDesktopWebState extends State<HomeDesktopWeb> with SingleTickerProvid
                             onclick: (){
                               Navigator.push(
                                 context,
-                                CupertinoPageRoute(builder: (context) => HomeApp()),
+                                CupertinoPageRoute(builder: (context) => HomeApp(logIn: true,)),
                               );
                             },
                             padding: width*0.04,

@@ -84,7 +84,7 @@ class _DatesState extends State<Dates> {
                     SizedBox(height: ScreenUtil().setHeight(30),),
                     CustomText(text: 'Datoer',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                     SizedBox(height: ScreenUtil().setHeight(50),),
-                    CustomText(text: 'Vælg gerne dato/datoer og tid når du har brug for at ansætte en vikar',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+                    CustomText(text: 'Vælg den dato/datoer og tidspunkt for manglende vikar',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                     SizedBox(height: ScreenUtil().setHeight(100),),
                     TableCalendar(
                       firstDay: DateTime.now(),

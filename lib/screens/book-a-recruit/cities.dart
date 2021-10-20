@@ -50,7 +50,7 @@ class _CitiesState extends State<Cities> {
                   SizedBox(height: ScreenUtil().setHeight(30),),
                   CustomText(text: 'Byer',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                   SizedBox(height: ScreenUtil().setHeight(50),),
-                  CustomText(text: 'Vælg by/byer hvor du har brug for at ansætte en vikar/vikarer',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+                  CustomText(text: widget.from=='company'?"Vælg by eller område for ansættelse af vikar/vikarer":'Vælg by/byer hvor du har brug for at ansætte en vikar/vikarer',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                   SizedBox(height: ScreenUtil().setHeight(100),),
 
                   Expanded(
