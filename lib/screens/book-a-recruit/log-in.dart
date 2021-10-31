@@ -144,7 +144,7 @@ class _LogInState extends State<LogIn> {
                                 }
                               }
                             },
-                            child: CustomText(text: "Forget Password",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(40),font: 'GoogleSans',)
+                            child: CustomText(text: "glem kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(40),font: 'GoogleSans',)
                         ),
                         SizedBox(height: ScreenUtil().setHeight(70),),
 
