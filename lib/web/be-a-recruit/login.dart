@@ -138,7 +138,7 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
                       }
                     }
                   },
-                  child: CustomText(text: "Forget Password",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(50),font: 'GoogleSans',)
+                  child: CustomText(text: "glem kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(50),font: 'GoogleSans',)
               ),
             ),
             SizedBox(height: ScreenUtil().setHeight(70),),
