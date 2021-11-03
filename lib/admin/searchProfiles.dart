@@ -32,6 +32,7 @@ class _SearchProfilesState extends State<SearchProfiles> {
   );
   var profiles = [];
   var catProfiles;
+  final _scrollController = ScrollController();
 
   getProfiles() async {
     profiles = [];
@@ -276,23 +277,28 @@ class _SearchProfilesState extends State<SearchProfiles> {
                                       child: Column(
                                         children: [
                                           Expanded(
-                                            child: ListView.builder(
-                                              itemCount: categories.length,
-                                              itemBuilder: (context,i){
-                                                return CheckboxListTile(
-                                                  title: CustomText(text: categories[i]['category'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),
-                                                  value: categories[i]['selected'],
-                                                  contentPadding: EdgeInsets.zero,
-                                                  dense: true,
-                                                  activeColor: Theme.of(context).primaryColor,
-                                                  controlAffinity: ListTileControlAffinity.leading,
-                                                  onChanged: (value){
-                                                    setState(() {
-                                                      categories[i]['selected'] = value;
-                                                    });
-                                                  },
-                                                );
-                                              },
+                                            child: Scrollbar(
+                                              controller: _scrollController,
+                                              isAlwaysShown: true,
+                                              child: ListView.builder(
+                                                controller: _scrollController,
+                                                itemCount: categories.length,
+                                                itemBuilder: (context,i){
+                                                  return CheckboxListTile(
+                                                    title: CustomText(text: categories[i]['category'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),
+                                                    value: categories[i]['selected'],
+                                                    contentPadding: EdgeInsets.zero,
+                                                    dense: true,
+                                                    activeColor: Theme.of(context).primaryColor,
+                                                    controlAffinity: ListTileControlAffinity.leading,
+                                                    onChanged: (value){
+                                                      setState(() {
+                                                        categories[i]['selected'] = value;
+                                                      });
+                                                    },
+                                                  );
+                                                },
+                                              ),
                                             ),
                                           ),
                                           Button(
@@ -343,23 +349,28 @@ class _SearchProfilesState extends State<SearchProfiles> {
                                         child: Column(
                                           children: [
                                             Expanded(
-                                              child: ListView.builder(
-                                                itemCount: cities.length,
-                                                itemBuilder: (context,i){
-                                                  return CheckboxListTile(
-                                                    title: CustomText(text: cities[i]['city'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),
-                                                    value: cities[i]['selected'],
-                                                    contentPadding: EdgeInsets.zero,
-                                                    dense: true,
-                                                    activeColor: Theme.of(context).primaryColor,
-                                                    controlAffinity: ListTileControlAffinity.leading,
-                                                    onChanged: (value){
-                                                      setState(() {
-                                                        cities[i]['selected'] = value;
-                                                      });
-                                                    },
-                                                  );
-                                                },
+                                              child: Scrollbar(
+                                                isAlwaysShown: true,
+                                                controller: _scrollController,
+                                                child: ListView.builder(
+                                                  itemCount: cities.length,
+                                                  controller: _scrollController,
+                                                  itemBuilder: (context,i){
+                                                    return CheckboxListTile(
+                                                      title: CustomText(text: cities[i]['city'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),
+                                                      value: cities[i]['selected'],
+                                                      contentPadding: EdgeInsets.zero,
+                                                      dense: true,
+                                                      activeColor: Theme.of(context).primaryColor,
+                                                      controlAffinity: ListTileControlAffinity.leading,
+                                                      onChanged: (value){
+                                                        setState(() {
+                                                          cities[i]['selected'] = value;
+                                                        });
+                                                      },
+                                                    );
+                                                  },
+                                                ),
                                               ),
                                             ),
                                             Button(
@@ -408,7 +419,10 @@ class _SearchProfilesState extends State<SearchProfiles> {
               child: catProfiles!=null?
               profiles.isEmpty?Center(child: CustomText(text: 'No Profiles Found',color: Colors.black,size: profileWidth*0.01,font: 'GoogleSans',)):
               Scrollbar(
+                isAlwaysShown: true,
+                controller: _scrollController,
                 child: StaggeredGridView.countBuilder(
+                  controller: _scrollController,
                   staggeredTileBuilder: (index)=> StaggeredTile.fit(1),
                   crossAxisCount: isDesktop?3:isTablet?2:1,
                   crossAxisSpacing: 35,

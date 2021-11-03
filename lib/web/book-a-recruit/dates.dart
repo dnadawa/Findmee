@@ -27,6 +27,7 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
   bool night = false;
   DateTime _focusedDay = DateTime.now();
   List list = [];
+  final _scrollController = ScrollController();
 
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
     equals: isSameDay,
@@ -64,9 +65,12 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
     double width = MediaQuery.of(context).size.width;
 
     return Scrollbar(
+      isAlwaysShown: true,
+      controller: _scrollController,
       child: Padding(
         padding: EdgeInsets.fromLTRB(width*0.05,width*0.04,width*0.1,0),
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

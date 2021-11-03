@@ -35,6 +35,7 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
   List<MultiSelectItem> cities = [];
   List datesAndShifts = [];
   List selectedDates = [];
+  final _scrollController = ScrollController();
 
   getSelected() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -113,189 +114,194 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
       content: Container(
         width: isTablet?width*0.8:width,
         height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ///categories
-              AbsorbPointer(
-                absorbing: true,
-                child: MultiSelectChipField(
-                  title: Text(
-                    'Kategori/ Kategorier',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  headerColor: Theme.of(context).primaryColor,
-                  chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Theme.of(context).primaryColor,width: 2),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  selectedChipColor: Color(0xff00C853),
-                  selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                  textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                  scroll: false,
-                  initialValue: widget.selectedCategories,
-                  items: categories,
-                ),
-              ),
-              SizedBox(height: ScreenUtil().setHeight(60),),
-
-              ///cities
-              AbsorbPointer(
-                absorbing: true,
-                child: MultiSelectChipField(
-                  title: Text(
-                    'By /Byer',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  headerColor: Theme.of(context).primaryColor,
-                  chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Theme.of(context).primaryColor,width: 2),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  selectedChipColor: Color(0xff00C853),
-                  selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                  textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                  scroll: false,
-                  initialValue: widget.selectedCities,
-                  items: cities,
-                ),
-              ),
-              SizedBox(height: ScreenUtil().setHeight(60),),
-
-              ///shifts
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Theme.of(context).primaryColor,width: 2)
-                ),
-                child: Column(
-                  children: [
-                    ///header
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(5)),
-                        color: Theme.of(context).primaryColor
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
-                        child: CustomText(text: 'Ledige arbejdsdage og tider',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
+        child: Scrollbar(
+          isAlwaysShown: true,
+          controller: _scrollController,
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                ///categories
+                AbsorbPointer(
+                  absorbing: true,
+                  child: MultiSelectChipField(
+                    title: Text(
+                      'Kategori/ Kategorier',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold
                       ),
                     ),
+                    headerColor: Theme.of(context).primaryColor,
+                    chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Theme.of(context).primaryColor,width: 2),
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    selectedChipColor: Color(0xff00C853),
+                    selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                    textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                    scroll: false,
+                    initialValue: widget.selectedCategories,
+                    items: categories,
+                  ),
+                ),
+                SizedBox(height: ScreenUtil().setHeight(60),),
 
-                    ///body
-                    Container(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: datesAndShifts.length,
-                          itemBuilder: (context, i){
-                            String day = datesAndShifts[i]['day'];
-                            String shift = datesAndShifts[i]['shift'];
-                            Color color = selectedDates.contains(day)?Colors.green:Colors.black;
-                            return Padding(
-                              padding:  EdgeInsets.only(bottom: ScreenUtil().setHeight(15)),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: color,
-                                          borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
-                                          border: Border.all(width: 2,color: color)
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
-                                        child: CustomText(text: day,color: Colors.white,font: 'GoogleSans',size: ScreenUtil().setSp(40),),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.horizontal(right: Radius.circular(10)),
-                                          border: Border.all(width: 2,color: color)
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
-                                        child: CustomText(text: shift,font: 'GoogleSans',isBold: false,size: ScreenUtil().setSp(40),align: TextAlign.start,),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
+                ///cities
+                AbsorbPointer(
+                  absorbing: true,
+                  child: MultiSelectChipField(
+                    title: Text(
+                      'By /Byer',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    headerColor: Theme.of(context).primaryColor,
+                    chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Theme.of(context).primaryColor,width: 2),
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    selectedChipColor: Color(0xff00C853),
+                    selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                    textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                    scroll: false,
+                    initialValue: widget.selectedCities,
+                    items: cities,
+                  ),
+                ),
+                SizedBox(height: ScreenUtil().setHeight(60),),
+
+                ///shifts
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Theme.of(context).primaryColor,width: 2)
+                  ),
+                  child: Column(
+                    children: [
+                      ///header
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(5)),
+                          color: Theme.of(context).primaryColor
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
+                          child: CustomText(text: 'Ledige arbejdsdage og tider',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: ScreenUtil().setHeight(80),),
 
-              ///experience
-              TextField(
-                controller: experience,
-                maxLines: null,
-                textAlign: TextAlign.justify,
-                style: TextStyle(fontFamily: 'GoogleSans',height: 1.4,fontWeight: FontWeight.w300,color: Color(0xff52575D)),
-                decoration: InputDecoration(
-                  labelText: 'Erfaring',
-                  labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: ScreenUtil().setSp(70)),
-                  enabled: false,
-                  contentPadding: EdgeInsets.fromLTRB(14, 30, 14, 16),
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                      width: 3
-                    )
-                  )
+                      ///body
+                      Container(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: datesAndShifts.length,
+                            itemBuilder: (context, i){
+                              String day = datesAndShifts[i]['day'];
+                              String shift = datesAndShifts[i]['shift'];
+                              Color color = selectedDates.contains(day)?Colors.green:Colors.black;
+                              return Padding(
+                                padding:  EdgeInsets.only(bottom: ScreenUtil().setHeight(15)),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: color,
+                                            borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
+                                            border: Border.all(width: 2,color: color)
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
+                                          child: CustomText(text: day,color: Colors.white,font: 'GoogleSans',size: ScreenUtil().setSp(40),),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.horizontal(right: Radius.circular(10)),
+                                            border: Border.all(width: 2,color: color)
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
+                                          child: CustomText(text: shift,font: 'GoogleSans',isBold: false,size: ScreenUtil().setSp(40),align: TextAlign.start,),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: ScreenUtil().setHeight(100),),
+                SizedBox(height: ScreenUtil().setHeight(80),),
 
-              ///button
-              Button(
-                color: Color(0xff00C853),
-                text: 'Ansæet mig',
-                image: 'hire.png',
-                imageSize: 80,
-                padding: isTablet?width*0.025:0,
-                onclick: () async {
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  // String cart = prefs.getString('cart') ?? "";
-                  List<String> emailList = prefs.getStringList('emailList') ?? [];
-                  List<String> notList = prefs.getStringList('notificationList') ?? [];
-                  // cart += "• ${widget.name} ${widget.surname}\n"
-                  //     "\t\tContact email: ${widget.email}\n"
-                  //     "\t\tMobile Phone: ${widget.phone}\n"
-                  //     "\t\tCPR Number: ${widget.cpr}\n\n";
-                  // prefs.setString('cart', cart);
-                  emailList.add(widget.email);
-                  notList.add(widget.playerID);
-                  prefs.setStringList('emailList', emailList);
-                  prefs.setStringList('notificationList', notList);
-                  ToastBar(text: 'Added to list!',color: Colors.green).show();
-                  Navigator.pop(context);
-                },
-              )
-            ],
+                ///experience
+                TextField(
+                  controller: experience,
+                  maxLines: null,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(fontFamily: 'GoogleSans',height: 1.4,fontWeight: FontWeight.w300,color: Color(0xff52575D)),
+                  decoration: InputDecoration(
+                    labelText: 'Erfaring',
+                    labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: ScreenUtil().setSp(70)),
+                    enabled: false,
+                    contentPadding: EdgeInsets.fromLTRB(14, 30, 14, 16),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                        width: 3
+                      )
+                    )
+                  ),
+                ),
+                SizedBox(height: ScreenUtil().setHeight(100),),
+
+                ///button
+                Button(
+                  color: Color(0xff00C853),
+                  text: 'Ansæet mig',
+                  image: 'hire.png',
+                  imageSize: 80,
+                  padding: isTablet?width*0.025:0,
+                  onclick: () async {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    // String cart = prefs.getString('cart') ?? "";
+                    List<String> emailList = prefs.getStringList('emailList') ?? [];
+                    List<String> notList = prefs.getStringList('notificationList') ?? [];
+                    // cart += "• ${widget.name} ${widget.surname}\n"
+                    //     "\t\tContact email: ${widget.email}\n"
+                    //     "\t\tMobile Phone: ${widget.phone}\n"
+                    //     "\t\tCPR Number: ${widget.cpr}\n\n";
+                    // prefs.setString('cart', cart);
+                    emailList.add(widget.email);
+                    notList.add(widget.playerID);
+                    prefs.setStringList('emailList', emailList);
+                    prefs.setStringList('notificationList', notList);
+                    ToastBar(text: 'Added to list!',color: Colors.green).show();
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

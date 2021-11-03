@@ -25,6 +25,7 @@ class WorkerProfiles extends StatefulWidget {
 class _WorkerProfilesState extends State<WorkerProfiles> {
   List<DocumentSnapshot> profiles;
   StreamSubscription<QuerySnapshot> subscription;
+  final _scrollController = ScrollController();
 
   getData(){
     subscription = FirebaseFirestore.instance.collection('workers').where('status', isEqualTo: 'approved').snapshots().listen((dataSnapshot) {
@@ -73,10 +74,14 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
       width = MediaQuery.of(context).size.width;
     }
 
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: profiles!=null?Scrollbar(
+        isAlwaysShown: true,
+        controller: _scrollController,
         child: StaggeredGridView.countBuilder(
+          controller: _scrollController,
           staggeredTileBuilder: (index)=> StaggeredTile.fit(1),
           crossAxisCount: isDesktop?4:isTablet?2:1,
           mainAxisSpacing: 15,

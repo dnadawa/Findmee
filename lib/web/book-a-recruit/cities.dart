@@ -22,6 +22,7 @@ class CitiesWeb extends StatefulWidget {
 class _CitiesWebState extends State<CitiesWeb> {
 
   List cities = Data().cities;
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +42,10 @@ class _CitiesWebState extends State<CitiesWeb> {
 
           Expanded(
             child: Scrollbar(
+              controller: _scrollController,
               isAlwaysShown: true,
               child: ListView.builder(
+                controller: _scrollController,
                 itemCount: cities.length,
                 shrinkWrap: true,
                 itemBuilder: (context,i){

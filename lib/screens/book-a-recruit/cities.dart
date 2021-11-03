@@ -23,6 +23,7 @@ class Cities extends StatefulWidget {
 class _CitiesState extends State<Cities> {
 
   List cities = Data().cities;
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,23 +55,28 @@ class _CitiesState extends State<Cities> {
                   SizedBox(height: ScreenUtil().setHeight(100),),
 
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: cities.length,
-                      itemBuilder: (context,i){
-                        return CheckboxListTile(
-                          title: CustomText(text: cities[i]['city'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),
-                          value: cities[i]['selected'],
-                          contentPadding: EdgeInsets.zero,
-                          dense: true,
-                          activeColor: Theme.of(context).primaryColor,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          onChanged: (value){
-                            setState(() {
-                              cities[i]['selected'] = value;
-                            });
-                          },
-                        );
-                      },
+                    child: Scrollbar(
+                      isAlwaysShown: true,
+                      controller: _scrollController,
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: cities.length,
+                        itemBuilder: (context,i){
+                          return CheckboxListTile(
+                            title: CustomText(text: cities[i]['city'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),
+                            value: cities[i]['selected'],
+                            contentPadding: EdgeInsets.zero,
+                            dense: true,
+                            activeColor: Theme.of(context).primaryColor,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            onChanged: (value){
+                              setState(() {
+                                cities[i]['selected'] = value;
+                              });
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
 

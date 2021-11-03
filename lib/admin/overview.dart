@@ -19,6 +19,7 @@ class Overview extends StatefulWidget {
 class _OverviewState extends State<Overview> {
   List<DocumentSnapshot> entries;
   StreamSubscription<QuerySnapshot> subscription;
+  final _scrollController = ScrollController();
 
   getData(){
     subscription = FirebaseFirestore.instance.collection('overview').orderBy('time', descending: true).snapshots().listen((dataSnapshot) {
@@ -60,7 +61,10 @@ class _OverviewState extends State<Overview> {
     return Scaffold(
       backgroundColor: Colors.white,
     body: entries!=null?Scrollbar(
+      isAlwaysShown: true,
+      controller: _scrollController,
       child: StaggeredGridView.countBuilder(
+          controller: _scrollController,
           staggeredTileBuilder: (index)=> StaggeredTile.fit(1),
           crossAxisCount: isDesktop?4:isTablet?2:1,
           mainAxisSpacing: 15,

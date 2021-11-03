@@ -29,6 +29,7 @@ class Photos extends StatefulWidget {
 class _PhotosState extends State<Photos> {
 
   File profileImage , selfie;
+  final _scrollController = ScrollController();
   Future getImage(String type) async {
     final pickedFile = await ImagePicker().getImage(source: type=='profile'?ImageSource.gallery:ImageSource.camera,imageQuality: 50);
     setState(() {
@@ -77,220 +78,225 @@ class _PhotosState extends State<Photos> {
           child: Center(
             child: Padding(
               padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: ScreenUtil().setHeight(30),),
-                    CustomText(text: 'Billeder',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
-                    SizedBox(height: ScreenUtil().setHeight(70),),
+              child: Scrollbar(
+                isAlwaysShown: true,
+                controller: _scrollController,
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  controller: _scrollController,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: ScreenUtil().setHeight(30),),
+                      CustomText(text: 'Billeder',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
+                      SizedBox(height: ScreenUtil().setHeight(70),),
 
-                    ///pro pic
-                    GestureDetector(
-                      onTap: ()=>kIsWeb?getImageWeb('profile'):getImage('profile'),
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff5f5f5),
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ///header
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10)
-                                  )
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
-                                  child: CustomText(text: 'Profilbillede',color: Colors.white,size: ScreenUtil().setSp(45),),
-                                ),
-                              ),
-                            ),
-
-                            ///image
-                            Padding(
-                              padding: EdgeInsets.all(ScreenUtil().setWidth(80)),
-                              child: CircleAvatar(
-                                backgroundColor: Colors.red,
-                                radius: 60,
-                                backgroundImage: profileImage!=null||profileImageData!=null
-                                    ?
-                                kIsWeb?MemoryImage(profileImageData):FileImage(profileImage)
-                                    :
-                                AssetImage('assets/images/avatar.png'),
-                              ),
-                            ),
-
-                            ///text
-                            CustomText(
-                              text: 'Vedhæft profilbillede',
-                              font: 'GoogleSans',
-                              size: ScreenUtil().setSp(40),
-                            ),
-                            SizedBox(height: ScreenUtil().setHeight(60),)
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: ScreenUtil().setHeight(60),),
-
-                    ///selfie
-                    GestureDetector(
-                      onTap: ()=>kIsWeb?getImageWeb('selfie'):getImage('selfie'),
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
+                      ///pro pic
+                      GestureDetector(
+                        onTap: ()=>kIsWeb?getImageWeb('profile'):getImage('profile'),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
                             color: Color(0xfff5f5f5),
                             borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ///header
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Container(
-                                decoration: BoxDecoration(
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ///header
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Container(
+                                  decoration: BoxDecoration(
                                     color: Theme.of(context).primaryColor,
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        bottomRight: Radius.circular(10)
+                                      topLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10)
                                     )
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
-                                  child: CustomText(text: 'Selfe',color: Colors.white,size: ScreenUtil().setSp(45),),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
+                                    child: CustomText(text: 'Profilbillede',color: Colors.white,size: ScreenUtil().setSp(45),),
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            ///image
-                            Padding(
-                              padding: EdgeInsets.all(ScreenUtil().setWidth(80)),
-                              child: CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                radius: 60,
-                                child: selfie!=null||selfieData!=null
-                                    ?
-                                kIsWeb?Image.memory(selfieData):Image.file(selfie)
-                                    :
-                                Image.asset('assets/images/selfie.png'),
+                              ///image
+                              Padding(
+                                padding: EdgeInsets.all(ScreenUtil().setWidth(80)),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.red,
+                                  radius: 60,
+                                  backgroundImage: profileImage!=null||profileImageData!=null
+                                      ?
+                                  kIsWeb?MemoryImage(profileImageData):FileImage(profileImage)
+                                      :
+                                  AssetImage('assets/images/avatar.png'),
+                                ),
                               ),
-                            ),
 
-                            ///text
-                            CustomText(
-                              text: 'Vedhæft selfie',
-                              font: 'GoogleSans',
-                              size: ScreenUtil().setSp(40),
-                            ),
-                            SizedBox(height: ScreenUtil().setHeight(60),)
-                          ],
+                              ///text
+                              CustomText(
+                                text: 'Vedhæft profilbillede',
+                                font: 'GoogleSans',
+                                size: ScreenUtil().setSp(40),
+                              ),
+                              SizedBox(height: ScreenUtil().setHeight(60),)
+                            ],
+                          ),
                         ),
                       ),
-                    ),
+                      SizedBox(height: ScreenUtil().setHeight(60),),
+
+                      ///selfie
+                      GestureDetector(
+                        onTap: ()=>kIsWeb?getImageWeb('selfie'):getImage('selfie'),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: Color(0xfff5f5f5),
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ///header
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10)
+                                      )
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
+                                    child: CustomText(text: 'Selfe',color: Colors.white,size: ScreenUtil().setSp(45),),
+                                  ),
+                                ),
+                              ),
+
+                              ///image
+                              Padding(
+                                padding: EdgeInsets.all(ScreenUtil().setWidth(80)),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: 60,
+                                  child: selfie!=null||selfieData!=null
+                                      ?
+                                  kIsWeb?Image.memory(selfieData):Image.file(selfie)
+                                      :
+                                  Image.asset('assets/images/selfie.png'),
+                                ),
+                              ),
+
+                              ///text
+                              CustomText(
+                                text: 'Vedhæft selfie',
+                                font: 'GoogleSans',
+                                size: ScreenUtil().setSp(40),
+                              ),
+                              SizedBox(height: ScreenUtil().setHeight(60),)
+                            ],
+                          ),
+                        ),
+                      ),
 
 
-                    SizedBox(height: ScreenUtil().setHeight(40),),
+                      SizedBox(height: ScreenUtil().setHeight(40),),
 
-                    Padding(
-                      padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                      child: Button(text: 'Næste',padding: isTablet?width*0.025:10,onclick: () async {
-                        if((profileImage!=null&&selfie!=null)||(profileImageData!=null&&selfieData!=null)){
-                          SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                          pd.show(
-                              message: 'Please wait',
-                              type: SimpleFontelicoProgressDialogType.custom,
-                              loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
-                          );
-                          try{
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            Map data = jsonDecode(prefs.getString('data'));
+                      Padding(
+                        padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
+                        child: Button(text: 'Næste',padding: isTablet?width*0.025:10,onclick: () async {
+                          if((profileImage!=null&&selfie!=null)||(profileImageData!=null&&selfieData!=null)){
+                            SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                            pd.show(
+                                message: 'Please wait',
+                                type: SimpleFontelicoProgressDialogType.custom,
+                                loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                            );
+                            try{
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              Map data = jsonDecode(prefs.getString('data'));
 
-                            String email = data['email'];
+                              String email = data['email'];
 
-                            ///upload images
-                            ToastBar(text: 'Uploading profile picture...',color: Colors.orange).show();
-                            FirebaseStorage storage = FirebaseStorage.instance;
-                            TaskSnapshot snap;
-                            if(kIsWeb){
-                              snap = await storage.ref('$email/profile.png').putData(profileImageData);
+                              ///upload images
+                              ToastBar(text: 'Uploading profile picture...',color: Colors.orange).show();
+                              FirebaseStorage storage = FirebaseStorage.instance;
+                              TaskSnapshot snap;
+                              if(kIsWeb){
+                                snap = await storage.ref('$email/profile.png').putData(profileImageData);
+                              }
+                              else{
+                                snap = await storage.ref('$email/profile.png').putFile(profileImage);
+                              }
+                              String proPicUrl = await snap.ref.getDownloadURL();
+
+                              ToastBar(text: 'Uploading selfie...',color: Colors.orange).show();
+                              TaskSnapshot snap2;
+                              if(kIsWeb){
+                                snap2 = await storage.ref('$email/selfie.png').putData(selfieData);
+                              }
+                              else{
+                                snap2 = await storage.ref('$email/selfie.png').putFile(selfie);
+                              }
+                              String selfieUrl = await snap2.ref.getDownloadURL();
+
+                              data['profileImage'] = proPicUrl;
+                              data['selfie'] = selfieUrl;
+                              data['status'] = 'approved';
+                              data['complete'] = true;
+
+                              ///onesignal
+                              String playerID = "";
+                              if(!kIsWeb){
+                                OSDeviceState status = await OneSignal.shared.getDeviceState();
+                                playerID = status.userId;
+                              }
+                              data['playerID'] = playerID;
+
+                              print(data);
+
+                              ///add to db
+                              await FirebaseFirestore.instance.collection('workers').doc(email).update(data);
+
+                              ///send notification
+                              if(!kIsWeb){
+                                OneSignal.shared.postNotification(
+                                    OSCreateNotification(
+                                        playerIds: [playerID],
+                                        content: 'Findmee has received your details.'
+                                    )
+                                );
+                              }
+
+                              await CustomEmail.sendEmail('Tak fordi du har oprettet en bruger hos os! Din bruger ville blive aktiveret, når en administrator har valideret din profil. Vi ville derefter kontakte dig telefonisk til en mere uddybende samtale.\n\n'
+                                  'Tak fordi du valgte os!\n\n'
+                                  'De bedste hilsner fra\n\nTeam Findme','Velkommen til FindMe', to: email);
+                              await CustomEmail.sendEmail(
+                                  'A new user has registered.',
+                                  'User Registered');
+
+                              widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
                             }
-                            else{
-                              snap = await storage.ref('$email/profile.png').putFile(profileImage);
+                            catch(e){
+                              print(e.toString());
+                              ToastBar(text: 'Something went wrong!',color: Colors.red).show();
                             }
-                            String proPicUrl = await snap.ref.getDownloadURL();
-
-                            ToastBar(text: 'Uploading selfie...',color: Colors.orange).show();
-                            TaskSnapshot snap2;
-                            if(kIsWeb){
-                              snap2 = await storage.ref('$email/selfie.png').putData(selfieData);
-                            }
-                            else{
-                              snap2 = await storage.ref('$email/selfie.png').putFile(selfie);
-                            }
-                            String selfieUrl = await snap2.ref.getDownloadURL();
-
-                            data['profileImage'] = proPicUrl;
-                            data['selfie'] = selfieUrl;
-                            data['status'] = 'approved';
-                            data['complete'] = true;
-
-                            ///onesignal
-                            String playerID = "";
-                            if(!kIsWeb){
-                              OSDeviceState status = await OneSignal.shared.getDeviceState();
-                              playerID = status.userId;
-                            }
-                            data['playerID'] = playerID;
-
-                            print(data);
-
-                            ///add to db
-                            await FirebaseFirestore.instance.collection('workers').doc(email).update(data);
-
-                            ///send notification
-                            if(!kIsWeb){
-                              OneSignal.shared.postNotification(
-                                  OSCreateNotification(
-                                      playerIds: [playerID],
-                                      content: 'Findmee has received your details.'
-                                  )
-                              );
-                            }
-
-                            await CustomEmail.sendEmail('Tak fordi du har oprettet en bruger hos os! Din bruger ville blive aktiveret, når en administrator har valideret din profil. Vi ville derefter kontakte dig telefonisk til en mere uddybende samtale.\n\n'
-                                'Tak fordi du valgte os!\n\n'
-                                'De bedste hilsner fra\n\nTeam Findme','Velkommen til FindMe', to: email);
-                            await CustomEmail.sendEmail(
-                                'A new user has registered.',
-                                'User Registered');
-
-                            widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                            pd.hide();
                           }
-                          catch(e){
-                            print(e.toString());
-                            ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                          else{
+                            ToastBar(text: 'Please upload a profile picture and a selfie!',color: Colors.red).show();
                           }
-                          pd.hide();
-                        }
-                        else{
-                          ToastBar(text: 'Please upload a profile picture and a selfie!',color: Colors.red).show();
-                        }
-                      }),
-                    )
+                        }),
+                      )
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

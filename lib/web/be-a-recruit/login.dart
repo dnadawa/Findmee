@@ -24,6 +24,7 @@ class LoginWebWorker extends StatefulWidget {
 class _LoginWebWorkerState extends State<LoginWebWorker> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  final _scrollController = ScrollController();
 
   logIn() async {
     FocusScope.of(context).requestFocus(FocusNode());
@@ -115,83 +116,88 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(width*0.05,width*0.075,width*0.1,width*0.075),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: ScreenUtil().setHeight(30),),
-            CustomText(text: 'Log ind på\nFindme',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D),),
-            SizedBox(height: width*0.03,),
+    return Scrollbar(
+      isAlwaysShown: true,
+      controller: _scrollController,
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        physics: BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(width*0.05,width*0.075,width*0.1,width*0.075),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: ScreenUtil().setHeight(30),),
+              CustomText(text: 'Log ind på\nFindme',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D),),
+              SizedBox(height: width*0.03,),
 
-            InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
-            InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
-            SizedBox(height: ScreenUtil().setHeight(100),),
-            MouseRegion(
-              child: GestureDetector(
-                  onTap: () async {
-                    SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                    pd.show(
-                        message: 'Please wait',
-                        type: SimpleFontelicoProgressDialogType.custom,
-                        loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
-                    );
-                    try{
-                      if(email.text.isNotEmpty) {
-                        FirebaseAuth auth = FirebaseAuth.instance;
-                        await auth.sendPasswordResetEmail(email: email.text.trim());
-                        pd.hide();
-                        MessageDialog.show(context: context, text: 'Password reset link sent to your email!', type: CoolAlertType.success);
-                      }
-                      else{
-                        pd.hide();
-                        MessageDialog.show(context: context, text: 'Please fill the email');
-                      }
-                    }
-                    on FirebaseAuthException catch(e){
-                      if (e.code == 'user-not-found') {
-                        pd.hide();
-                        MessageDialog.show(context: context, text: 'No user found for that email');
-                      }
-                      else{
-                        pd.hide();
-                        MessageDialog.show(context: context, text: 'Something went wrong!');
-                      }
-                    }
-                  },
-                  child: CustomText(text: "glem kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(50),font: 'GoogleSans',)
-              ),
-            ),
-            SizedBox(height: ScreenUtil().setHeight(70),),
-
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20), vertical: ScreenUtil().setWidth(60)),
-                child: Button(
-                  text: 'Log ind',
-                  color: Colors.red,
-                  padding: width*0.013,
-                  onclick: ()=>logIn(),
-                )
-            ),
-
-
-            SizedBox(height: width*0.09,),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
+              InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
+              InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
+              SizedBox(height: ScreenUtil().setHeight(100),),
+              MouseRegion(
                 child: GestureDetector(
-                    onTap: (){
-                      widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                    onTap: () async {
+                      SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                      pd.show(
+                          message: 'Please wait',
+                          type: SimpleFontelicoProgressDialogType.custom,
+                          loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                      );
+                      try{
+                        if(email.text.isNotEmpty) {
+                          FirebaseAuth auth = FirebaseAuth.instance;
+                          await auth.sendPasswordResetEmail(email: email.text.trim());
+                          pd.hide();
+                          MessageDialog.show(context: context, text: 'Password reset link sent to your email!', type: CoolAlertType.success);
+                        }
+                        else{
+                          pd.hide();
+                          MessageDialog.show(context: context, text: 'Please fill the email');
+                        }
+                      }
+                      on FirebaseAuthException catch(e){
+                        if (e.code == 'user-not-found') {
+                          pd.hide();
+                          MessageDialog.show(context: context, text: 'No user found for that email');
+                        }
+                        else{
+                          pd.hide();
+                          MessageDialog.show(context: context, text: 'Something went wrong!');
+                        }
+                      }
                     },
-                    child: CustomText(text: "Har du ikke allerede en konto? Tilmeld dig nu.",color: Theme.of(context).primaryColor, size: ScreenUtil().setSp(50),font: 'GoogleSans',)),
+                    child: CustomText(text: "glem kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(50),font: 'GoogleSans',)
+                ),
               ),
-            ),
+              SizedBox(height: ScreenUtil().setHeight(70),),
 
-          ],
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20), vertical: ScreenUtil().setWidth(60)),
+                  child: Button(
+                    text: 'Log ind',
+                    color: Colors.red,
+                    padding: width*0.013,
+                    onclick: ()=>logIn(),
+                  )
+              ),
+
+
+              SizedBox(height: width*0.09,),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                      onTap: (){
+                        widget.controller.animateToPage(0,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      },
+                      child: CustomText(text: "Har du ikke allerede en konto? Tilmeld dig nu.",color: Theme.of(context).primaryColor, size: ScreenUtil().setSp(50),font: 'GoogleSans',)),
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
     );

@@ -27,6 +27,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController phone = TextEditingController();
   TextEditingController cvr = TextEditingController();
   TextEditingController password = TextEditingController();
+  final _scrollController = ScrollController();
 
   signUp() async {
     if(businessName.text.isNotEmpty && phone.text.isNotEmpty && cvr.text.isNotEmpty &&  email.text.isNotEmpty &&password.text.isNotEmpty){
@@ -124,34 +125,39 @@ class _SignUpState extends State<SignUp> {
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
-                    child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(height: ScreenUtil().setHeight(30),),
-                          CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
-                          Center(
-                            child: SizedBox(
-                                width: isTablet?width*0.3:ScreenUtil().setHeight(600),
-                                height: isTablet?width*0.3:ScreenUtil().setWidth(600),
-                                child: Image.asset('assets/images/register.png')),
-                          ),
-                          SizedBox(height: ScreenUtil().setHeight(40),),
-                          InputField(hint: 'Firmanavn',controller: businessName,),
-                          InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
-                          InputField(hint: 'Mobiltelefon',type: TextInputType.phone,controller: phone),
-                          InputField(hint: 'CVR',controller: cvr,),
-                          InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
-                          SizedBox(height: ScreenUtil().setHeight(40),),
+                    child: Scrollbar(
+                      isAlwaysShown: true,
+                      controller: _scrollController,
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        physics: BouncingScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(height: ScreenUtil().setHeight(30),),
+                            CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
+                            Center(
+                              child: SizedBox(
+                                  width: isTablet?width*0.3:ScreenUtil().setHeight(600),
+                                  height: isTablet?width*0.3:ScreenUtil().setWidth(600),
+                                  child: Image.asset('assets/images/register.png')),
+                            ),
+                            SizedBox(height: ScreenUtil().setHeight(40),),
+                            InputField(hint: 'Firmanavn',controller: businessName,),
+                            InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
+                            InputField(hint: 'Mobiltelefon',type: TextInputType.phone,controller: phone),
+                            InputField(hint: 'CVR',controller: cvr,),
+                            InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
+                            SizedBox(height: ScreenUtil().setHeight(40),),
 
-                          Padding(
-                            padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                            child: Button(text: 'Tilmeld',padding: isTablet?width*0.025:10,onclick: ()=>signUp()),
-                          )
+                            Padding(
+                              padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
+                              child: Button(text: 'Tilmeld',padding: isTablet?width*0.025:10,onclick: ()=>signUp()),
+                            )
 
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

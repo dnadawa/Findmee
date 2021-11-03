@@ -25,6 +25,8 @@ class PhotosWeb extends StatefulWidget {
 
 class _PhotosWebState extends State<PhotosWeb> {
   Uint8List profileImage, selfie;
+  final _scrollController = ScrollController();
+
   Future getImage(String type) async {
     final pickedFile = await ImagePicker().getImage(source: type=='profile'?ImageSource.gallery:ImageSource.camera,imageQuality: 50);
      if (pickedFile != null) {
@@ -44,7 +46,9 @@ class _PhotosWebState extends State<PhotosWeb> {
 
     return Scrollbar(
       isAlwaysShown: true,
+      controller: _scrollController,
       child: SingleChildScrollView(
+        controller: _scrollController,
         child: Padding(
           padding: EdgeInsets.fromLTRB(width*0.05,width*0.04,width*0.1,0),
           child: Column(

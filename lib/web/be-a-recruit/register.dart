@@ -26,6 +26,7 @@ class _RegisterWebWorkerState extends State<RegisterWebWorker> {
   TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
   int wordCount = 0;
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,10 @@ class _RegisterWebWorkerState extends State<RegisterWebWorker> {
           SizedBox(height: height*0.03,),
           Expanded(
             child: Scrollbar(
+              isAlwaysShown: true,
+              controller: _scrollController,
               child: ListView(
+                controller: _scrollController,
                 children: [
                   InputField(hint: 'Navn',controller: name,),
                   InputField(hint: 'Efternavn',controller: surname),

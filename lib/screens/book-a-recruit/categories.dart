@@ -23,6 +23,7 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories> {
 
   List categories = Data().categories;
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,23 +55,28 @@ class _CategoriesState extends State<Categories> {
                   SizedBox(height: ScreenUtil().setHeight(100),),
 
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: categories.length,
-                      itemBuilder: (context,i){
-                        return CheckboxListTile(
-                          title: CustomText(text: categories[i]['category'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),
-                          value: categories[i]['selected'],
-                          contentPadding: EdgeInsets.zero,
-                          dense: true,
-                          activeColor: Theme.of(context).primaryColor,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          onChanged: (value){
-                            setState(() {
-                              categories[i]['selected'] = value;
-                            });
-                          },
-                        );
-                      },
+                    child: Scrollbar(
+                      isAlwaysShown: true,
+                      controller: _scrollController,
+                      child: ListView.builder(
+                        itemCount: categories.length,
+                        controller: _scrollController,
+                        itemBuilder: (context,i){
+                          return CheckboxListTile(
+                            title: CustomText(text: categories[i]['category'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),
+                            value: categories[i]['selected'],
+                            contentPadding: EdgeInsets.zero,
+                            dense: true,
+                            activeColor: Theme.of(context).primaryColor,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            onChanged: (value){
+                              setState(() {
+                                categories[i]['selected'] = value;
+                              });
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
 

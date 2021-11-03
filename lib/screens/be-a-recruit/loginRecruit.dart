@@ -28,6 +28,7 @@ class _RecruitLogInState extends State<RecruitLogIn> {
 
   TextEditingController password = TextEditingController();
   TextEditingController email = TextEditingController();
+  final _scrollController = ScrollController();
 
   logIn() async {
     FocusScope.of(context).requestFocus(FocusNode());
@@ -121,65 +122,70 @@ class _RecruitLogInState extends State<RecruitLogIn> {
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(ScreenUtil().setWidth(65)),
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(height: ScreenUtil().setHeight(30),),
-                        CustomText(text: 'Log ind på\nFindme',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
-                        Center(
-                          child: SizedBox(
-                              width: isTablet?width*0.3:ScreenUtil().setHeight(1200),
-                              height: isTablet?width*0.3:ScreenUtil().setWidth(800),
-                              child: Image.asset('assets/images/login.png')),
-                        ),
+                  child: Scrollbar(
+                    isAlwaysShown: true,
+                    controller: _scrollController,
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      controller: _scrollController,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(height: ScreenUtil().setHeight(30),),
+                          CustomText(text: 'Log ind på\nFindme',size: ScreenUtil().setSp(80),align: TextAlign.start,color: Color(0xff52575D),),
+                          Center(
+                            child: SizedBox(
+                                width: isTablet?width*0.3:ScreenUtil().setHeight(1200),
+                                height: isTablet?width*0.3:ScreenUtil().setWidth(800),
+                                child: Image.asset('assets/images/login.png')),
+                          ),
 
-                        InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
-                        InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
-                        SizedBox(height: ScreenUtil().setHeight(80),),
-                        GestureDetector(
-                            onTap: () async {
-                              SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                              pd.show(
-                                  message: 'Please wait',
-                                  type: SimpleFontelicoProgressDialogType.custom,
-                                  loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
-                              );
-                              try{
-                                if(email.text.isNotEmpty) {
-                                  FirebaseAuth auth = FirebaseAuth.instance;
-                                  await auth.sendPasswordResetEmail(email: email.text);
-                                  pd.hide();
-                                  ToastBar(text: 'Password reset link sent to your email!',color: Colors.green).show();
+                          InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
+                          InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
+                          SizedBox(height: ScreenUtil().setHeight(80),),
+                          GestureDetector(
+                              onTap: () async {
+                                SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                                pd.show(
+                                    message: 'Please wait',
+                                    type: SimpleFontelicoProgressDialogType.custom,
+                                    loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                                );
+                                try{
+                                  if(email.text.isNotEmpty) {
+                                    FirebaseAuth auth = FirebaseAuth.instance;
+                                    await auth.sendPasswordResetEmail(email: email.text);
+                                    pd.hide();
+                                    ToastBar(text: 'Password reset link sent to your email!',color: Colors.green).show();
+                                  }
+                                  else{
+                                    pd.hide();
+                                    ToastBar(text: 'Please fill the email',color: Colors.red).show();
+                                  }
                                 }
-                                else{
-                                  pd.hide();
-                                  ToastBar(text: 'Please fill the email',color: Colors.red).show();
+                                on FirebaseAuthException catch(e){
+                                  if (e.code == 'user-not-found') {
+                                    pd.hide();
+                                    ToastBar(text: 'No user found for that email',color: Colors.red).show();
+                                  }
+                                  else{
+                                    pd.hide();
+                                    ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                                  }
                                 }
-                              }
-                              on FirebaseAuthException catch(e){
-                                if (e.code == 'user-not-found') {
-                                  pd.hide();
-                                  ToastBar(text: 'No user found for that email',color: Colors.red).show();
-                                }
-                                else{
-                                  pd.hide();
-                                  ToastBar(text: 'Something went wrong!',color: Colors.red).show();
-                                }
-                              }
-                            },
-                            child: CustomText(text: "glem kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(40),font: 'GoogleSans',)
-                        ),
-                        SizedBox(height: ScreenUtil().setHeight(70),),
+                              },
+                              child: CustomText(text: "glem kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(40),font: 'GoogleSans',)
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(70),),
 
-                        Padding(
-                          padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                          child: Button(text: 'Log ind',padding: isTablet?width*0.025:10,onclick: ()=>logIn()),
-                        )
+                          Padding(
+                            padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
+                            child: Button(text: 'Log ind',padding: isTablet?width*0.025:10,onclick: ()=>logIn()),
+                          )
 
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

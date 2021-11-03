@@ -25,6 +25,7 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
   TextEditingController phone = TextEditingController();
   TextEditingController cvr = TextEditingController();
   TextEditingController password = TextEditingController();
+  final _scrollController = ScrollController();
 
   signUp() async {
     if(businessName.text.isNotEmpty && phone.text.isNotEmpty && cvr.text.isNotEmpty && email.text.isNotEmpty &&password.text.isNotEmpty){
@@ -110,45 +111,50 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(width*0.05,height*0.12,width*0.1,height*0.010),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: ScreenUtil().setHeight(30),),
-            CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D),isBold: true,),
-            SizedBox(height: width*0.03,),
-            InputField(hint: 'Firmanavn',controller: businessName,),
-            InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
-            InputField(hint: 'Mobiltelefon',type: TextInputType.phone,controller: phone),
-            InputField(hint: 'CVR',controller: cvr,),
-            InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
-            SizedBox(height: ScreenUtil().setHeight(40),),
+    return Scrollbar(
+      isAlwaysShown: true,
+      controller: _scrollController,
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(width*0.05,height*0.12,width*0.1,height*0.010),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: ScreenUtil().setHeight(30),),
+              CustomText(text: 'Tilmeld dig nu',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D),isBold: true,),
+              SizedBox(height: width*0.03,),
+              InputField(hint: 'Firmanavn',controller: businessName,),
+              InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
+              InputField(hint: 'Mobiltelefon',type: TextInputType.phone,controller: phone),
+              InputField(hint: 'CVR',controller: cvr,),
+              InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
+              SizedBox(height: ScreenUtil().setHeight(40),),
 
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20), vertical: ScreenUtil().setWidth(40)),
-              child: Button(
-                text: 'Tilmeld',
-                onclick: ()=>signUp(),
-                color: Colors.red,
-                padding: width*0.013,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20), vertical: ScreenUtil().setWidth(40)),
+                child: Button(
+                  text: 'Tilmeld',
+                  onclick: ()=>signUp(),
+                  color: Colors.red,
+                  padding: width*0.013,
+                ),
               ),
-            ),
 
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                    onTap: (){
-                      widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
-                    },
-                    child: CustomText(text: "Er du allerede tilmeldt? Log ind her",color: Theme.of(context).primaryColor, size: ScreenUtil().setSp(50),font: 'GoogleSans',)),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                      onTap: (){
+                        widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
+                      },
+                      child: CustomText(text: "Er du allerede tilmeldt? Log ind her",color: Theme.of(context).primaryColor, size: ScreenUtil().setSp(50),font: 'GoogleSans',)),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

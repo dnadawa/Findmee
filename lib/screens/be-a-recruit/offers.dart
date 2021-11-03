@@ -24,6 +24,8 @@ class Offers extends StatefulWidget {
 
 class _OffersState extends State<Offers> {
   var offers;
+  final _scrollController = ScrollController();
+
   getOffers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = jsonDecode(prefs.getString('data'))['email'];
@@ -97,329 +99,334 @@ class _OffersState extends State<Offers> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.all(ScreenUtil().setHeight(35)),
-              child: offers!=null?ListView.builder(
-                itemCount: offers.length,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, i){
+              child: offers!=null?Scrollbar(
+                isAlwaysShown: true,
+                controller: _scrollController,
+                child: ListView.builder(
+                  itemCount: offers.length,
+                  controller: _scrollController,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, i){
 
-                  List<MultiSelectItem> categories = getItemList(offers[i]['categories']);
-                  List<MultiSelectItem> cities = getItemList(offers[i]['cities']);
-                  List datesAndShifts = offers[i]['daysAndShifts'];
-                  String id = offers[i].id;
+                    List<MultiSelectItem> categories = getItemList(offers[i]['categories']);
+                    List<MultiSelectItem> cities = getItemList(offers[i]['cities']);
+                    List datesAndShifts = offers[i]['daysAndShifts'];
+                    String id = offers[i].id;
 
 
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(60)),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color(0xfff5f5f5)
-                      ),
-                      child: Column(
-                        children: [
-                          ///id
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),
-                                  color: Color(0xffC0E218)
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(ScreenUtil().setHeight(30)),
-                                child: CustomText(
-                                  text: '#$id',
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(60)),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xfff5f5f5)
+                        ),
+                        child: Column(
+                          children: [
+                            ///id
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),
+                                    color: Color(0xffC0E218)
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(ScreenUtil().setHeight(30)),
+                                  child: CustomText(
+                                    text: '#$id',
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
 
-                          ///body
-                          Padding(
-                            padding: EdgeInsets.all(ScreenUtil().setHeight(40)),
-                            child: Column(
-                              children: [
-                                ///text
-                                CustomText(
-                                  text: 'Here are some requirements that business is looking from you',
-                                  isBold: false,
-                                  font: 'GoogleSans',
-                                  align: TextAlign.start,
-                                  size: ScreenUtil().setSp(45),
-                                ),
-                                SizedBox(height: ScreenUtil().setHeight(70),),
+                            ///body
+                            Padding(
+                              padding: EdgeInsets.all(ScreenUtil().setHeight(40)),
+                              child: Column(
+                                children: [
+                                  ///text
+                                  CustomText(
+                                    text: 'Here are some requirements that business is looking from you',
+                                    isBold: false,
+                                    font: 'GoogleSans',
+                                    align: TextAlign.start,
+                                    size: ScreenUtil().setSp(45),
+                                  ),
+                                  SizedBox(height: ScreenUtil().setHeight(70),),
 
-                                ///categories
-                                AbsorbPointer(
-                                  absorbing: true,
-                                  child: MultiSelectChipField(
-                                    title: Text(
-                                      'Kategori / Kategorier',
-                                      style: TextStyle(
+                                  ///categories
+                                  AbsorbPointer(
+                                    absorbing: true,
+                                    child: MultiSelectChipField(
+                                      title: Text(
+                                        'Kategori / Kategorier',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      headerColor: Theme.of(context).primaryColor,
+                                      chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Theme.of(context).primaryColor,width: 2),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      selectedChipColor: Color(0xff00C853),
+                                      selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                                      textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                                      scroll: false,
+                                      items: categories,
+                                    ),
+                                  ),
+                                  SizedBox(height: ScreenUtil().setHeight(60),),
+
+                                  ///cities
+                                  AbsorbPointer(
+                                    absorbing: true,
+                                    child: MultiSelectChipField(
+                                      title: Text(
+                                        'By / Byer',
+                                        style: TextStyle(
                                           color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                    headerColor: Theme.of(context).primaryColor,
-                                    chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Theme.of(context).primaryColor,width: 2),
-                                        borderRadius: BorderRadius.circular(10)
-                                    ),
-                                    selectedChipColor: Color(0xff00C853),
-                                    selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                                    textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                                    scroll: false,
-                                    items: categories,
-                                  ),
-                                ),
-                                SizedBox(height: ScreenUtil().setHeight(60),),
-
-                                ///cities
-                                AbsorbPointer(
-                                  absorbing: true,
-                                  child: MultiSelectChipField(
-                                    title: Text(
-                                      'By / Byer',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    headerColor: Theme.of(context).primaryColor,
-                                    chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Theme.of(context).primaryColor,width: 2),
-                                        borderRadius: BorderRadius.circular(10)
-                                    ),
-                                    selectedChipColor: Color(0xff00C853),
-                                    selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                                    textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
-                                    scroll: false,
-                                    items: cities,
-                                  ),
-                                ),
-                                SizedBox(height: ScreenUtil().setHeight(60),),
-
-                                ///shifts
-                                Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Theme.of(context).primaryColor,width: 2)
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      ///header
-                                      Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.vertical(top: Radius.circular(5)),
-                                            color: Theme.of(context).primaryColor
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
-                                          child: CustomText(text: 'Ledige arbejdsdage og tider',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      headerColor: Theme.of(context).primaryColor,
+                                      chipShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),side: BorderSide(color: Colors.black)),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Theme.of(context).primaryColor,width: 2),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      selectedChipColor: Color(0xff00C853),
+                                      selectedTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                                      textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontFamily: 'GoogleSans'),
+                                      scroll: false,
+                                      items: cities,
+                                    ),
+                                  ),
+                                  SizedBox(height: ScreenUtil().setHeight(60),),
 
-                                      ///body
-                                      Container(
-                                        width: double.infinity,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            physics: NeverScrollableScrollPhysics(),
-                                            itemCount: datesAndShifts.length,
-                                            itemBuilder: (context, i){
-                                              String day = DateFormat('dd/MM/yyyy').format(DateTime.parse(datesAndShifts[i].split(':')[0]));
-                                              String shift = datesAndShifts[i].split(':')[1];
-                                              return Padding(
-                                                padding:  EdgeInsets.only(bottom: ScreenUtil().setHeight(15)),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.black,
-                                                            borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
-                                                            border: Border.all(width: 2,color: Colors.black)
-                                                        ),
-                                                        child: Padding(
-                                                          padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
-                                                          child: CustomText(text: day,color: Colors.white,font: 'GoogleSans',size: ScreenUtil().setSp(40),),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 2,
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.horizontal(right: Radius.circular(10)),
-                                                            border: Border.all(width: 2,color: Colors.black)
-                                                        ),
-                                                        child: Padding(
-                                                          padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
-                                                          child: CustomText(text: shift=='mor'?'Morgen':shift=='eve'?'Aften':'Nat',font: 'GoogleSans',isBold: false,size: ScreenUtil().setSp(40),align: TextAlign.start,),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
+                                  ///shifts
+                                  Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: Theme.of(context).primaryColor,width: 2)
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        ///header
+                                        Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.vertical(top: Radius.circular(5)),
+                                              color: Theme.of(context).primaryColor
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(ScreenUtil().setHeight(25)),
+                                            child: CustomText(text: 'Ledige arbejdsdage og tider',color: Colors.white,align: TextAlign.start,size: ScreenUtil().setSp(45),),
                                           ),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: ScreenUtil().setHeight(80),),
 
-                                ///buttons
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Button(
-                                        text: 'Accept the job',
-                                        color: Colors.green,
-                                        borderRadius: 10,
-                                        padding: isTablet?width*0.025:10,
-                                        onclick: () async {
-                                          SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                                          pd.show(
-                                              message: 'Please wait',
-                                              type: SimpleFontelicoProgressDialogType.custom,
-                                              loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
-                                          );
-                                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                                          String email = jsonDecode(prefs.getString('data'))['email'];
-
-                                          ///send email
-                                            var subCompany = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: offers[i]['company']).get();
-                                            var company = subCompany.docs;
-
-                                            var subWorker = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
-                                            var worker = subWorker.docs;
-
-                                            String msg = "${company[0]['name']} wants to hire following recruiter. All the details of the business and recruiter are mentioned below\n\n"
-                                                "Business Details:-\n\n"
-                                                "• Business Name: ${company[0]['name']}\n"
-                                                "• Contact Email: ${company[0]['email']}\n"
-                                                "• Mobile Phone: ${company[0]['phone']}\n"
-                                                "• CVR Number: ${company[0]['cvr']}\n\n"
-                                                "Recruiter Details:-\n\n"
-                                                "• ${worker[0]['name']} ${worker[0]['surname']}\n"
-                                                "\t\tContact email: $email\n"
-                                                "\t\tMobile Phone: ${worker[0]['phone']}\n"
-                                                "\t\tCPR Number: ${worker[0]['cpr']}";
-
-                                            bool isSendEmail = await CustomEmail.sendEmail(msg, 'Workers');
-                                            if(isSendEmail){
-                                                ToastBar(text: 'Email sent!',color: Colors.green).show();
-                                                await FirebaseFirestore.instance.collection('offers').doc(id).update({
-                                                  'sent': FieldValue.arrayRemove([email]),
-                                                  'accepted': FieldValue.arrayUnion([email])
-                                                });
-                                                await FirebaseFirestore.instance.collection('overview').add({
-                                                  'business': company[0]['name'],
-                                                  'businessEmail': company[0]['email'],
-                                                  'businessPhone': company[0]['phone'],
-                                                  'businessCVR': company[0]['cvr'],
-                                                  'workerFName': worker[0]['name'],
-                                                  'workerLName': worker[0]['surname'],
-                                                  'workerEmail': email,
-                                                  'workerPhone': worker[0]['phone'],
-                                                  'workerCPR': worker[0]['cpr'],
-                                                  'time': DateTime.now().toString(),
-                                                });
-                                                getOffers();
-
-                                                if(!kIsWeb){
-                                                  OneSignal.shared.postNotification(
-                                                      OSCreateNotification(
-                                                          playerIds: [company[0]['playerID']],
-                                                          content: 'Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}'
-                                                      )
-                                                  );
-                                                }
-
-                                                await CustomEmail.sendEmail('Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Accepted', to: company[0]['email']);
-                                                ToastBar(text: 'Accepted',color: Colors.green).show();
-                                            }
-                                            else{
-                                                  ToastBar(text: 'Email not sent!', color: Colors.red).show();
-                                            }
-                                            pd.hide();
-                                        },
-                                      ),
+                                        ///body
+                                        Container(
+                                          width: double.infinity,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              itemCount: datesAndShifts.length,
+                                              itemBuilder: (context, i){
+                                                String day = DateFormat('dd/MM/yyyy').format(DateTime.parse(datesAndShifts[i].split(':')[0]));
+                                                String shift = datesAndShifts[i].split(':')[1];
+                                                return Padding(
+                                                  padding:  EdgeInsets.only(bottom: ScreenUtil().setHeight(15)),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.black,
+                                                              borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
+                                                              border: Border.all(width: 2,color: Colors.black)
+                                                          ),
+                                                          child: Padding(
+                                                            padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
+                                                            child: CustomText(text: day,color: Colors.white,font: 'GoogleSans',size: ScreenUtil().setSp(40),),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 2,
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.horizontal(right: Radius.circular(10)),
+                                                              border: Border.all(width: 2,color: Colors.black)
+                                                          ),
+                                                          child: Padding(
+                                                            padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
+                                                            child: CustomText(text: shift=='mor'?'Morgen':shift=='eve'?'Aften':'Nat',font: 'GoogleSans',isBold: false,size: ScreenUtil().setSp(40),align: TextAlign.start,),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    SizedBox(width: ScreenUtil().setHeight(50),),
+                                  ),
+                                  SizedBox(height: ScreenUtil().setHeight(80),),
 
-                                    Expanded(
-                                      child: Button(
-                                        text: 'Reject the job',
-                                        color: Colors.red,
-                                        padding: isTablet?width*0.025:10,
-                                        borderRadius: 10,
-                                        onclick: () async {
-                                          SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
-                                          pd.show(
-                                              message: 'Please wait',
-                                              type: SimpleFontelicoProgressDialogType.custom,
-                                              loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
-                                          );
-                                          try{
+                                  ///buttons
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Button(
+                                          text: 'Accept the job',
+                                          color: Colors.green,
+                                          borderRadius: 10,
+                                          padding: isTablet?width*0.025:10,
+                                          onclick: () async {
+                                            SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                                            pd.show(
+                                                message: 'Please wait',
+                                                type: SimpleFontelicoProgressDialogType.custom,
+                                                loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                                            );
                                             SharedPreferences prefs = await SharedPreferences.getInstance();
                                             String email = jsonDecode(prefs.getString('data'))['email'];
 
-                                            var subCompany = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: offers[i]['company']).get();
-                                            var company = subCompany.docs;
+                                            ///send email
+                                              var subCompany = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: offers[i]['company']).get();
+                                              var company = subCompany.docs;
 
-                                            var subWorker = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
-                                            var worker = subWorker.docs;
+                                              var subWorker = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
+                                              var worker = subWorker.docs;
 
-                                            ///send notification
-                                            if(!kIsWeb){
-                                              OneSignal.shared.postNotification(
-                                                  OSCreateNotification(
-                                                      playerIds: [company[0]['playerID']],
-                                                      content: 'Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}'
-                                                  )
-                                              );
+                                              String msg = "${company[0]['name']} wants to hire following recruiter. All the details of the business and recruiter are mentioned below\n\n"
+                                                  "Business Details:-\n\n"
+                                                  "• Business Name: ${company[0]['name']}\n"
+                                                  "• Contact Email: ${company[0]['email']}\n"
+                                                  "• Mobile Phone: ${company[0]['phone']}\n"
+                                                  "• CVR Number: ${company[0]['cvr']}\n\n"
+                                                  "Recruiter Details:-\n\n"
+                                                  "• ${worker[0]['name']} ${worker[0]['surname']}\n"
+                                                  "\t\tContact email: $email\n"
+                                                  "\t\tMobile Phone: ${worker[0]['phone']}\n"
+                                                  "\t\tCPR Number: ${worker[0]['cpr']}";
 
-                                            }
+                                              bool isSendEmail = await CustomEmail.sendEmail(msg, 'Workers');
+                                              if(isSendEmail){
+                                                  ToastBar(text: 'Email sent!',color: Colors.green).show();
+                                                  await FirebaseFirestore.instance.collection('offers').doc(id).update({
+                                                    'sent': FieldValue.arrayRemove([email]),
+                                                    'accepted': FieldValue.arrayUnion([email])
+                                                  });
+                                                  await FirebaseFirestore.instance.collection('overview').add({
+                                                    'business': company[0]['name'],
+                                                    'businessEmail': company[0]['email'],
+                                                    'businessPhone': company[0]['phone'],
+                                                    'businessCVR': company[0]['cvr'],
+                                                    'workerFName': worker[0]['name'],
+                                                    'workerLName': worker[0]['surname'],
+                                                    'workerEmail': email,
+                                                    'workerPhone': worker[0]['phone'],
+                                                    'workerCPR': worker[0]['cpr'],
+                                                    'time': DateTime.now().toString(),
+                                                  });
+                                                  getOffers();
 
-                                            await CustomEmail.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
+                                                  if(!kIsWeb){
+                                                    OneSignal.shared.postNotification(
+                                                        OSCreateNotification(
+                                                            playerIds: [company[0]['playerID']],
+                                                            content: 'Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}'
+                                                        )
+                                                    );
+                                                  }
 
-                                            await FirebaseFirestore.instance.collection('offers').doc(id).update({
-                                              'sent': FieldValue.arrayRemove([email])
-                                            });
-                                            getOffers();
-
-                                            ToastBar(text: 'Offer rejected', color: Colors.green).show();
-                                          }
-                                          catch(e){
-                                            ToastBar(text: 'Something went wrong', color: Colors.red).show();
-                                          }
-                                          pd.hide();
-                                        },
+                                                  await CustomEmail.sendEmail('Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Accepted', to: company[0]['email']);
+                                                  ToastBar(text: 'Accepted',color: Colors.green).show();
+                                              }
+                                              else{
+                                                    ToastBar(text: 'Email not sent!', color: Colors.red).show();
+                                              }
+                                              pd.hide();
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                )
+                                      SizedBox(width: ScreenUtil().setHeight(50),),
 
-                              ],
+                                      Expanded(
+                                        child: Button(
+                                          text: 'Reject the job',
+                                          color: Colors.red,
+                                          padding: isTablet?width*0.025:10,
+                                          borderRadius: 10,
+                                          onclick: () async {
+                                            SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+                                            pd.show(
+                                                message: 'Please wait',
+                                                type: SimpleFontelicoProgressDialogType.custom,
+                                                loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
+                                            );
+                                            try{
+                                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                              String email = jsonDecode(prefs.getString('data'))['email'];
+
+                                              var subCompany = await FirebaseFirestore.instance.collection('companies').where('email', isEqualTo: offers[i]['company']).get();
+                                              var company = subCompany.docs;
+
+                                              var subWorker = await FirebaseFirestore.instance.collection('workers').where('email', isEqualTo: email).get();
+                                              var worker = subWorker.docs;
+
+                                              ///send notification
+                                              if(!kIsWeb){
+                                                OneSignal.shared.postNotification(
+                                                    OSCreateNotification(
+                                                        playerIds: [company[0]['playerID']],
+                                                        content: 'Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}'
+                                                    )
+                                                );
+
+                                              }
+
+                                              await CustomEmail.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
+
+                                              await FirebaseFirestore.instance.collection('offers').doc(id).update({
+                                                'sent': FieldValue.arrayRemove([email])
+                                              });
+                                              getOffers();
+
+                                              ToastBar(text: 'Offer rejected', color: Colors.green).show();
+                                            }
+                                            catch(e){
+                                              ToastBar(text: 'Something went wrong', color: Colors.red).show();
+                                            }
+                                            pd.hide();
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )
+
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ):Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),),
             ),
           )

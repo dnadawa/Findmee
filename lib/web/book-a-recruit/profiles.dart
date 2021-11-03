@@ -26,6 +26,8 @@ class _ProfilesWebState extends State<ProfilesWeb> {
   var catProfiles;
   List selectedCategories, selectedCities;
   List selectedDates = [];
+  final _scrollController = ScrollController();
+
   getProfiles() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     selectedCategories = prefs.getStringList('companyCategories');
@@ -297,9 +299,11 @@ class _ProfilesWebState extends State<ProfilesWeb> {
               child: catProfiles!=null?
               profiles.isEmpty?Center(child: CustomText(text: 'No Profiles Found',color: Colors.black,size: width*0.01,font: 'GoogleSans',)):
               Scrollbar(
+                controller: _scrollController,
                 isAlwaysShown: true,
                 child: StaggeredGridView.countBuilder(
                   staggeredTileBuilder: (index)=> StaggeredTile.fit(1),
+                  controller: _scrollController,
                   crossAxisCount: 3,
                   crossAxisSpacing: 35,
                   mainAxisSpacing: 25,

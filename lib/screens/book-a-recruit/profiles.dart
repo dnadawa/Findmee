@@ -26,6 +26,8 @@ class _ProfilesState extends State<Profiles> {
   var profiles = [];
   var catProfiles;
   List selectedCategories, selectedCities;
+  final _scrollController = ScrollController();
+
   getProfiles() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     selectedCategories = prefs.getStringList('companyCategories');
@@ -100,88 +102,93 @@ class _ProfilesState extends State<Profiles> {
                   ),
                   child: catProfiles!=null?
                       profiles.isEmpty?Center(child: CustomText(text: 'No profiles found!',color: Colors.white,size: width*0.04,)):
-                  ListView.builder(
-                    itemCount: profiles.length,
-                    itemBuilder: (context, i){
-                      String name = profiles[i]['name'];
-                      String surname = profiles[i]['surname'];
-                      String phone = profiles[i]['phone'];
-                      String cpr = profiles[i]['cpr'];
-                      String profileImage = profiles[i]['profileImage'];
-                      String experience = profiles[i]['experience'];
-                      String email = profiles[i]['email'];
-                      String playerID = profiles[i]['playerID'];
-                      List categories = profiles[i]['categories'];
-                      List cities = profiles[i]['cities'];
-                      List datesAndShifts = profiles[i]['datesAndShifts'];
+                  Scrollbar(
+                    isAlwaysShown: true,
+                    controller: _scrollController,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: profiles.length,
+                      itemBuilder: (context, i){
+                        String name = profiles[i]['name'];
+                        String surname = profiles[i]['surname'];
+                        String phone = profiles[i]['phone'];
+                        String cpr = profiles[i]['cpr'];
+                        String profileImage = profiles[i]['profileImage'];
+                        String experience = profiles[i]['experience'];
+                        String email = profiles[i]['email'];
+                        String playerID = profiles[i]['playerID'];
+                        List categories = profiles[i]['categories'];
+                        List cities = profiles[i]['cities'];
+                        List datesAndShifts = profiles[i]['datesAndShifts'];
 
-                      return Padding(
-                        padding: EdgeInsets.fromLTRB(ScreenUtil().setHeight(30),ScreenUtil().setHeight(30),ScreenUtil().setHeight(30),ScreenUtil().setHeight(20)),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(ScreenUtil().setHeight(30)),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.blue,
-                                  radius: 50,
-                                  backgroundImage: CachedNetworkImageProvider(profileImage),
-                                ),
-                                SizedBox(width: ScreenUtil().setWidth(50),),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      CustomText(
-                                        text: name+" "+profiles[i]['surname'][0]+".",
-                                        font: 'GoogleSans',
-                                        align: TextAlign.start,
-                                        size: ScreenUtil().setSp(60),
-                                      ),
-                                      SizedBox(height: ScreenUtil().setWidth(120),),
-                                      SizedBox(
-                                        height: ScreenUtil().setHeight(90),
-                                        child: Button(
-                                          text: 'Se min profil',
-                                          image: 'viewProfile.png',
-                                          padding: 2,
-                                          textSize: ScreenUtil().setSp(40),
-                                          color: Color(0xffFA1E0E),
-                                          onclick: (){
-                                            showDialog(
-                                                context: context,
-                                                builder: (BuildContext context){
-                                                  return ProfilePopUp(
-                                                    categories: categories,
-                                                    cities: cities,
-                                                    experience: experience,
-                                                    userDatesAndShifts: datesAndShifts,
-                                                    selectedCategories: selectedCategories,
-                                                    selectedCities: selectedCities,
-                                                    email: email,
-                                                    phone: phone,
-                                                    cpr: cpr,
-                                                    name: name,
-                                                    surname: surname,
-                                                    playerID: playerID,
-                                                  );
-                                                });
-                                          },
-                                        ),
-                                      )
-                                    ],
+                        return Padding(
+                          padding: EdgeInsets.fromLTRB(ScreenUtil().setHeight(30),ScreenUtil().setHeight(30),ScreenUtil().setHeight(30),ScreenUtil().setHeight(20)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(ScreenUtil().setHeight(30)),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.blue,
+                                    radius: 50,
+                                    backgroundImage: CachedNetworkImageProvider(profileImage),
                                   ),
-                                )
-                              ],
+                                  SizedBox(width: ScreenUtil().setWidth(50),),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          text: name+" "+profiles[i]['surname'][0]+".",
+                                          font: 'GoogleSans',
+                                          align: TextAlign.start,
+                                          size: ScreenUtil().setSp(60),
+                                        ),
+                                        SizedBox(height: ScreenUtil().setWidth(120),),
+                                        SizedBox(
+                                          height: ScreenUtil().setHeight(90),
+                                          child: Button(
+                                            text: 'Se min profil',
+                                            image: 'viewProfile.png',
+                                            padding: 2,
+                                            textSize: ScreenUtil().setSp(40),
+                                            color: Color(0xffFA1E0E),
+                                            onclick: (){
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context){
+                                                    return ProfilePopUp(
+                                                      categories: categories,
+                                                      cities: cities,
+                                                      experience: experience,
+                                                      userDatesAndShifts: datesAndShifts,
+                                                      selectedCategories: selectedCategories,
+                                                      selectedCities: selectedCities,
+                                                      email: email,
+                                                      phone: phone,
+                                                      cpr: cpr,
+                                                      name: name,
+                                                      surname: surname,
+                                                      playerID: playerID,
+                                                    );
+                                                  });
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ):Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),)),
                 ),
               ),

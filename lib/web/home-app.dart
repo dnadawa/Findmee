@@ -17,6 +17,8 @@ class HomeApp extends StatefulWidget {
 }
 
 class _HomeAppState extends State<HomeApp> {
+  final _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,44 +60,49 @@ class _HomeAppState extends State<HomeApp> {
     return Container(
       color: backgroundColor,
       height: double.infinity,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(width*0.03),
-              child: Container(
-                  width: width*0.25,
-                  height: width*0.2,
-                  child: Image.asset('assets/web/$image', fit: BoxFit.fitWidth,)
+      child: Scrollbar(
+        isAlwaysShown: true,
+        controller: _scrollController,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(width*0.03),
+                child: Container(
+                    width: width*0.25,
+                    height: width*0.2,
+                    child: Image.asset('assets/web/$image', fit: BoxFit.fitWidth,)
+                ),
               ),
-            ),
-            SizedBox(
-              width: width*0.2,
-              child: Button(
-                color: Colors.red,
-                text: buttonText,
-                borderRadius: 10,
-                padding: width*0.015,
-                textSize: width*0.015,
-                onclick: (){
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(builder: (context) => destination),
-                  );
-                },
+              SizedBox(
+                width: width*0.2,
+                child: Button(
+                  color: Colors.red,
+                  text: buttonText,
+                  borderRadius: 10,
+                  padding: width*0.015,
+                  textSize: width*0.015,
+                  onclick: (){
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(builder: (context) => destination),
+                    );
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(width*0.03),
-              child: CustomText(
-                font: 'GoogleSans',
-                isBold: false,
-                align: TextAlign.start,
-                size: width*0.01,
-                text: description,
-              ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.all(width*0.03),
+                child: CustomText(
+                  font: 'GoogleSans',
+                  isBold: false,
+                  align: TextAlign.start,
+                  size: width*0.01,
+                  text: description,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

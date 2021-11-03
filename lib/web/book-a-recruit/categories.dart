@@ -22,7 +22,7 @@ class CategoriesWeb extends StatefulWidget {
 class _CategoriesWebState extends State<CategoriesWeb> {
 
   List categories = Data().categories;
-
+  final _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -41,10 +41,12 @@ class _CategoriesWebState extends State<CategoriesWeb> {
 
           Expanded(
             child: Scrollbar(
+              controller: _scrollController,
               isAlwaysShown: true,
               child: ListView.builder(
                 itemCount: categories.length,
                 shrinkWrap: true,
+                controller: _scrollController,
                 itemBuilder: (context,i){
                   return CheckboxListTile(
                     title: CustomText(text: categories[i]['category'],font: 'GoogleSans',align: TextAlign.start,size: ScreenUtil().setSp(50),isBold: false,),

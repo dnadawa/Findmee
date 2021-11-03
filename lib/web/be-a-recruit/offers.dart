@@ -24,7 +24,7 @@ class OffersWeb extends StatefulWidget {
 }
 
 class _OffersWebState extends State<OffersWeb> {
-
+  final _scrollController = ScrollController();
   var offers;
   getOffers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -98,7 +98,10 @@ class _OffersWebState extends State<OffersWeb> {
           Expanded(
               child: offers!=null?
               Scrollbar(
+                isAlwaysShown: true,
+                controller: _scrollController,
                 child: StaggeredGridView.countBuilder(
+                  controller: _scrollController,
                   staggeredTileBuilder: (index)=> StaggeredTile.fit(1),
                   crossAxisCount: 3,
                   crossAxisSpacing: 35,

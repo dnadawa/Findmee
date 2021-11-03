@@ -27,6 +27,7 @@ class _EditDatesWebState extends State<EditDatesWeb> {
   bool night = false;
   DateTime _focusedDay = DateTime.now();
   List list = [];
+  final _scrollController = ScrollController();
 
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
     equals: isSameDay,
@@ -254,7 +255,9 @@ class _EditDatesWebState extends State<EditDatesWeb> {
                         ),
                         child: Scrollbar(
                           isAlwaysShown: true,
+                          controller: _scrollController,
                           child: ListView.builder(
+                            controller: _scrollController,
                             itemCount: _selectedDays.length,
                             itemBuilder: (context, i){
                               String date = DateFormat('yyyy-MM-dd').format(_selectedDays.elementAt(_selectedDays.length-(i+1)));
