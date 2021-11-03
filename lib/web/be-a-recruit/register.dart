@@ -104,16 +104,16 @@ class _RegisterWebWorkerState extends State<RegisterWebWorker> {
                   );
                   try {
                     await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                        email: email.text,
-                        password: password.text
+                        email: email.text.trim(),
+                        password: password.text.trim()
                     );
-                    await FirebaseFirestore.instance.collection('workers').doc(email.text).set({
-                      'name': name.text,
-                      'surname': surname.text,
-                      'cpr': cpr.text,
-                      'experience': experience.text,
-                      'phone': phone.text,
-                      'email': email.text,
+                    await FirebaseFirestore.instance.collection('workers').doc(email.text.trim()).set({
+                      'name': name.text.trim(),
+                      'surname': surname.text.trim(),
+                      'cpr': cpr.text.trim(),
+                      'experience': experience.text.trim(),
+                      'phone': phone.text.trim(),
+                      'email': email.text.trim(),
                       'complete': false
                     });
                     pd.hide();
@@ -131,6 +131,20 @@ class _RegisterWebWorkerState extends State<RegisterWebWorker> {
                       MessageDialog.show(
                         context: context,
                         text: 'The account already exists for that email',
+                      );
+                    }
+                    else if (e.code == 'invalid-email') {
+                      pd.hide();
+                      MessageDialog.show(
+                        context: context,
+                        text: 'Please enter a email address',
+                      );
+                    }
+                    else{
+                      pd.hide();
+                      MessageDialog.show(
+                        context: context,
+                        text: e.toString(),
                       );
                     }
                   } catch (e) {

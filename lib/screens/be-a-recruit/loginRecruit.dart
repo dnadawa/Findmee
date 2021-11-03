@@ -48,37 +48,50 @@ class _RecruitLogInState extends State<RecruitLogIn> {
             .get();
         var user = sub.docs;
 
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        Map data = {
+        if(user.isNotEmpty){
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          Map data = {
             'name': user[0]['name'],
             'surname': user[0]['surname'],
             'cpr': user[0]['cpr'],
             'experience': user[0]['experience'],
             'phone': user[0]['phone'],
             'email': user[0]['email'],
-        };
-        prefs.setString('data', jsonEncode(data));
-        if(user[0]['complete']){
-          ///onesignal
-          if(!kIsWeb){
-            OSDeviceState status = await OneSignal.shared.getDeviceState();
-            String playerID = status.userId;
-            await FirebaseFirestore.instance.collection('workers').doc(user[0].id).update({
-              'playerID': playerID
-            });
-          }
+          };
+          prefs.setString('data', jsonEncode(data));
+          if(user[0]['complete']){
+            ///onesignal
+            if(!kIsWeb){
+              OSDeviceState status = await OneSignal.shared.getDeviceState();
+              String playerID = status.userId;
+              await FirebaseFirestore.instance.collection('workers').doc(user[0].id).update({
+                'playerID': playerID
+              });
+            }
 
-          widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
+            widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
+          }
+          else{
+            widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+          }
         }
         else{
-          widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+          pd.hide();
+          ToastBar(text: 'No worker found for that email', color: Colors.red).show();
         }
+
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           ToastBar(text: 'No user found for that email', color: Colors.red)
               .show();
         } else if (e.code == 'wrong-password') {
           ToastBar(text: 'Password incorrect', color: Colors.red).show();
+        }
+        else if (e.code == 'invalid-email') {
+          ToastBar(text: 'Please enter a email address', color: Colors.red).show();
+        }
+        else{
+          ToastBar(text: e.toString(), color: Colors.red).show();
         }
       }
       pd.hide();

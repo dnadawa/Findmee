@@ -116,17 +116,17 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                                 );
                                 try {
                                   await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                      email: email.text,
-                                      password: password.text
+                                      email: email.text.trim(),
+                                      password: password.text.trim()
                                   );
 
                                   await FirebaseFirestore.instance.collection('workers').doc(email.text).set({
-                                    'name': name.text,
-                                    'surname': surname.text,
-                                    'cpr': cpr.text,
-                                    'experience': experience.text,
-                                    'phone': phone.text,
-                                    'email': email.text,
+                                    'name': name.text.trim(),
+                                    'surname': surname.text.trim(),
+                                    'cpr': cpr.text.trim(),
+                                    'experience': experience.text.trim(),
+                                    'phone': phone.text.trim(),
+                                    'email': email.text.trim(),
                                     'complete': false
                                   });
                                   widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
@@ -136,6 +136,12 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                                     ToastBar(text: 'Password is too weak',color: Colors.red).show();
                                   } else if (e.code == 'email-already-in-use') {
                                     ToastBar(text: 'Account already exists',color: Colors.red).show();
+                                  }
+                                  else if (e.code == 'invalid-email') {
+                                    ToastBar(text: 'Please enter a email address', color: Colors.red).show();
+                                  }
+                                  else{
+                                    ToastBar(text: e.toString(), color: Colors.red).show();
                                   }
                                 } catch (e) {
                                   print(e);

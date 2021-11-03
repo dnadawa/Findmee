@@ -27,10 +27,9 @@ class _SignUpState extends State<SignUp> {
   TextEditingController phone = TextEditingController();
   TextEditingController cvr = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController username = TextEditingController();
 
   signUp() async {
-    if(businessName.text.isNotEmpty && phone.text.isNotEmpty && cvr.text.isNotEmpty &&  email.text.isNotEmpty &&password.text.isNotEmpty && username.text.isNotEmpty){
+    if(businessName.text.isNotEmpty && phone.text.isNotEmpty && cvr.text.isNotEmpty &&  email.text.isNotEmpty &&password.text.isNotEmpty){
       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
           message: 'Please wait',
@@ -40,8 +39,8 @@ class _SignUpState extends State<SignUp> {
       ///auth
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: email.text,
-            password: password.text
+            email: email.text.trim(),
+            password: password.text.trim()
         );
 
         ///onesignal
@@ -52,12 +51,11 @@ class _SignUpState extends State<SignUp> {
         }
 
         ///save details
-        await FirebaseFirestore.instance.collection('companies').doc(email.text).set({
-          'name': businessName.text,
-          'email': email.text,
-          'phone': phone.text,
-          'cvr': cvr.text,
-          'username': username.text,
+        await FirebaseFirestore.instance.collection('companies').doc(email.text.trim()).set({
+          'name': businessName.text.trim(),
+          'email': email.text.trim(),
+          'phone': phone.text.trim(),
+          'cvr': cvr.text.trim(),
           'status': 'approved',
           'playerID': playerID
         });
@@ -73,7 +71,7 @@ class _SignUpState extends State<SignUp> {
         }
         await CustomEmail.sendEmail(
             'Tak fordi du har oprettet en bruger hos os!\n\nVi ser frem til et stærkt og professionelt fremadrettet samarbejde med jer og den rette vikarservice. ',
-            'Velkommen til FindMe', to: email.text);
+            'Velkommen til FindMe', to: email.text.trim());
 
         await CustomEmail.sendEmail(
             'A new user has registered.',
@@ -87,6 +85,12 @@ class _SignUpState extends State<SignUp> {
           ToastBar(text: 'The password provided is too weak',color: Colors.red).show();
         } else if (e.code == 'email-already-in-use') {
           ToastBar(text: 'The account already exists for that email',color: Colors.red).show();
+        }
+        else if (e.code == 'invalid-email') {
+          ToastBar(text: 'Please enter a email address', color: Colors.red).show();
+        }
+        else{
+          ToastBar(text: e.toString(), color: Colors.red).show();
         }
       } catch (e) {
         print(e.toString());
@@ -139,7 +143,6 @@ class _SignUpState extends State<SignUp> {
                           InputField(hint: 'Email',controller: email,type: TextInputType.emailAddress,),
                           InputField(hint: 'Mobiltelefon',type: TextInputType.phone,controller: phone),
                           InputField(hint: 'CVR',controller: cvr,),
-                          InputField(hint: 'Brugernavn',controller: username,),
                           InputField(hint: 'Adgangskode',ispassword: true,controller: password,),
                           SizedBox(height: ScreenUtil().setHeight(40),),
 

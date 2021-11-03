@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:findmee/widgets/buttons.dart';
 import 'package:findmee/widgets/custom-text.dart';
@@ -33,13 +34,27 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
       );
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email.text, password: password.text);
+            email: email.text.trim(), password: password.text.trim());
 
+        var sub = await FirebaseFirestore.instance
+            .collection('companies')
+            .where('email', isEqualTo: email.text.trim())
+            .get();
+        var user = sub.docs;
+        if(user.isNotEmpty){
           pd.hide();
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('companyEmail', email.text);
-
+          prefs.setString('companyEmail', email.text.trim());
           widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
+        }
+        else{
+          pd.hide();
+          MessageDialog.show(
+            context: context,
+            text: 'No company found for that email',
+          );
+        }
+
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -53,6 +68,20 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
           MessageDialog.show(
             context: context,
             text: 'Password incorrect',
+          );
+        }
+        else if (e.code == 'invalid-email') {
+          pd.hide();
+          MessageDialog.show(
+            context: context,
+            text: 'Please enter a email address',
+          );
+        }
+        else{
+          pd.hide();
+          MessageDialog.show(
+            context: context,
+            text: e.toString(),
           );
         }
       }
@@ -96,7 +125,7 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
                     try{
                       if(email.text.isNotEmpty) {
                         FirebaseAuth auth = FirebaseAuth.instance;
-                        await auth.sendPasswordResetEmail(email: email.text);
+                        await auth.sendPasswordResetEmail(email: email.text.trim());
                         pd.hide();
                         MessageDialog.show(context: context, text: 'Password reset link sent to your email!', type: CoolAlertType.success);
                       }

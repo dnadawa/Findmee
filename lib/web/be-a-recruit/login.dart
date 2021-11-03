@@ -36,45 +36,69 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
       );
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email.text, password: password.text);
+            email: email.text.trim(), password: password.text.trim());
 
         var sub = await FirebaseFirestore.instance
             .collection('workers')
-            .where('email', isEqualTo: email.text)
+            .where('email', isEqualTo: email.text.trim())
             .get();
         var user = sub.docs;
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        Map data = {
-          'name': user[0]['name'],
-          'surname': user[0]['surname'],
-          'cpr': user[0]['cpr'],
-          'experience': user[0]['experience'],
-          'phone': user[0]['phone'],
-          'email': user[0]['email'],
-        };
-        prefs.setString('data', jsonEncode(data));
-        if(user[0]['complete']){
-          ///notifications
+        if(user.isNotEmpty){
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          Map data = {
+            'name': user[0]['name'],
+            'surname': user[0]['surname'],
+            'cpr': user[0]['cpr'],
+            'experience': user[0]['experience'],
+            'phone': user[0]['phone'],
+            'email': user[0]['email'],
+          };
+          prefs.setString('data', jsonEncode(data));
+          if(user[0]['complete']){
+            ///notifications
 
-          pd.hide();
-          widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
+            pd.hide();
+            widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
+          }
+          else{
+            pd.hide();
+            widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+          }
         }
         else{
           pd.hide();
-          widget.controller.animateToPage(2,curve: Curves.ease,duration: Duration(milliseconds: 200));
+          MessageDialog.show(
+            context: context,
+            text: 'No worker found for that email',
+          );
         }
+
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           pd.hide();
           MessageDialog.show(
             context: context,
-            text: 'No user found for that email',
+            text: 'No worker found for that email',
           );
         } else if (e.code == 'wrong-password') {
           pd.hide();
           MessageDialog.show(
             context: context,
             text: 'Password incorrect',
+          );
+        }
+        else if (e.code == 'invalid-email') {
+          pd.hide();
+          MessageDialog.show(
+            context: context,
+            text: 'Please enter a email address',
+          );
+        }
+        else{
+          pd.hide();
+          MessageDialog.show(
+            context: context,
+            text: e.toString(),
           );
         }
       }
@@ -118,7 +142,7 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
                     try{
                       if(email.text.isNotEmpty) {
                         FirebaseAuth auth = FirebaseAuth.instance;
-                        await auth.sendPasswordResetEmail(email: email.text);
+                        await auth.sendPasswordResetEmail(email: email.text.trim());
                         pd.hide();
                         MessageDialog.show(context: context, text: 'Password reset link sent to your email!', type: CoolAlertType.success);
                       }

@@ -215,7 +215,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
 
                                               ///text
                                               CustomText(
-                                                text: 'Offer successfully sent to selected recruiters.\nYou will receive an email and a notification when they are respond to the offer.',
+                                                text: 'Offer successfully sent to selected recruiters.\nYou will receive an email and a notification when they are respond to the offer. Please check your inbox or spam folders',
                                                 font: 'ComicSans',
                                                 isBold: false,
                                                 size: width*0.015,

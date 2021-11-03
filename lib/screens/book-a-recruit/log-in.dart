@@ -38,16 +38,17 @@ class _LogInState extends State<LogIn> {
       );
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email.text, password: password.text);
+            email: email.text.trim(), password: password.text.trim());
 
         var sub = await FirebaseFirestore.instance
             .collection('companies')
-            .where('email', isEqualTo: email.text)
+            .where('email', isEqualTo: email.text.trim())
             .get();
         var user = sub.docs;
 
+        if(user.isNotEmpty){
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('companyEmail', email.text);
+          prefs.setString('companyEmail', email.text.trim());
 
           ///onesignal
           if(!kIsWeb){
@@ -59,6 +60,13 @@ class _LogInState extends State<LogIn> {
           }
 
           widget.controller.animateToPage(5,curve: Curves.ease,duration: Duration(milliseconds: 200));
+        }
+        else{
+          pd.hide();
+          ToastBar(text: 'No company found for that email', color: Colors.red).show();
+        }
+
+
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -66,6 +74,12 @@ class _LogInState extends State<LogIn> {
               .show();
         } else if (e.code == 'wrong-password') {
           ToastBar(text: 'Password incorrect', color: Colors.red).show();
+        }
+        else if (e.code == 'invalid-email') {
+          ToastBar(text: 'Please enter a email address', color: Colors.red).show();
+        }
+        else{
+          ToastBar(text: e.toString(), color: Colors.red).show();
         }
       }
       pd.hide();
@@ -124,7 +138,7 @@ class _LogInState extends State<LogIn> {
                               try{
                                 if(email.text.isNotEmpty) {
                                   FirebaseAuth auth = FirebaseAuth.instance;
-                                  await auth.sendPasswordResetEmail(email: email.text);
+                                  await auth.sendPasswordResetEmail(email: email.text.trim());
                                   pd.hide();
                                   ToastBar(text: 'Password reset link sent to your email!',color: Colors.green).show();
                                 }
