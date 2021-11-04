@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:quiver/iterables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -36,24 +37,28 @@ class _ProfilesState extends State<Profiles> {
     // List shifts = prefs.getStringList('companyShifts');
     List datesAndShifts = prefs.getStringList('companyDatesAndShifts');
 
-    // ///creating datesAndShifts array
-    // dates.forEach((element) {
-    //   DateTime date = DateTime.parse(element);
-    //   shifts.forEach((shift) {
-    //     datesAndShifts.add(date.weekday.toString()+shift);
-    //   });
-    // });
-    
-    print(selectedCategories);
-    print(selectedCities);
-    print(datesAndShifts);
-    var sub1 = await FirebaseFirestore.instance.collection('workers').where('categories', arrayContainsAny: selectedCategories).where('status', isEqualTo: 'approved').get();
-    var sub2 = await FirebaseFirestore.instance.collection('workers').where('cities', arrayContainsAny: selectedCities).where('status', isEqualTo: 'approved').get();
-    var sub3 = await FirebaseFirestore.instance.collection('workers').where('datesAndShifts', arrayContainsAny: datesAndShifts).where('status', isEqualTo: 'approved').get();
+    ///divide into 10 per group
+    var groupedCategories = partition(selectedCategories, 10);
+    groupedCategories.forEach((group) async {
+      var sub = await FirebaseFirestore.instance.collection('workers').where('categories', arrayContainsAny: group).where('status', isEqualTo: 'approved').get();
+      catProfiles==null?catProfiles=sub.docs:catProfiles.addAll(sub.docs);
+    });
 
-    catProfiles = sub1.docs;
-    var citProfiles = sub2.docs;
-    var datProfiles = sub3.docs;
+
+    var groupedCities = partition(selectedCities, 10);
+    var citProfiles = [];
+    groupedCities.forEach((group) async {
+      var sub = await FirebaseFirestore.instance.collection('workers').where('cities', arrayContainsAny: group).where('status', isEqualTo: 'approved').get();
+      citProfiles.addAll(sub.docs);
+    });
+
+    var groupedDates = partition(datesAndShifts, 10);
+    var datProfiles = [];
+    for(int i=0;i<groupedDates.length;i++){
+      var sub = await FirebaseFirestore.instance.collection('workers').where('datesAndShifts', arrayContainsAny: groupedDates.toList()[i]).where('status', isEqualTo: 'approved').get();
+      datProfiles.addAll(sub.docs);
+    }
+
     var allProfiles = [];
     allProfiles.addAll(catProfiles);
     allProfiles.addAll(citProfiles);
