@@ -371,6 +371,9 @@ class _OffersWebState extends State<OffersWeb> {
                                         'workerPhone': worker[0]['phone'],
                                         'workerCPR': worker[0]['cpr'],
                                         'time': DateTime.now().toString(),
+                                        'categories': offers[i]['categories'],
+                                        'cities': offers[i]['cities'],
+                                        'daysAndShifts': datesAndShifts
                                       });
                                       getOffers();
                                       pd.hide();
