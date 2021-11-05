@@ -140,7 +140,7 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
                         }
                       }
                       on FirebaseAuthException catch(e){
-                        if (e.code == 'user-not-foun') {
+                        if (e.code == 'user-not-fou') {
                           pd.hide();
                           MessageDialog.show(context: context, text: 'Ingen bruger fundet til den e-mail');
                         }
