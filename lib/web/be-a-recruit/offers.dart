@@ -84,7 +84,7 @@ class _OffersWebState extends State<OffersWeb> {
                     SizedBox(width: ScreenUtil().setWidth(20),),
 
                     CustomText(
-                      text: offers!=null&&offers.length>0?'You have received new job offer(s)':'You have no new job offers',
+                      text: offers!=null&&offers.length>0?'Du har modtaget nye jobtilbud':'Du har ingen nye jobtilbud',
                       font: 'GoogleSans',
                       size: ScreenUtil().setSp(45),
                     )
@@ -319,7 +319,7 @@ class _OffersWebState extends State<OffersWeb> {
                               children: [
                                 Expanded(
                                   child: Button(
-                                    text: 'Accept the job',
+                                    text: 'Accepter jobbet',
                                     color: Colors.green,
                                     padding: width*0.013,
                                     borderRadius: 10,
@@ -327,7 +327,7 @@ class _OffersWebState extends State<OffersWeb> {
                                     onclick: () async {
                                       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                       pd.show(
-                                          message: 'Please wait',
+                                          message: 'Vent gerne',
                                           type: SimpleFontelicoProgressDialogType.custom,
                                           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                       );
@@ -343,15 +343,15 @@ class _OffersWebState extends State<OffersWeb> {
 
                                       String msg = "${company[0]['name']} wants to hire following recruiter. All the details of the business and recruiter are mentioned below\n\n"
                                           "Business Details:-\n\n"
-                                          "• Business Name: ${company[0]['name']}\n"
-                                          "• Contact Email: ${company[0]['email']}\n"
+                                          "• Firmanavn: ${company[0]['name']}\n"
+                                          "• Kontakt e-mail: ${company[0]['email']}\n"
                                           "• Mobile Phone: ${company[0]['phone']}\n"
-                                          "• CVR Number: ${company[0]['cvr']}\n\n"
+                                          "• CVR-nummer: ${company[0]['cvr']}\n\n"
                                           "Recruiter Details:-\n\n"
                                           "• ${worker[0]['name']} ${worker[0]['surname']}\n"
                                           "\t\tContact email: $email\n"
                                           "\t\tMobile Phone: ${worker[0]['phone']}\n"
-                                          "\t\tCPR Number: ${worker[0]['cpr']}";
+                                          "\t\tCPR nummer: ${worker[0]['cpr']}";
 
                                       ///send email to admin
                                       await CustomEmail.sendEmail(msg, 'Workers');
@@ -377,7 +377,7 @@ class _OffersWebState extends State<OffersWeb> {
                                       });
                                       getOffers();
                                       pd.hide();
-                                      MessageDialog.show(context: context, text: 'Accepted',type: CoolAlertType.success);
+                                      MessageDialog.show(context: context, text: 'Accepteret',type: CoolAlertType.success);
                                     },
                                   ),
                                 ),
@@ -385,7 +385,7 @@ class _OffersWebState extends State<OffersWeb> {
 
                                 Expanded(
                                   child: Button(
-                                    text: 'Reject the job',
+                                    text: 'Afvis jobbet',
                                     color: Colors.red,
                                     padding: width*0.013,
                                     textSize: width*0.012,
@@ -393,7 +393,7 @@ class _OffersWebState extends State<OffersWeb> {
                                     onclick: () async {
                                       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                       pd.show(
-                                          message: 'Please wait',
+                                          message: 'Vent gerne',
                                           type: SimpleFontelicoProgressDialogType.custom,
                                           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                       );
@@ -406,17 +406,17 @@ class _OffersWebState extends State<OffersWeb> {
 
                                         ///send notification
 
-                                        await CustomEmail.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
+                                        await CustomEmail.sendEmail('Dit tilbud afvist af ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
 
                                         await FirebaseFirestore.instance.collection('offers').doc(id).update({
                                           'sent': FieldValue.arrayRemove([email])
                                         });
                                         getOffers();
                                         pd.hide();
-                                        MessageDialog.show(context: context, text: 'Offer rejected',type: CoolAlertType.success);
+                                        MessageDialog.show(context: context, text: 'TIlbud afvist',type: CoolAlertType.success);
                                       }
                                       catch(e){
-                                        MessageDialog.show(context: context, text: 'Accepted',type: CoolAlertType.success);
+                                        MessageDialog.show(context: context, text: 'Accepteret',type: CoolAlertType.success);
                                       }
                                       pd.hide();
                                     },

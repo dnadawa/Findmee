@@ -290,13 +290,13 @@ class _ProfilePopUpState extends State<ProfilePopUp> {
                     // cart += "• ${widget.name} ${widget.surname}\n"
                     //     "\t\tContact email: ${widget.email}\n"
                     //     "\t\tMobile Phone: ${widget.phone}\n"
-                    //     "\t\tCPR Number: ${widget.cpr}\n\n";
+                    //     "\t\tCPR nummer: ${widget.cpr}\n\n";
                     // prefs.setString('cart', cart);
                     emailList.add(widget.email);
                     notList.add(widget.playerID);
                     prefs.setStringList('emailList', emailList);
                     prefs.setStringList('notificationList', notList);
-                    ToastBar(text: 'Added to list!',color: Colors.green).show();
+                    ToastBar(text: 'Tilføjet til listen!',color: Colors.green).show();
                     Navigator.pop(context);
                   },
                 )

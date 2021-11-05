@@ -231,7 +231,7 @@ class _EditDatesState extends State<EditDates> {
                         ///button
                         Padding(
                           padding: EdgeInsets.all(ScreenUtil().setWidth(60)),
-                          child: Button(text: 'Update',padding: isTablet?width*0.025:10,onclick: () async {
+                          child: Button(text: 'Opdatering',padding: isTablet?width*0.025:10,onclick: () async {
                             Set datesAndShifts = {};
                             list.forEach((element) {
                               String day = element['day'];
@@ -252,13 +252,13 @@ class _EditDatesState extends State<EditDates> {
                             });
 
                             if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
-                              ToastBar(text: 'Please select at least one date and shift', color: Colors.red).show();
+                              ToastBar(text: 'Vælg mindst én dato og vagt', color: Colors.red).show();
                             }
                             else{
                               await FirebaseFirestore.instance.collection('workers').doc(widget.email).update({
                                 'datesAndShifts': finalDatesAndShifts
                               });
-                              ToastBar(text: 'Dates Updated!', color: Colors.green).show();
+                              ToastBar(text: 'Datoer opdateret!', color: Colors.green).show();
                             }
                           }),
                         )

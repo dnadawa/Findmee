@@ -202,7 +202,7 @@ class _RecruitDatesState extends State<RecruitDates> {
                           });
 
                           if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
-                            ToastBar(text: 'Please select at least one date and shift', color: Colors.red).show();
+                            ToastBar(text: 'Vælg mindst én dato og vagt', color: Colors.red).show();
                           }
                           else{
                             data['datesAndShifts'] = finalDatesAndShifts;

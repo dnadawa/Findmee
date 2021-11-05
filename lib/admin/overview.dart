@@ -118,21 +118,21 @@ class _OverviewState extends State<Overview> {
                   padding: EdgeInsets.all(width*0.05),
                   child: Column(
                     children: [
-                      AdminInputField(hint: 'Business Name',controller: bName,),
+                      AdminInputField(hint: 'Firmanavn',controller: bName,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Business Email',controller: bEmail,),
+                      AdminInputField(hint: 'Firma e-mail',controller: bEmail,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Business Mobile Number',controller: bPhone,),
+                      AdminInputField(hint: 'Firma mobilnummer',controller: bPhone,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'CVR Number',controller: cvr,),
+                      AdminInputField(hint: 'CVR-nummer',controller: cvr,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Recruiter Name',controller: wName,),
+                      AdminInputField(hint: 'Rekruttererens navn',controller: wName,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Recruiter Email',controller: wEmail,),
+                      AdminInputField(hint: 'Rekruttererens e-mail',controller: wEmail,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Recruiter Mobile Number',controller: wPhone,),
+                      AdminInputField(hint: 'Rekruttererens mobilnummer',controller: wPhone,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'CPR Number',controller: cpr,),
+                      AdminInputField(hint: 'CPR nummer',controller: cpr,),
                       SizedBox(height: width*0.05,),
 
                       ///categories
@@ -306,27 +306,27 @@ class _OverviewState extends State<Overview> {
                       ),
                       SizedBox(height: width*0.05,),
 
-                      AdminInputField(hint: 'Created Time',controller: time,),
+                      AdminInputField(hint: 'Oprettet tid',controller: time,),
                       SizedBox(height: width*0.1,),
                       Button(
-                        text: 'Delete',
+                        text: 'Slet',
                         borderRadius: 10,
                         color: Colors.red,
                         padding: isTablet?15:10,
                         onclick: () async {
                           SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                           pd.show(
-                              message: 'Please wait',
+                              message: 'Vent gerne',
                               hideText: true
                           );
                           try{
                             await FirebaseFirestore.instance.collection('overview').doc(id).delete();
                             pd.hide();
                             if(Responsive.isMobile(context)){
-                              ToastBar(text: 'Deleted!',color: Colors.green).show();
+                              ToastBar(text: 'Slettet!',color: Colors.green).show();
                             }
                             else{
-                              MessageDialog.show(context: context, text: 'Deleted', type: CoolAlertType.success);
+                              MessageDialog.show(context: context, text: 'Slettet', type: CoolAlertType.success);
                             }
                           }
                           catch(e){

@@ -171,7 +171,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox.shrink(),
-                    CustomText(text: 'User Profiles',size: width*0.018,color: Colors.white,),
+                    CustomText(text: 'Brugerprofiler',size: width*0.018,color: Colors.white,),
                     Padding(
                       padding: const EdgeInsets.only(right: 20),
                       child: MouseRegion(
@@ -184,13 +184,13 @@ class _ProfilesWebState extends State<ProfilesWeb> {
                             if(emailList==null){
                               MessageDialog.show(
                                 context: context,
-                                text: 'No one in the list!',
+                                text: 'Ingen på listen!',
                               );
                             }
                             else{
                               SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                               pd.show(
-                                  message: 'Please wait',
+                                  message: 'Vent gerne',
                                   type: SimpleFontelicoProgressDialogType.custom,
                                   loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                               );
@@ -208,7 +208,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
 
                                 ///send notification
                                 emailList.forEach((element) async {
-                                  await CustomEmail.sendEmail("You received a new job offer", "Offer Received", to: element);
+                                  await CustomEmail.sendEmail("Du har modtaget et nyt jobtilbud", "Tilbud modtaget", to: element);
                                 });
                                 pd.hide();
 
@@ -269,7 +269,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
                                 pd.hide();
                                 MessageDialog.show(
                                   context: context,
-                                  text: 'Something went wrong',
+                                  text: 'Noget gik galt',
                                 );
                               }
                             }
@@ -286,7 +286,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(child: Container(),),
-                                  CustomText(text: 'Finish',size: width*0.013,),
+                                  CustomText(text: 'Afslut',size: width*0.013,),
                                   Expanded(child: Container(),),
                                   Container(
                                       decoration: BoxDecoration(
@@ -313,7 +313,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
           ///profiles
           Expanded(
               child: catProfiles!=null?
-              profiles.isEmpty?Center(child: CustomText(text: 'No Profiles Found',color: Colors.black,size: width*0.01,font: 'GoogleSans',)):
+              profiles.isEmpty?Center(child: CustomText(text: 'Ingen profiler fundet',color: Colors.black,size: width*0.01,font: 'GoogleSans',)):
               Scrollbar(
                 controller: _scrollController,
                 isAlwaysShown: true,

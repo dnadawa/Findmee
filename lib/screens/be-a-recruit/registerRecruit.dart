@@ -115,7 +115,7 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
                                 if(name.text.isNotEmpty && surname.text.isNotEmpty && experience.text.isNotEmpty && password.text.isNotEmpty){
                                   SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                   pd.show(
-                                      message: 'Please wait',
+                                      message: 'Vent gerne',
                                       type: SimpleFontelicoProgressDialogType.custom,
                                       loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                   );
@@ -138,24 +138,24 @@ class _RecruitSignUpState extends State<RecruitSignUp> {
 
                                   } on FirebaseAuthException catch (e) {
                                     if (e.code == 'weak-password') {
-                                      ToastBar(text: 'Password is too weak',color: Colors.red).show();
+                                      ToastBar(text: 'Adgangskoden er for svag',color: Colors.red).show();
                                     } else if (e.code == 'email-already-in-use') {
                                       ToastBar(text: 'Account already exists',color: Colors.red).show();
                                     }
                                     else if (e.code == 'invalid-email') {
-                                      ToastBar(text: 'Please enter a email address', color: Colors.red).show();
+                                      ToastBar(text: 'Indtast venligst e-mailadresse', color: Colors.red).show();
                                     }
                                     else{
                                       ToastBar(text: e.toString(), color: Colors.red).show();
                                     }
                                   } catch (e) {
                                     print(e);
-                                    ToastBar(text: 'Something went wrong',color: Colors.red).show();
+                                    ToastBar(text: 'Noget gik galt',color: Colors.red).show();
                                   }
                                  pd.hide();
                                 }
                                 else{
-                                  ToastBar(text: 'Please fill all fields',color: Colors.red).show();
+                                  ToastBar(text: 'Udfyld venligst alle felter',color: Colors.red).show();
                                 }
                               }),
                             )

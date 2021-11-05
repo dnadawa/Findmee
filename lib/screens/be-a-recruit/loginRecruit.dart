@@ -35,7 +35,7 @@ class _RecruitLogInState extends State<RecruitLogIn> {
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
-          message: 'Please wait',
+          message: 'Vent gerne',
           type: SimpleFontelicoProgressDialogType.custom,
           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
       );
@@ -78,18 +78,18 @@ class _RecruitLogInState extends State<RecruitLogIn> {
         }
         else{
           pd.hide();
-          ToastBar(text: 'No worker found for that email', color: Colors.red).show();
+          ToastBar(text: 'Der blev ikke fundet nogen medarbejder til den e-mail', color: Colors.red).show();
         }
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
-          ToastBar(text: 'No user found for that email', color: Colors.red)
+          ToastBar(text: 'Ingen bruger fundet til den e-mail', color: Colors.red)
               .show();
         } else if (e.code == 'wrong-password') {
-          ToastBar(text: 'Password incorrect', color: Colors.red).show();
+          ToastBar(text: 'Adgangskoden er forkert', color: Colors.red).show();
         }
         else if (e.code == 'invalid-email') {
-          ToastBar(text: 'Please enter a email address', color: Colors.red).show();
+          ToastBar(text: 'Indtast venligst e-mailadresse', color: Colors.red).show();
         }
         else{
           ToastBar(text: e.toString(), color: Colors.red).show();
@@ -98,7 +98,7 @@ class _RecruitLogInState extends State<RecruitLogIn> {
       pd.hide();
     }
     else {
-      ToastBar(text: 'Please fill all fields', color: Colors.red).show();
+      ToastBar(text: 'Udfyld venligst alle felter', color: Colors.red).show();
     }
   }
 
@@ -148,7 +148,7 @@ class _RecruitLogInState extends State<RecruitLogIn> {
                               onTap: () async {
                                 SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                 pd.show(
-                                    message: 'Please wait',
+                                    message: 'Vent gerne',
                                     type: SimpleFontelicoProgressDialogType.custom,
                                     loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                 );
@@ -157,21 +157,21 @@ class _RecruitLogInState extends State<RecruitLogIn> {
                                     FirebaseAuth auth = FirebaseAuth.instance;
                                     await auth.sendPasswordResetEmail(email: email.text);
                                     pd.hide();
-                                    ToastBar(text: 'Password reset link sent to your email!',color: Colors.green).show();
+                                    ToastBar(text: 'Link til nulstilling af adgangskode sendt til din e-mail!',color: Colors.green).show();
                                   }
                                   else{
                                     pd.hide();
-                                    ToastBar(text: 'Please fill the email',color: Colors.red).show();
+                                    ToastBar(text: 'Udfyld venligst e-mail',color: Colors.red).show();
                                   }
                                 }
                                 on FirebaseAuthException catch(e){
                                   if (e.code == 'user-not-found') {
                                     pd.hide();
-                                    ToastBar(text: 'No user found for that email',color: Colors.red).show();
+                                    ToastBar(text: 'Ingen bruger fundet til den e-mail',color: Colors.red).show();
                                   }
                                   else{
                                     pd.hide();
-                                    ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                                    ToastBar(text: 'Noget gik galt!',color: Colors.red).show();
                                   }
                                 }
                               },

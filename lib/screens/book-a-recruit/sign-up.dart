@@ -33,7 +33,7 @@ class _SignUpState extends State<SignUp> {
     if(businessName.text.isNotEmpty && phone.text.isNotEmpty && cvr.text.isNotEmpty &&  email.text.isNotEmpty &&password.text.isNotEmpty){
       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
-          message: 'Please wait',
+          message: 'Vent gerne',
           type: SimpleFontelicoProgressDialogType.custom,
           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
       );
@@ -66,7 +66,7 @@ class _SignUpState extends State<SignUp> {
           OneSignal.shared.postNotification(
               OSCreateNotification(
                   playerIds: [playerID],
-                  content: 'Findmee has received your details.'
+                  content: 'Findmee har modtaget dine oplysninger.'
               )
           );
         }
@@ -75,8 +75,8 @@ class _SignUpState extends State<SignUp> {
             'Velkommen til FindMe', to: email.text.trim());
 
         await CustomEmail.sendEmail(
-            'A new user has registered.',
-            'User Registered');
+            'En ny bruger er registreret.',
+            'Bruger registreret');
         pd.hide();
         ToastBar(text: 'User registered!',color: Colors.green).show();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
@@ -88,7 +88,7 @@ class _SignUpState extends State<SignUp> {
           ToastBar(text: 'The account already exists for that email',color: Colors.red).show();
         }
         else if (e.code == 'invalid-email') {
-          ToastBar(text: 'Please enter a email address', color: Colors.red).show();
+          ToastBar(text: 'Indtast venligst e-mailadresse', color: Colors.red).show();
         }
         else{
           ToastBar(text: e.toString(), color: Colors.red).show();
@@ -100,7 +100,7 @@ class _SignUpState extends State<SignUp> {
       pd.hide();
     }
     else{
-      ToastBar(text: 'Please fill all fields',color: Colors.red).show();
+      ToastBar(text: 'Udfyld venligst alle felter',color: Colors.red).show();
     }
   }
 

@@ -216,7 +216,7 @@ class _DatesState extends State<Dates> {
 
 
                           if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
-                            ToastBar(text: 'Please select at least one date and shift', color: Colors.red).show();
+                            ToastBar(text: 'Vælg mindst én dato og vagt', color: Colors.red).show();
                           }
                           else{
                             widget.controller.animateToPage(4,curve: Curves.ease,duration: Duration(milliseconds: 200));

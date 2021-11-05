@@ -85,7 +85,7 @@ class _OffersState extends State<Offers> {
                      SizedBox(width: ScreenUtil().setWidth(20),),
 
                      CustomText(
-                       text: offers!=null&&offers.length>0?'You have received new job offer(s)':'You have no new job offers',
+                       text: offers!=null&&offers.length>0?'Du har modtaget nye jobtilbud':'Du har ingen nye jobtilbud',
                        font: 'GoogleSans',
                        size: ScreenUtil().setSp(45),
                      )
@@ -148,7 +148,7 @@ class _OffersState extends State<Offers> {
                                 children: [
                                   ///text
                                   CustomText(
-                                    text: 'Here are some requirements that business is looking from you',
+                                    text: 'Her er nogle krav, som virksomheden ser fra dig',
                                     isBold: false,
                                     font: 'GoogleSans',
                                     align: TextAlign.start,
@@ -290,14 +290,14 @@ class _OffersState extends State<Offers> {
                                     children: [
                                       Expanded(
                                         child: Button(
-                                          text: 'Accept the job',
+                                          text: 'Accepter jobbet',
                                           color: Colors.green,
                                           borderRadius: 10,
                                           padding: isTablet?width*0.025:10,
                                           onclick: () async {
                                             SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                             pd.show(
-                                                message: 'Please wait',
+                                                message: 'Vent gerne',
                                                 type: SimpleFontelicoProgressDialogType.custom,
                                                 loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                             );
@@ -313,19 +313,19 @@ class _OffersState extends State<Offers> {
 
                                               String msg = "${company[0]['name']} wants to hire following recruiter. All the details of the business and recruiter are mentioned below\n\n"
                                                   "Business Details:-\n\n"
-                                                  "• Business Name: ${company[0]['name']}\n"
-                                                  "• Contact Email: ${company[0]['email']}\n"
+                                                  "• Firmanavn: ${company[0]['name']}\n"
+                                                  "• Kontakt e-mail: ${company[0]['email']}\n"
                                                   "• Mobile Phone: ${company[0]['phone']}\n"
-                                                  "• CVR Number: ${company[0]['cvr']}\n\n"
+                                                  "• CVR-nummer: ${company[0]['cvr']}\n\n"
                                                   "Recruiter Details:-\n\n"
                                                   "• ${worker[0]['name']} ${worker[0]['surname']}\n"
                                                   "\t\tContact email: $email\n"
                                                   "\t\tMobile Phone: ${worker[0]['phone']}\n"
-                                                  "\t\tCPR Number: ${worker[0]['cpr']}";
+                                                  "\t\tCPR nummer: ${worker[0]['cpr']}";
 
                                               bool isSendEmail = await CustomEmail.sendEmail(msg, 'Workers');
                                               if(isSendEmail){
-                                                  ToastBar(text: 'Email sent!',color: Colors.green).show();
+                                                  ToastBar(text: 'Email sendt!',color: Colors.green).show();
                                                   await FirebaseFirestore.instance.collection('offers').doc(id).update({
                                                     'sent': FieldValue.arrayRemove([email]),
                                                     'accepted': FieldValue.arrayUnion([email])
@@ -351,16 +351,16 @@ class _OffersState extends State<Offers> {
                                                     OneSignal.shared.postNotification(
                                                         OSCreateNotification(
                                                             playerIds: [company[0]['playerID']],
-                                                            content: 'Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}'
+                                                            content: 'Dit tilbud accepteret af ${worker[0]['name']} ${worker[0]['surname']}'
                                                         )
                                                     );
                                                   }
 
-                                                  await CustomEmail.sendEmail('Your offer accepted by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Accepted', to: company[0]['email']);
-                                                  ToastBar(text: 'Accepted',color: Colors.green).show();
+                                                  await CustomEmail.sendEmail('Dit tilbud accepteret af ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Accepted', to: company[0]['email']);
+                                                  ToastBar(text: 'Accepteret',color: Colors.green).show();
                                               }
                                               else{
-                                                    ToastBar(text: 'Email not sent!', color: Colors.red).show();
+                                                    ToastBar(text: 'E-mail ikke sendt!', color: Colors.red).show();
                                               }
                                               pd.hide();
                                           },
@@ -370,14 +370,14 @@ class _OffersState extends State<Offers> {
 
                                       Expanded(
                                         child: Button(
-                                          text: 'Reject the job',
+                                          text: 'Afvis jobbet',
                                           color: Colors.red,
                                           padding: isTablet?width*0.025:10,
                                           borderRadius: 10,
                                           onclick: () async {
                                             SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                             pd.show(
-                                                message: 'Please wait',
+                                                message: 'Vent gerne',
                                                 type: SimpleFontelicoProgressDialogType.custom,
                                                 loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                             );
@@ -396,23 +396,23 @@ class _OffersState extends State<Offers> {
                                                 OneSignal.shared.postNotification(
                                                     OSCreateNotification(
                                                         playerIds: [company[0]['playerID']],
-                                                        content: 'Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}'
+                                                        content: 'Dit tilbud afvist af ${worker[0]['name']} ${worker[0]['surname']}'
                                                     )
                                                 );
 
                                               }
 
-                                              await CustomEmail.sendEmail('Your offer rejected by ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
+                                              await CustomEmail.sendEmail('Dit tilbud afvist af ${worker[0]['name']} ${worker[0]['surname']}', 'Offer Rejected', to: offers[i]['company']);
 
                                               await FirebaseFirestore.instance.collection('offers').doc(id).update({
                                                 'sent': FieldValue.arrayRemove([email])
                                               });
                                               getOffers();
 
-                                              ToastBar(text: 'Offer rejected', color: Colors.green).show();
+                                              ToastBar(text: 'TIlbud afvist', color: Colors.green).show();
                                             }
                                             catch(e){
-                                              ToastBar(text: 'Something went wrong', color: Colors.red).show();
+                                              ToastBar(text: 'Noget gik galt', color: Colors.red).show();
                                             }
                                             pd.hide();
                                           },

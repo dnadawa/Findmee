@@ -38,7 +38,7 @@ class _ReceivedPopUpState extends State<ReceivedPopUp> {
 
             ///text
             CustomText(
-              text: 'Offer successfully sent to selected recruiters. You will receive an email and a notification when they are respond to the offer.Please check your inbox or spam folder.',
+              text: 'Tilbud sendt til udvalgte rekrutterere. Du vil modtage en e-mail og en notifikation, når de svarer på tilbuddet. Tjek venligst din indbakke eller spam-mappe.',
               font: 'ComicSans',
               isBold: false,
               size: ScreenUtil().setSp(55),

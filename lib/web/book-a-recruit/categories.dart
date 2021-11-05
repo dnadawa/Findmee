@@ -81,7 +81,7 @@ class _CategoriesWebState extends State<CategoriesWeb> {
               if(selectedCategories.length==0){
                 MessageDialog.show(
                   context: context,
-                  text: 'Please select at least one category!',
+                  text: 'Vælg venligst mindst én kategori!',
                 );
               }
               else if(widget.from=='company'){

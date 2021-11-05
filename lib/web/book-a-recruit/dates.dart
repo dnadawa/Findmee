@@ -203,7 +203,7 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
 
 
                   if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
-                    MessageDialog.show(context: context, text: 'Please select at least one date and shift');
+                    MessageDialog.show(context: context, text: 'Vælg mindst én dato og vagt');
                   }
                   else{
                     widget.controller.animateToPage(4,curve: Curves.ease,duration: Duration(milliseconds: 200));

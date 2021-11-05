@@ -41,7 +41,7 @@ class _PhotosState extends State<Photos> {
           selfie = File(pickedFile.path);
         }
       } else {
-        ToastBar(text: 'No image selected',color: Colors.red).show();
+        ToastBar(text: 'Intet billede valgt',color: Colors.red).show();
       }
     });
   }
@@ -214,7 +214,7 @@ class _PhotosState extends State<Photos> {
                           if((profileImage!=null&&selfie!=null)||(profileImageData!=null&&selfieData!=null)){
                             SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                             pd.show(
-                                message: 'Please wait',
+                                message: 'Vent gerne',
                                 type: SimpleFontelicoProgressDialogType.custom,
                                 loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                             );
@@ -225,7 +225,7 @@ class _PhotosState extends State<Photos> {
                               String email = data['email'];
 
                               ///upload images
-                              ToastBar(text: 'Uploading profile picture...',color: Colors.orange).show();
+                              ToastBar(text: 'Uploader profilbillede...',color: Colors.orange).show();
                               FirebaseStorage storage = FirebaseStorage.instance;
                               TaskSnapshot snap;
                               if(kIsWeb){
@@ -236,7 +236,7 @@ class _PhotosState extends State<Photos> {
                               }
                               String proPicUrl = await snap.ref.getDownloadURL();
 
-                              ToastBar(text: 'Uploading selfie...',color: Colors.orange).show();
+                              ToastBar(text: 'Uploader selfie...',color: Colors.orange).show();
                               TaskSnapshot snap2;
                               if(kIsWeb){
                                 snap2 = await storage.ref('$email/selfie.png').putData(selfieData);
@@ -269,7 +269,7 @@ class _PhotosState extends State<Photos> {
                                 OneSignal.shared.postNotification(
                                     OSCreateNotification(
                                         playerIds: [playerID],
-                                        content: 'Findmee has received your details.'
+                                        content: 'Findmee har modtaget dine oplysninger.'
                                     )
                                 );
                               }
@@ -278,19 +278,19 @@ class _PhotosState extends State<Photos> {
                                   'Tak fordi du valgte os!\n\n'
                                   'De bedste hilsner fra\n\nTeam Findme','Velkommen til FindMe', to: email);
                               await CustomEmail.sendEmail(
-                                  'A new user has registered.',
-                                  'User Registered');
+                                  'En ny bruger er registreret.',
+                                  'Bruger registreret');
 
                               widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
                             }
                             catch(e){
                               print(e.toString());
-                              ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                              ToastBar(text: 'Noget gik galt!',color: Colors.red).show();
                             }
                             pd.hide();
                           }
                           else{
-                            ToastBar(text: 'Please upload a profile picture and a selfie!',color: Colors.red).show();
+                            ToastBar(text: 'Upload venligst et profilbillede og en selfie!',color: Colors.red).show();
                           }
                         }),
                       )

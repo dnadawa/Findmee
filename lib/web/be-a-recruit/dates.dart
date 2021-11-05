@@ -186,7 +186,7 @@ class _DatesWebWorkerState extends State<DatesWebWorker> {
                   });
 
                   if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
-                    MessageDialog.show(context: context, text: 'Please select at least one date and shift');
+                    MessageDialog.show(context: context, text: 'Vælg mindst én dato og vagt');
                   }
                   else{
                     data['datesAndShifts'] = finalDatesAndShifts;

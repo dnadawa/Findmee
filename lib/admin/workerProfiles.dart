@@ -119,13 +119,13 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                       SizedBox(height: width*0.05,),
                       AdminInputField(hint: 'Efternavn',controller: surname,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Contact Email',controller: email,),
+                      AdminInputField(hint: 'Kontakt e-mail',controller: email,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Mobile Number',controller: phone,),
+                      AdminInputField(hint: 'Mobilnummer',controller: phone,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'CVR Number',controller: cvr,),
+                      AdminInputField(hint: 'CVR-nummer',controller: cvr,),
                       SizedBox(height: width*0.05,),
-                      AdminInputField(hint: 'Experience',controller: experience,maxLines: null,),
+                      AdminInputField(hint: 'Erfaring',controller: experience,maxLines: null,),
                       SizedBox(height: width*0.05,),
 
                       ///categories
@@ -306,14 +306,14 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
 
                       ///buttons
                       Button(
-                        text: 'Delete',
+                        text: 'Slet',
                         borderRadius: 10,
                         color: Colors.red,
                         padding: isTablet?15:10,
                         onclick: () async {
                           SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                           pd.show(
-                              message: 'Please wait',
+                              message: 'Vent gerne',
                               hideText: true
                           );
                           try{
@@ -325,21 +325,21 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                               if(data['status']=='done'){
                                 ///delete from firestore
                                 await FirebaseFirestore.instance.collection('workers').doc(email).delete();
-                                await CustomEmail.sendEmail("Your account is deleted!", "Account Deleted", to: email);
+                                await CustomEmail.sendEmail("Din konto er slettet!", "Konto slettet", to: email);
                                 pd.hide();
                                 if(Responsive.isMobile(context)){
-                                  ToastBar(text: 'Deleted!',color: Colors.green).show();
+                                  ToastBar(text: 'Slettet!',color: Colors.green).show();
                                 }
                                 else{
-                                  MessageDialog.show(context: context, text: 'Deleted', type: CoolAlertType.success);
+                                  MessageDialog.show(context: context, text: 'Slettet', type: CoolAlertType.success);
                                 }
                               }
                               else{
-                                throw Exception('API request failed!');
+                                throw Exception('API-anmodning mislykkedes!');
                               }
                             }
                             else{
-                              throw Exception('API request failed!');
+                              throw Exception('API-anmodning mislykkedes!');
                             }
                           }
                           catch(e){

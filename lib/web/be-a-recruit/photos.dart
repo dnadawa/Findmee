@@ -172,7 +172,7 @@ class _PhotosWebState extends State<PhotosWeb> {
                   if(profileImage!=null&&selfie!=null){
                     SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                     pd.show(
-                        message: 'Please wait',
+                        message: 'Vent gerne',
                         type: SimpleFontelicoProgressDialogType.custom,
                         loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                     );
@@ -206,8 +206,8 @@ class _PhotosWebState extends State<PhotosWeb> {
                           'Tak fordi du valgte os!\n\n'
                           'De bedste hilsner fra\n\nTeam Findme','Velkommen til FindMe', to: email);
                       await CustomEmail.sendEmail(
-                          'A new user has registered.',
-                          'User Registered');
+                          'En ny bruger er registreret.',
+                          'Bruger registreret');
 
                       pd.hide();
                       widget.controller.animateToPage(6,curve: Curves.ease,duration: Duration(milliseconds: 200));
@@ -216,14 +216,14 @@ class _PhotosWebState extends State<PhotosWeb> {
                       pd.hide();
                       MessageDialog.show(
                         context: context,
-                        text: 'Something went wrong!',
+                        text: 'Noget gik galt!',
                       );
                     }
                   }
                   else{
                     MessageDialog.show(
                       context: context,
-                      text: 'Please upload a profile picture and a selfie!',
+                      text: 'Upload venligst et profilbillede og en selfie!',
                     );
                   }
                 }

@@ -201,19 +201,19 @@ class _ProfilesState extends State<Profiles> {
             Padding(
               padding: EdgeInsets.all(ScreenUtil().setHeight(80)),
               child: Button(
-                text: 'Finish',
+                text: 'Afslut',
                 padding: isTablet?width*0.025:10,
                 onclick: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   List<String> emailList = prefs.getStringList('emailList');
                   List<String> notificationList = prefs.getStringList('notificationList');
                   if(emailList==null){
-                    ToastBar(text: 'No one in the list!',color: Colors.red).show();
+                    ToastBar(text: 'Ingen på listen!',color: Colors.red).show();
                   }
                   else{
                     SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                     pd.show(
-                        message: 'Please wait',
+                        message: 'Vent gerne',
                         type: SimpleFontelicoProgressDialogType.custom,
                         loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                     );
@@ -234,12 +234,12 @@ class _ProfilesState extends State<Profiles> {
                         OneSignal.shared.postNotification(
                             OSCreateNotification(
                                 playerIds: notificationList,
-                                content: 'You received a new job offer'
+                                content: 'Du har modtaget et nyt jobtilbud'
                             )
                         );
                       }
                       emailList.forEach((element) async {
-                        await CustomEmail.sendEmail("You received a new job offer", "Offer Received", to: element);
+                        await CustomEmail.sendEmail("Du har modtaget et nyt jobtilbud", "Tilbud modtaget", to: element);
                       });
                       pd.hide();
 
@@ -273,7 +273,7 @@ class _ProfilesState extends State<Profiles> {
 
                                         ///text
                                         CustomText(
-                                          text: 'Offer successfully sent to selected recruiters. You will receive an email and a notification when they are respond to the offer.Please check your inbox or spam folder.',
+                                          text: 'Tilbud sendt til udvalgte rekrutterere. Du vil modtage en e-mail og en notifikation, når de svarer på tilbuddet. Tjek venligst din indbakke eller spam-mappe.',
                                           font: 'ComicSans',
                                           isBold: false,
                                           size: ScreenUtil().setSp(55),
@@ -334,7 +334,7 @@ class _ProfilesState extends State<Profiles> {
                     }
                     catch(e){
                       pd.hide();
-                      ToastBar(text: 'Something went wrong',color: Colors.red).show();
+                      ToastBar(text: 'Noget gik galt',color: Colors.red).show();
                     }
                   }
                 },

@@ -68,7 +68,7 @@ class _AdminLoginState extends State<AdminLogin> {
                   child: Padding(
                     padding: EdgeInsets.all(width*0.01),
                     child: CustomText(
-                      text: 'Login',
+                      text: 'Log på',
                       color: Colors.white,
                       size: width*0.03,
                     ),
@@ -86,7 +86,7 @@ class _AdminLoginState extends State<AdminLogin> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: width*0.02),
                   child: InputField(
-                    hint: 'Password',
+                    hint: 'Adgangskode',
                     controller: password,
                     ispassword: true,
                   ),
@@ -102,13 +102,13 @@ class _AdminLoginState extends State<AdminLogin> {
                       if(email.text.isEmpty && password.text.isEmpty){
                         MessageDialog.show(
                             context: context,
-                            text: 'Please fill all fields',
+                            text: 'Udfyld venligst alle felter',
                         );
                       }
                       else{
                         SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                         pd.show(
-                            message: 'Please wait',
+                            message: 'Vent gerne',
                             hideText: true
                         );
                         try {
@@ -134,12 +134,12 @@ class _AdminLoginState extends State<AdminLogin> {
                           if (e.code == 'user-not-found') {
                             MessageDialog.show(
                                 context: context,
-                                text: 'No user found',
+                                text: 'Ingen bruger fundet',
                             );
                           } else if (e.code == 'wrong-password') {
                             MessageDialog.show(
                                 context: context,
-                                text: 'Password is wrong',
+                                text: 'Adgangskoden er forkert',
                             );
                           }
                         }

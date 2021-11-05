@@ -38,7 +38,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
     profiles = [];
     SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
     pd.show(
-        message: 'Please wait',
+        message: 'Vent gerne',
         type: SimpleFontelicoProgressDialogType.custom,
         loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
     );
@@ -239,7 +239,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
                             }
                         );
                       },
-                      title: CustomText(text: 'Pick date/dates',font: 'GoogleSans',isBold: false, color: Colors.black,),
+                      title: CustomText(text: 'Vælg dato/datoer',font: 'GoogleSans',isBold: false, color: Colors.black,),
                       trailing: Icon(Icons.arrow_drop_down, color: Colors.black,),
                     ),
                   ),
@@ -306,7 +306,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
                             }
                         );
                       },
-                      title: CustomText(text: 'Pick category/categories',font: 'GoogleSans',isBold: false, color: Colors.black,),
+                      title: CustomText(text: 'Vælg kategori/kategorier',font: 'GoogleSans',isBold: false, color: Colors.black,),
                       trailing: Icon(Icons.arrow_drop_down, color: Colors.black,),
                     ),
                   ),
@@ -373,7 +373,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
                             }
                         );
                       },
-                      title: CustomText(text: 'Pick city/cities',font: 'GoogleSans',isBold: false, color: Colors.black,),
+                      title: CustomText(text: 'Vælg by/byer',font: 'GoogleSans',isBold: false, color: Colors.black,),
                       trailing: Icon(Icons.arrow_drop_down, color: Colors.black,),
                     ),
                   ),
@@ -388,7 +388,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
                       color: Colors.red,
                       child: Center(child: Padding(
                         padding: EdgeInsets.all(ScreenUtil().setHeight(30)),
-                        child: CustomText(text: 'Search',color: Colors.white,font: 'GoogleSans',size: ScreenUtil().setSp(65),),
+                        child: CustomText(text: 'Søg',color: Colors.white,font: 'GoogleSans',size: ScreenUtil().setSp(65),),
                       )),
                     ),
                   ),
@@ -400,7 +400,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
 
           Expanded(
               child: catProfiles!=null?
-              profiles.isEmpty?Center(child: CustomText(text: 'No Profiles Found',color: Colors.black,size: profileWidth*0.01,font: 'GoogleSans',)):
+              profiles.isEmpty?Center(child: CustomText(text: 'Ingen profiler fundet',color: Colors.black,size: profileWidth*0.01,font: 'GoogleSans',)):
               Scrollbar(
                 isAlwaysShown: true,
                 controller: _scrollController,

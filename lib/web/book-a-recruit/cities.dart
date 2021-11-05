@@ -81,7 +81,7 @@ class _CitiesWebState extends State<CitiesWeb> {
               if(selectedCities.length==0){
                 MessageDialog.show(
                   context: context,
-                  text: 'Please select at least one city!',
+                  text: 'Vælg venligst mindst én by!',
                 );
               }
               else if(widget.from=='company'){

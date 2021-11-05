@@ -40,7 +40,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: isMobile?AppBar(
-        title: CustomText(text: _controller.index==0?'Job Offers':'Edit Dates', color: Colors.white,),
+        title: CustomText(text: _controller.index==0?'Jobtilbud':'Rediger datoer', color: Colors.white,),
         centerTitle: true,
         elevation: 0,
       ):null,
@@ -58,7 +58,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                 child: Image.asset('assets/images/logo.png')),
             SizedBox(height: ScreenUtil().setHeight(60),),
             ListTile(
-              title: CustomText(text: 'Job Offers',color: _controller.index==0?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
+              title: CustomText(text: 'Jobtilbud',color: _controller.index==0?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
               trailing: Icon(Icons.arrow_forward_ios_outlined),
               onTap: (){
                 setState(() {
@@ -68,7 +68,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
               },
             ),
             ListTile(
-              title: CustomText(text: 'Calendar',color: _controller.index==1?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
+              title: CustomText(text: 'Kalendar',color: _controller.index==1?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
               trailing: Icon(Icons.arrow_forward_ios_outlined),
               onTap: (){
                 setState(() {
@@ -114,7 +114,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                         });
                       },
                       child: CustomText(
-                        text: 'Job Offers',
+                        text: 'Jobtilbud',
                         color: _controller.index==0?Color(0xffFA1E0E):Colors.black,
                         size: width*0.04,
                       ),
@@ -131,7 +131,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                         });
                       },
                       child: CustomText(
-                        text: 'Calendar',
+                        text: 'Kalendar',
                         color: _controller.index==1?Color(0xffFA1E0E):Colors.black,
                         size: width*0.04,
                       ),

@@ -58,7 +58,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                   ),
                   SizedBox(height: ScreenUtil().setHeight(60),),
                   ListTile(
-                    title: CustomText(text: 'Overview',color: _controller.index==0?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
+                    title: CustomText(text: 'Oversigt',color: _controller.index==0?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
                     trailing: Icon(Icons.arrow_forward_ios_outlined),
                     onTap: (){
                       setState(() {
@@ -68,7 +68,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                     },
                   ),
                   ListTile(
-                    title: CustomText(text: 'Business Profiles',color: _controller.index==1?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
+                    title: CustomText(text: 'Virksomhedsprofiler',color: _controller.index==1?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
                     trailing: Icon(Icons.arrow_forward_ios_outlined),
                     onTap: (){
                       setState(() {
@@ -78,7 +78,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                     },
                   ),
                   ListTile(
-                    title: CustomText(text: 'Recruiter Profiles',color: _controller.index==2?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
+                    title: CustomText(text: 'Rekrutterer profiler',color: _controller.index==2?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
                     trailing: Icon(Icons.arrow_forward_ios_outlined),
                     onTap: (){
                       setState(() {
@@ -88,7 +88,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                     },
                   ),
                   ListTile(
-                    title: CustomText(text: 'Calendar',color: _controller.index==3?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
+                    title: CustomText(text: 'Kalendar',color: _controller.index==3?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
                     trailing: Icon(Icons.arrow_forward_ios_outlined),
                     onTap: (){
                       setState(() {
@@ -134,7 +134,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                       });
                     },
                     child: CustomText(
-                      text: 'Overview',
+                      text: 'Oversigt',
                       color: _controller.index==0?Theme.of(context).primaryColor:Colors.black,
                       size: width*0.04,
                     ),
@@ -151,7 +151,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                       });
                     },
                     child: CustomText(
-                      text: 'Business Profiles',
+                      text: 'Virksomhedsprofiler',
                       color: _controller.index==1?Theme.of(context).primaryColor:Colors.black,
                       size: width*0.04,
                     ),
@@ -168,7 +168,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                       });
                     },
                     child: CustomText(
-                      text: 'Recruiter Profiles',
+                      text: 'Rekrutterer profiler',
                       color: _controller.index==2?Theme.of(context).primaryColor:Colors.black,
                       size: width*0.04,
                     ),
@@ -185,7 +185,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                       });
                     },
                     child: CustomText(
-                      text: 'Calendar',
+                      text: 'Kalendar',
                       color: _controller.index==3?Theme.of(context).primaryColor:Colors.black,
                       size: width*0.04,
                     ),

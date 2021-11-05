@@ -94,7 +94,7 @@ class _CitiesState extends State<Cities> {
                       }
 
                       if(selectedCities.length==0){
-                        ToastBar(text: 'Please select at least one city!',color: Colors.red).show();
+                        ToastBar(text: 'Vælg venligst mindst én by!',color: Colors.red).show();
                       }
                       else if(widget.from=='company'){
                         prefs.setStringList('companyCities', selectedCities);

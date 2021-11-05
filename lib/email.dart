@@ -43,11 +43,11 @@ class CustomEmail{
           return true;
         }
         else{
-          throw Exception('API request failed!');
+          throw Exception('API-anmodning mislykkedes!');
         }
       }
       else{
-        throw Exception('API request failed!');
+        throw Exception('API-anmodning mislykkedes!');
       }
     }
     catch(e){

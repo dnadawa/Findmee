@@ -31,7 +31,7 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
-          message: 'Please wait',
+          message: 'Vent gerne',
           type: SimpleFontelicoProgressDialogType.custom,
           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
       );
@@ -70,7 +70,7 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
           pd.hide();
           MessageDialog.show(
             context: context,
-            text: 'No worker found for that email',
+            text: 'Der blev ikke fundet nogen medarbejder til den e-mail',
           );
         }
 
@@ -79,20 +79,20 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
           pd.hide();
           MessageDialog.show(
             context: context,
-            text: 'No worker found for that email',
+            text: 'Der blev ikke fundet nogen medarbejder til den e-mail',
           );
         } else if (e.code == 'wrong-password') {
           pd.hide();
           MessageDialog.show(
             context: context,
-            text: 'Password incorrect',
+            text: 'Adgangskoden er forkert',
           );
         }
         else if (e.code == 'invalid-email') {
           pd.hide();
           MessageDialog.show(
             context: context,
-            text: 'Please enter a email address',
+            text: 'Indtast venligst e-mailadresse',
           );
         }
         else{
@@ -106,7 +106,7 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
     }
     else {
       MessageDialog.show(
-        text: 'Please fill all fields',
+        text: 'Udfyld venligst alle felter',
         context: context,
       );
     }
@@ -140,7 +140,7 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
                     onTap: () async {
                       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                       pd.show(
-                          message: 'Please wait',
+                          message: 'Vent gerne',
                           type: SimpleFontelicoProgressDialogType.custom,
                           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                       );
@@ -149,21 +149,21 @@ class _LoginWebWorkerState extends State<LoginWebWorker> {
                           FirebaseAuth auth = FirebaseAuth.instance;
                           await auth.sendPasswordResetEmail(email: email.text.trim());
                           pd.hide();
-                          MessageDialog.show(context: context, text: 'Password reset link sent to your email!', type: CoolAlertType.success);
+                          MessageDialog.show(context: context, text: 'Link til nulstilling af adgangskode sendt til din e-mail!', type: CoolAlertType.success);
                         }
                         else{
                           pd.hide();
-                          MessageDialog.show(context: context, text: 'Please fill the email');
+                          MessageDialog.show(context: context, text: 'Udfyld venligst e-mail');
                         }
                       }
                       on FirebaseAuthException catch(e){
                         if (e.code == 'user-not-found') {
                           pd.hide();
-                          MessageDialog.show(context: context, text: 'No user found for that email');
+                          MessageDialog.show(context: context, text: 'Ingen bruger fundet til den e-mail');
                         }
                         else{
                           pd.hide();
-                          MessageDialog.show(context: context, text: 'Something went wrong!');
+                          MessageDialog.show(context: context, text: 'Noget gik galt!');
                         }
                       }
                     },

@@ -199,7 +199,7 @@ class _EditDatesWebState extends State<EditDatesWeb> {
                           SizedBox(height: width*0.13,),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20)),
-                            child: Button(text: 'Update',padding: width*0.01,color: Colors.green,onclick: () async {
+                            child: Button(text: 'Opdatering',padding: width*0.01,color: Colors.green,onclick: () async {
                               Set datesAndShifts = {};
                               list.forEach((element) {
                                 String day = element['day'];
@@ -220,13 +220,13 @@ class _EditDatesWebState extends State<EditDatesWeb> {
                               });
 
                               if(_selectedDays.isEmpty || finalDatesAndShifts.isEmpty){
-                                MessageDialog.show(context: context, text: 'Please select at least one date and shift');
+                                MessageDialog.show(context: context, text: 'Vælg mindst én dato og vagt');
                               }
                               else{
                                 await FirebaseFirestore.instance.collection('workers').doc(widget.email).update({
                                   'datesAndShifts': finalDatesAndShifts
                                 });
-                                MessageDialog.show(context: context, text: 'Dates Updated!',type: CoolAlertType.success);
+                                MessageDialog.show(context: context, text: 'Datoer opdateret!',type: CoolAlertType.success);
                               }
                             }
                             ),

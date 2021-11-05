@@ -31,7 +31,7 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
     if(businessName.text.isNotEmpty && phone.text.isNotEmpty && cvr.text.isNotEmpty && email.text.isNotEmpty &&password.text.isNotEmpty){
       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
-          message: 'Please wait',
+          message: 'Vent gerne',
           type: SimpleFontelicoProgressDialogType.custom,
           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
       );
@@ -57,8 +57,8 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
             'Tak fordi du har oprettet en bruger hos os!\n\nVi ser frem til et stærkt og professionelt fremadrettet samarbejde med jer og den rette vikarservice. ',
             'Velkommen til FindMe', to: email.text.trim());
         await CustomEmail.sendEmail(
-            'A new user has registered.',
-            'User Registered');
+            'En ny bruger er registreret.',
+            'Bruger registreret');
         pd.hide();
         widget.controller.animateToPage(1,curve: Curves.ease,duration: Duration(milliseconds: 200));
 
@@ -80,7 +80,7 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
           pd.hide();
           MessageDialog.show(
             context: context,
-            text: 'Please enter a email address',
+            text: 'Indtast venligst e-mailadresse',
           );
         }
         else{
@@ -94,14 +94,14 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
         pd.hide();
         MessageDialog.show(
           context: context,
-          text: 'Something went wrong',
+          text: 'Noget gik galt',
         );
       }
     }
     else{
       MessageDialog.show(
         context: context,
-        text: 'Please fill all fields',
+        text: 'Udfyld venligst alle felter',
       );
     }
   }
