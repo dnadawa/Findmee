@@ -7,6 +7,7 @@ import 'package:findmee/widgets/custom-text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -38,7 +39,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
     profiles = [];
     SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
     pd.show(
-        message: 'Vent gerne',
+        message: 'Vent venligst',
         type: SimpleFontelicoProgressDialogType.custom,
         loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
     );
@@ -157,6 +158,14 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    initializeDateFormatting();
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     double profileWidth = MediaQuery.of(context).size.width* 4;
     return Scaffold(
@@ -190,6 +199,7 @@ class _SearchProfilesMobileState extends State<SearchProfilesMobile> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           TableCalendar(
+                                            locale: 'da_DK',
                                             firstDay: DateTime.now(),
                                             lastDay: DateTime(3000,12,31),
                                             focusedDay: _focusedDay,

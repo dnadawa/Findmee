@@ -130,7 +130,7 @@ class _OffersWebState extends State<OffersWeb> {
                           Padding(
                             padding: EdgeInsets.all(width*0.015),
                             child: CustomText(
-                              text: 'Here are the requirements that business is looking from you',
+                              text: 'Dit nye jobtilbud',
                               isBold: false,
                               font: 'GoogleSans',
                               align: TextAlign.start,
@@ -327,7 +327,7 @@ class _OffersWebState extends State<OffersWeb> {
                                     onclick: () async {
                                       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                       pd.show(
-                                          message: 'Vent gerne',
+                                          message: 'Vent venligst',
                                           type: SimpleFontelicoProgressDialogType.custom,
                                           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                       );
@@ -393,7 +393,7 @@ class _OffersWebState extends State<OffersWeb> {
                                     onclick: () async {
                                       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                       pd.show(
-                                          message: 'Vent gerne',
+                                          message: 'Vent venligst',
                                           type: SimpleFontelicoProgressDialogType.custom,
                                           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                       );

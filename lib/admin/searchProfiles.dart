@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -39,7 +40,7 @@ class _SearchProfilesState extends State<SearchProfiles> {
     profiles = [];
     SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
     pd.show(
-        message: 'Vent gerne',
+        message: 'Vent venligst',
         type: SimpleFontelicoProgressDialogType.custom,
         loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
     );
@@ -158,6 +159,14 @@ class _SearchProfilesState extends State<SearchProfiles> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    initializeDateFormatting();
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width;
     double profileWidth;
@@ -209,6 +218,7 @@ class _SearchProfilesState extends State<SearchProfiles> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             TableCalendar(
+                                              locale: 'da_DK',
                                               firstDay: DateTime.now(),
                                               lastDay: DateTime(3000,12,31),
                                               focusedDay: _focusedDay,

@@ -6,6 +6,7 @@ import 'package:findmee/widgets/toggle-button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -59,6 +60,14 @@ class _DatesState extends State<Dates> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    initializeDateFormatting();
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
     double width = MediaQuery.of(context).size.width;
@@ -92,6 +101,7 @@ class _DatesState extends State<Dates> {
                       CustomText(text: 'Vælg den dato/datoer og tidspunkt for manglende vikar',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                       SizedBox(height: ScreenUtil().setHeight(100),),
                       TableCalendar(
+                        locale: 'da_DK',
                         firstDay: DateTime.now(),
                         lastDay: DateTime(3000,12,31),
                         focusedDay: _focusedDay,

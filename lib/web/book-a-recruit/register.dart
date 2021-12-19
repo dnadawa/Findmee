@@ -31,7 +31,7 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
     if(businessName.text.isNotEmpty && phone.text.isNotEmpty && cvr.text.isNotEmpty && email.text.isNotEmpty &&password.text.isNotEmpty){
       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
-          message: 'Vent gerne',
+          message: 'Vent venligst',
           type: SimpleFontelicoProgressDialogType.custom,
           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
       );

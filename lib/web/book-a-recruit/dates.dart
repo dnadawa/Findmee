@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -59,6 +60,15 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
     print(list);
   }
 
+@override
+  void initState() {
+    // TODO: implement initState
+    initializeDateFormatting();
+    super.initState();
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +100,7 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
                   calendarFormat: CalendarFormat.month,
                   startingDayOfWeek: StartingDayOfWeek.monday,
                   availableGestures: AvailableGestures.none,
+                  locale: 'da_DK',
                   headerStyle: HeaderStyle(
                       formatButtonVisible: false,
                       titleCentered: true
@@ -209,7 +220,8 @@ class _DatesWebCompanyState extends State<DatesWebCompany> {
                     widget.controller.animateToPage(4,curve: Curves.ease,duration: Duration(milliseconds: 200));
                   }
                 }),
-              )
+              ),
+              SizedBox(height: 100,),
 
             ],
           ),

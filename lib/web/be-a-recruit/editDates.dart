@@ -9,6 +9,7 @@ import 'package:findmee/widgets/toggle-button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -107,6 +108,7 @@ class _EditDatesWebState extends State<EditDatesWeb> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    initializeDateFormatting();
     _onCreated();
   }
 
@@ -119,7 +121,7 @@ class _EditDatesWebState extends State<EditDatesWeb> {
       body: Column(
         children: [
           SizedBox(height: width*0.015,),
-          Center(child: CustomText(text: 'Vælg datoer og tidspunkter, hvor du ønsker at arbejde',isBold: false, size: ScreenUtil().setSp(55),font: 'GoogleSans',)),
+          Center(child: CustomText(text: 'Vælg datoer og tidspunkter, du ønsker at arbejde',isBold: false, size: ScreenUtil().setSp(55),font: 'GoogleSans',)),
 
           Expanded(
             child: Row(
@@ -139,6 +141,7 @@ class _EditDatesWebState extends State<EditDatesWeb> {
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(0,0,width*0.01,0),
                               child: TableCalendar(
+                                locale: 'da_DK',
                                 firstDay: DateTime.now(),
                                 lastDay: DateTime(3000,12,31),
                                 focusedDay: _focusedDay,

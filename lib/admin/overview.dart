@@ -316,7 +316,7 @@ class _OverviewState extends State<Overview> {
                         onclick: () async {
                           SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                           pd.show(
-                              message: 'Vent gerne',
+                              message: 'Vent venligst',
                               hideText: true
                           );
                           try{

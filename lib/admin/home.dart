@@ -88,7 +88,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                     },
                   ),
                   ListTile(
-                    title: CustomText(text: 'Kalendar',color: _controller.index==3?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
+                    title: CustomText(text: 'Kalender',color: _controller.index==3?Theme.of(context).primaryColor:Colors.black,align: TextAlign.start,),
                     trailing: Icon(Icons.arrow_forward_ios_outlined),
                     onTap: (){
                       setState(() {
@@ -185,7 +185,7 @@ class _AdminHomeState extends State<AdminHome> with SingleTickerProviderStateMix
                       });
                     },
                     child: CustomText(
-                      text: 'Kalendar',
+                      text: 'Kalender',
                       color: _controller.index==3?Theme.of(context).primaryColor:Colors.black,
                       size: width*0.04,
                     ),

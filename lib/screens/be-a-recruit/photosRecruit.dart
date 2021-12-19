@@ -174,7 +174,7 @@ class _PhotosState extends State<Photos> {
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
-                                    child: CustomText(text: 'Selfe',color: Colors.white,size: ScreenUtil().setSp(45),),
+                                    child: CustomText(text: 'Selfie',color: Colors.white,size: ScreenUtil().setSp(45),),
                                   ),
                                 ),
                               ),
@@ -214,7 +214,7 @@ class _PhotosState extends State<Photos> {
                           if((profileImage!=null&&selfie!=null)||(profileImageData!=null&&selfieData!=null)){
                             SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                             pd.show(
-                                message: 'Vent gerne',
+                                message: 'Vent venligst',
                                 type: SimpleFontelicoProgressDialogType.custom,
                                 loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                             );

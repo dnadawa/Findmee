@@ -36,7 +36,7 @@ class _CategoriesWebState extends State<CategoriesWeb> {
           SizedBox(height: ScreenUtil().setHeight(30),),
           CustomText(text: 'Kategorier',size: ScreenUtil().setSp(100),align: TextAlign.start,color: Color(0xff52575D)),
           SizedBox(height: ScreenUtil().setHeight(80),),
-          CustomText(text: widget.from=='company'?'Vælg kategorier du har brug for at ansætte en vikar/vikarer:':"Vælg en eller flere kategorier du har brug for at ansætte en vikar/vikarer",size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+          CustomText(text: widget.from=='company'?'Vælg kategorier du har brug for at ansætte en vikar/vikarer:':"Vælg en eller flere kategorier inden for din arbejdserfaring",size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
           SizedBox(height: width*0.03,),
 
           Expanded(

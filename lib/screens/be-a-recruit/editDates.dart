@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -108,6 +109,7 @@ class _EditDatesState extends State<EditDates> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    initializeDateFormatting();
     _onCreated();
   }
 
@@ -144,9 +146,10 @@ class _EditDatesState extends State<EditDates> {
                         SizedBox(height: ScreenUtil().setHeight(30),),
                         CustomText(text: 'Datoer.',size: ScreenUtil().setSp(90),align: TextAlign.start,color: Color(0xff52575D)),
                         SizedBox(height: ScreenUtil().setHeight(50),),
-                        CustomText(text: 'Vælg datoer og tidspunkter, hvor du ønsker at arbejde',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
+                        CustomText(text: 'Vælg datoer og tidspunkter, du ønsker at arbejde',size: ScreenUtil().setSp(45),align: TextAlign.start,font: 'GoogleSans',),
                         SizedBox(height: ScreenUtil().setHeight(100),),
                         TableCalendar(
+                          locale: 'da_DK',
                           firstDay: DateTime.now(),
                           lastDay: DateTime(3000,12,31),
                           focusedDay: _focusedDay,

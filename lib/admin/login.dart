@@ -108,7 +108,7 @@ class _AdminLoginState extends State<AdminLogin> {
                       else{
                         SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                         pd.show(
-                            message: 'Vent gerne',
+                            message: 'Vent venligst',
                             hideText: true
                         );
                         try {

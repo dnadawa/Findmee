@@ -8,6 +8,7 @@ import 'package:findmee/widgets/toggle-button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -60,6 +61,14 @@ class _DatesWebWorkerState extends State<DatesWebWorker> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    initializeDateFormatting();
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
@@ -83,6 +92,7 @@ class _DatesWebWorkerState extends State<DatesWebWorker> {
               MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: TableCalendar(
+                  locale: 'da_DK',
                   firstDay: DateTime.now(),
                   lastDay: DateTime(3000,12,31),
                   focusedDay: _focusedDay,
@@ -195,8 +205,8 @@ class _DatesWebWorkerState extends State<DatesWebWorker> {
                   }
                 }
                 ),
-              )
-
+              ),
+              SizedBox(height: 100,),
             ],
           ),
         ),

@@ -29,7 +29,7 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
     SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       pd.show(
-          message: 'Vent gerne',
+          message: 'Vent venligst',
           type: SimpleFontelicoProgressDialogType.custom,
           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
       );
@@ -123,7 +123,7 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
                     onTap: () async {
                       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                       pd.show(
-                          message: 'Vent gerne',
+                          message: 'Vent venligst',
                           type: SimpleFontelicoProgressDialogType.custom,
                           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                       );
@@ -150,7 +150,7 @@ class _LoginWebCompanyState extends State<LoginWebCompany> {
                         }
                       }
                     },
-                    child: CustomText(text: "glem kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(50),font: 'GoogleSans',)
+                    child: CustomText(text: "Glemt kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(50),font: 'GoogleSans',)
                 ),
               ),
               SizedBox(height: ScreenUtil().setHeight(200),),

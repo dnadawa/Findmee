@@ -213,7 +213,7 @@ class _ProfilesState extends State<Profiles> {
                   else{
                     SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                     pd.show(
-                        message: 'Vent gerne',
+                        message: 'Vent venligst',
                         type: SimpleFontelicoProgressDialogType.custom,
                         loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                     );

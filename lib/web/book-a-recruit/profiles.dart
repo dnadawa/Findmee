@@ -190,7 +190,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
                             else{
                               SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                               pd.show(
-                                  message: 'Vent gerne',
+                                  message: 'Vent venligst',
                                   type: SimpleFontelicoProgressDialogType.custom,
                                   loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                               );
@@ -233,7 +233,7 @@ class _ProfilesWebState extends State<ProfilesWeb> {
 
                                               ///text
                                               CustomText(
-                                                text: 'Offer successfully sent to selected recruiters.\nYou will receive an email and a notification when they are respond to the offer. Please check your inbox or spam folders',
+                                                text: 'Du er nu matchet med en af vores fleksible vikarer! Du ville snarest modtage en notifikation såfremt vikaren har godkendt matchet.',
                                                 font: 'ComicSans',
                                                 isBold: false,
                                                 size: width*0.015,

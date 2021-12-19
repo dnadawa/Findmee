@@ -35,7 +35,7 @@ class _RecruitLogInState extends State<RecruitLogIn> {
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
       pd.show(
-          message: 'Vent gerne',
+          message: 'Vent venligst',
           type: SimpleFontelicoProgressDialogType.custom,
           loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
       );
@@ -148,7 +148,7 @@ class _RecruitLogInState extends State<RecruitLogIn> {
                               onTap: () async {
                                 SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                                 pd.show(
-                                    message: 'Vent gerne',
+                                    message: 'Vent venligst',
                                     type: SimpleFontelicoProgressDialogType.custom,
                                     loadingIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),)
                                 );
@@ -175,7 +175,7 @@ class _RecruitLogInState extends State<RecruitLogIn> {
                                   }
                                 }
                               },
-                              child: CustomText(text: "glem kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(40),font: 'GoogleSans',)
+                              child: CustomText(text: "Glemt kode",color: Theme.of(context).primaryColor,align: TextAlign.center, size: ScreenUtil().setSp(40),font: 'GoogleSans',)
                           ),
                           SizedBox(height: ScreenUtil().setHeight(70),),
 

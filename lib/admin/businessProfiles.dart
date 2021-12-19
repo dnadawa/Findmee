@@ -109,7 +109,7 @@ class _BusinessProfilesState extends State<BusinessProfiles> {
                         onclick: () async {
                           SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                           pd.show(
-                              message: 'Vent gerne',
+                              message: 'Vent venligst',
                               hideText: true
                           );
                           try{

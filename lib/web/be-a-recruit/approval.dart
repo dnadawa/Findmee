@@ -66,7 +66,7 @@ class _ApprovalWorkerWebState extends State<ApprovalWorkerWeb> {
                 SizedBox(height: ScreenUtil().setHeight(200),),
 
                 CustomText(
-                  text: 'Din profil er godkendt.',
+                  text: 'Tak for oprettelsen hos FindMe. Din profil er nu under behandling og du ville snarest hører fra vores team!',
                   font: 'ComicSans',
                   size: ScreenUtil().setSp(60),
                   isBold: false,

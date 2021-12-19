@@ -286,7 +286,7 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(width*0.025),
-                                  child: CustomText(text: 'Selfe',color: Colors.white,size: width*0.04),),
+                                  child: CustomText(text: 'Selfie',color: Colors.white,size: width*0.04),),
                               ),
                             ),
 
@@ -313,7 +313,7 @@ class _WorkerProfilesState extends State<WorkerProfiles> {
                         onclick: () async {
                           SimpleFontelicoProgressDialog pd = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
                           pd.show(
-                              message: 'Vent gerne',
+                              message: 'Vent venligst',
                               hideText: true
                           );
                           try{
