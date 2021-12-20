@@ -238,8 +238,24 @@ class _ProfilesState extends State<Profiles> {
                             )
                         );
                       }
+
+                      String msg = "${prefs.getString('companyEmail')} sent new offer to matched workers. You will receive detailed email when the worker accepted the offer.";
+                      await CustomEmail.sendEmail(msg, "A company sent a offer to workers");
+
+                      List dates = prefs.getStringList('companyDatesAndShifts');
+                      List selectedDates = [];
+                      dates.forEach((element) {
+                        selectedDates.add(element.toString().substring(0, 10));
+                      });
+
+
                       emailList.forEach((element) async {
-                        await CustomEmail.sendEmail("Du har modtaget et nyt jobtilbud", "Tilbud modtaget", to: element);
+                        String message = "Company: ${prefs.getString('companyEmail')}\n\n"
+                            "Kategorier: $selectedCategories\n\n"
+                            "Byer: $selectedCities\n\n"
+                            "Datoer.: $selectedDates";
+
+                        await CustomEmail.sendEmail("Du har modtaget et nyt jobtilbud\n\n$message", "Tilbud modtaget", to: element);
                       });
                       pd.hide();
 

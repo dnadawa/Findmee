@@ -54,9 +54,6 @@ class _RegisterWebCompanyState extends State<RegisterWebCompany> {
 
         ///send notification
         await CustomEmail.sendEmail(
-            'Tak fordi du har oprettet en bruger hos os!\n\nVi ser frem til et stærkt og professionelt fremadrettet samarbejde med jer og den rette vikarservice. ',
-            'Velkommen til FindMe', to: email.text.trim());
-        await CustomEmail.sendEmail(
             'En ny bruger er registreret.',
             'Bruger registreret');
         pd.hide();
