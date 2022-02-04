@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class CustomEmail{
 
-  // static sendEmail(String msg, String subject, {String to='shakib@live.dk'}) async {
+  // static sendEmail(String msg, String subject, {String to='info@find-me.dk'}) async {
   //   String username = dotenv.env['EMAIL'];
   //   String password = dotenv.env['PASSWORD'];
   //
@@ -25,7 +25,7 @@ class CustomEmail{
   //   }
   // }
 
-  static sendEmail(String msg, String subjectText, {String to='shakib@live.dk'}) async {
+  static sendEmail(String msg, String subjectText, {String to='info@find-me.dk'}) async {
     try{
       String api = "https://api.prkcar.com:7000/sendEmail";
       var response = await http.post(
